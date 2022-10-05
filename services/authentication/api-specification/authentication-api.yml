@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: MNS
+  description: 'MNS authentication'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/com/diy/authentication/v1
+tags:
+  - name: authentication
+    description: Everything about authentication and authorization
+paths:
+  /users:
+    get:
+      tags:
+        - authentication
+      summary: Find all users
+      description: Get all users
+      operationId: findUsers
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        404:
+          description: Invalid request
+          content: {}
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+        storeId:
+          type: string
+        role:
+          type: string
