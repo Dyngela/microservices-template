@@ -40,7 +40,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.bosch.iot.diy.connectedcharger.ConnectedChargerRegistrationApplication</mainClass>
+                    <mainClass>com.diy.EurekaApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
