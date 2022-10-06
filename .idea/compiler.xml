@@ -20,6 +20,7 @@
         </processorPath>
         <module name="configurationServer" />
         <module name="authentication-service" />
+        <module name="store" />
         <module name="eureka-server" />
         <module name="gateway" />
       </profile>
@@ -31,6 +32,7 @@
       <module name="configurationServer" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="eureka-server" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="gateway" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="store" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

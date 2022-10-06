@@ -15,9 +15,9 @@
     <name>Parent</name>
     <description>Parent POM for all Device Shape modules</description>
     <modules>
-        <module>../../../services/eureka-server</module>
-        <module>../../../services/gateway</module>
-        <module>../../../services/authentication</module>
+        <module>../../../services/config/eureka-server</module>
+        <module>../../../services/config/gateway</module>
+        <module>../../../services/config/authentication</module>
     </modules>
 
 </project>

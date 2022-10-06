@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: MNS
+  description: 'MNS store'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8001/com/diy/store/v1
+tags:
+  - name: store
+    description: Everything about store, dixit the merchant.
+paths:
+  /stores:
+    get:
+      tags:
+        - store
+      summary: Find all stores
+      description: Get all stores
+      operationId: findStores
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+        404:
+          description: Invalid request
+          content: {}
+
+components:
+  schemas:
+    Store:
+      type: object
+      properties:
+        userId:
+          type: integer
