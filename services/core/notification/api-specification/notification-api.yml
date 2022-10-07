@@ -1,0 +1,15 @@
+openapi: 3.0.1
+info:
+  title: MNS
+  description: 'MNS notification'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8007/com/diy/notification/v1
+tags:
+  - name: notification
+    description: Everything about notification
+paths:
+  /path:
+
+components:
+  schemas:

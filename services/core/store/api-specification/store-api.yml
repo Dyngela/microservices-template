@@ -34,5 +34,39 @@ components:
     Store:
       type: object
       properties:
-        userId:
+        storeId:
           type: integer
+        siret:
+          type: string
+        sector:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        subscriptionId:
+          type: integer
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+
+    Address:
+      type: object
+      properties:
+        addressId:
+          type: integer
+        city:
+          type: string
+        postalCode:
+          type: string
+        complement:
+          type: string
+        streetNumber:
+          type: string
+        streetName:
+          type: string

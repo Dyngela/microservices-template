@@ -1,0 +1,15 @@
+openapi: 3.0.1
+info:
+  title: MNS
+  description: 'MNS order'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8008/com/diy/order/v1
+tags:
+  - name: order
+    description: Everything about orders
+paths:
+  /path:
+
+components:
+  schemas:

@@ -13,11 +13,19 @@
     <artifactId>service-parent</artifactId>
     <packaging>pom</packaging>
     <name>Parent</name>
-    <description>Parent POM for all Device Shape modules</description>
+    <description>Parent POM for all modules</description>
     <modules>
         <module>../../../services/config/eureka-server</module>
         <module>../../../services/config/gateway</module>
         <module>../../../services/config/authentication</module>
+        <module>../../../services/back-office/customisation</module>
+        <module>../../../services/core/customer</module>
+        <module>../../../services/core/notification</module>
+        <module>../../../services/core/order</module>
+        <module>../../../services/back-office/payment</module>
+        <module>../../../services/core/product</module>
+        <module>../../../services/back-office/Subscription</module>
+        <module>../../../services/back-office/ticket</module>
     </modules>
 
 </project>

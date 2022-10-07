@@ -1,0 +1,15 @@
+openapi: 3.0.1
+info:
+  title: MNS
+  description: 'MNS product'
+  version: 1.0.0
+servers:
+  - url: http://localhost:8009/com/diy/product/v1
+tags:
+  - name: product
+    description: Everything about products
+paths:
+  /path:
+
+components:
+  schemas:
