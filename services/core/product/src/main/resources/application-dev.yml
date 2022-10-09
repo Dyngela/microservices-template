@@ -1,13 +1,13 @@
 spring:
   application:
-    name: store
+    name: product
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/store
+    url: jdbc:postgresql://localhost:5432/product
     username: postgres
     password: gernika54
 server:
-  port: 8001
+  port: 8009
