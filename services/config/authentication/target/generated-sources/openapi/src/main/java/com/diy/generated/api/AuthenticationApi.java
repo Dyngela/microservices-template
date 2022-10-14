@@ -7,13 +7,20 @@ package com.diy.generated.api;
 
 import com.diy.generated.model.UserDto;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
-
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-05T16:39:01.286270100+02:00[Europe/Berlin]")
+import java.util.Map;
+import java.util.Optional;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T23:46:18.214287100+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Authentication", description = "the Authentication API")
 public interface AuthenticationApi {

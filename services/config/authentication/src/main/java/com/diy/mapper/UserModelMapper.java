@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 import java.util.Collection;
 import java.util.List;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.ERROR, unmappedTargetPolicy = ReportingPolicy.ERROR,
+@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN,
         typeConversionPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface UserModelMapper {
     UserDto toDto(UserModel userModel);

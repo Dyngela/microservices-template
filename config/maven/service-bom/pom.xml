@@ -29,9 +29,7 @@
         <io.swagger>1.6.6</io.swagger>
         <netflix-eureka.version>3.1.3</netflix-eureka.version>
         <configuration-service.version>1.0.0-SNAPSHOT</configuration-service.version>
-        <proxy-service.version>1.0.0-SNAPSHOT</proxy-service.version>
-        <registration-service.version>1.0.0-SNAPSHOT</registration-service.version>
-        <provisioning-service.version>1.0.0-SNAPSHOT</provisioning-service.version>
+        <postgresql.version>42.5.0</postgresql.version>
     </properties>
 
     <dependencyManagement>
@@ -42,6 +40,11 @@
                 <groupId>com.bosch.iot.diy.connectedcharger</groupId>
                 <artifactId>connected-charger-configuration</artifactId>
                 <version>${configuration-service.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.bosch.iot.diy.connectedcharger</groupId>
