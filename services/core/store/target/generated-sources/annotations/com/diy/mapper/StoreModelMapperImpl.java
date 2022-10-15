@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-15T15:07:37+0200",
+    date = "2022-10-15T20:24:15+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.4 (Oracle Corporation)"
 )
 @Component
@@ -131,12 +131,19 @@ public class StoreModelMapperImpl implements StoreModelMapper {
     }
 
     @Override
-    public StoreModel entityToModel(StoreEntity storeEntity) {
+    public StoreModel entityToModel(StoreEntity storeEntity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        StoreModel target = cycleAvoidingMappingContext.getMappedInstance( storeEntity, StoreModel.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( storeEntity == null ) {
             return null;
         }
 
         StoreModel storeModel = new StoreModel();
+
+        cycleAvoidingMappingContext.storeMappedInstance( storeEntity, storeModel );
 
         storeModel.setStoreId( storeEntity.getStoreId() );
         storeModel.setSiret( storeEntity.getSiret() );
@@ -150,30 +157,39 @@ public class StoreModelMapperImpl implements StoreModelMapper {
         storeModel.setUpdatedAt( storeEntity.getUpdatedAt() );
         storeModel.setDeletedAt( storeEntity.getDeletedAt() );
         storeModel.setSubscriptionId( storeEntity.getSubscriptionId() );
-        storeModel.setAddresses( addressEntityListToAddressModelList( storeEntity.getAddresses() ) );
+        storeModel.setAddresses( addressEntityListToAddressModelList( storeEntity.getAddresses(), cycleAvoidingMappingContext ) );
 
         return storeModel;
     }
 
     @Override
-    public List<StoreModel> entitiesToModels(List<StoreEntity> storeEntities) {
+    public List<StoreModel> entitiesToModels(List<StoreEntity> storeEntities, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        List<StoreModel> target = cycleAvoidingMappingContext.getMappedInstance( storeEntities, List.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( storeEntities == null ) {
             return null;
         }
 
         List<StoreModel> list = new ArrayList<StoreModel>( storeEntities.size() );
+        cycleAvoidingMappingContext.storeMappedInstance( storeEntities, list );
+
         for ( StoreEntity storeEntity : storeEntities ) {
-            list.add( entityToModel( storeEntity ) );
+            list.add( entityToModel( storeEntity, cycleAvoidingMappingContext ) );
         }
 
         return list;
     }
 
     @Override
-    public void updateStoreFromModel(StoreModel model, StoreEntity entity) {
+    public void updateStoreFromModel(StoreModel model, StoreEntity entity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
         if ( model == null ) {
             return;
         }
+
+        cycleAvoidingMappingContext.storeMappedInstance( model, entity );
 
         if ( model.getStoreId() != null ) {
             entity.setStoreId( model.getStoreId() );
@@ -212,14 +228,14 @@ public class StoreModelMapperImpl implements StoreModelMapper {
             entity.setSubscriptionId( model.getSubscriptionId() );
         }
         if ( entity.getAddresses() != null ) {
-            List<AddressEntity> list = addressModelListToAddressEntityList( model.getAddresses() );
+            List<AddressEntity> list = addressModelListToAddressEntityList1( model.getAddresses(), cycleAvoidingMappingContext );
             if ( list != null ) {
                 entity.getAddresses().clear();
                 entity.getAddresses().addAll( list );
             }
         }
         else {
-            List<AddressEntity> list = addressModelListToAddressEntityList( model.getAddresses() );
+            List<AddressEntity> list = addressModelListToAddressEntityList1( model.getAddresses(), cycleAvoidingMappingContext );
             if ( list != null ) {
                 entity.setAddresses( list );
             }
@@ -320,12 +336,19 @@ public class StoreModelMapperImpl implements StoreModelMapper {
         return list1;
     }
 
-    protected AddressModel addressEntityToAddressModel(AddressEntity addressEntity) {
+    protected AddressModel addressEntityToAddressModel(AddressEntity addressEntity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        AddressModel target = cycleAvoidingMappingContext.getMappedInstance( addressEntity, AddressModel.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( addressEntity == null ) {
             return null;
         }
 
         AddressModel addressModel = new AddressModel();
+
+        cycleAvoidingMappingContext.storeMappedInstance( addressEntity, addressModel );
 
         addressModel.setAddressId( addressEntity.getAddressId() );
         addressModel.setCity( addressEntity.getCity() );
@@ -336,19 +359,74 @@ public class StoreModelMapperImpl implements StoreModelMapper {
         addressModel.setCreatedAt( addressEntity.getCreatedAt() );
         addressModel.setUpdatedAt( addressEntity.getUpdatedAt() );
         addressModel.setDeletedAt( addressEntity.getDeletedAt() );
-        addressModel.setStore( entityToModel( addressEntity.getStore() ) );
+        addressModel.setStore( entityToModel( addressEntity.getStore(), cycleAvoidingMappingContext ) );
 
         return addressModel;
     }
 
-    protected List<AddressModel> addressEntityListToAddressModelList(List<AddressEntity> list) {
+    protected List<AddressModel> addressEntityListToAddressModelList(List<AddressEntity> list, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        List<AddressModel> target = cycleAvoidingMappingContext.getMappedInstance( list, List.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( list == null ) {
             return null;
         }
 
         List<AddressModel> list1 = new ArrayList<AddressModel>( list.size() );
+        cycleAvoidingMappingContext.storeMappedInstance( list, list1 );
+
         for ( AddressEntity addressEntity : list ) {
-            list1.add( addressEntityToAddressModel( addressEntity ) );
+            list1.add( addressEntityToAddressModel( addressEntity, cycleAvoidingMappingContext ) );
+        }
+
+        return list1;
+    }
+
+    protected AddressEntity addressModelToAddressEntity1(AddressModel addressModel, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        AddressEntity target = cycleAvoidingMappingContext.getMappedInstance( addressModel, AddressEntity.class );
+        if ( target != null ) {
+            return target;
+        }
+
+        if ( addressModel == null ) {
+            return null;
+        }
+
+        AddressEntity addressEntity = new AddressEntity();
+
+        cycleAvoidingMappingContext.storeMappedInstance( addressModel, addressEntity );
+
+        addressEntity.setAddressId( addressModel.getAddressId() );
+        addressEntity.setCity( addressModel.getCity() );
+        addressEntity.setPostalCode( addressModel.getPostalCode() );
+        addressEntity.setComplement( addressModel.getComplement() );
+        addressEntity.setStreetNumber( addressModel.getStreetNumber() );
+        addressEntity.setStreetName( addressModel.getStreetName() );
+        addressEntity.setCreatedAt( addressModel.getCreatedAt() );
+        addressEntity.setUpdatedAt( addressModel.getUpdatedAt() );
+        addressEntity.setDeletedAt( addressModel.getDeletedAt() );
+        addressEntity.setStore( modelToEntity( addressModel.getStore() ) );
+
+        return addressEntity;
+    }
+
+    protected List<AddressEntity> addressModelListToAddressEntityList1(List<AddressModel> list, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        List<AddressEntity> target = cycleAvoidingMappingContext.getMappedInstance( list, List.class );
+        if ( target != null ) {
+            return target;
+        }
+
+        if ( list == null ) {
+            return null;
+        }
+
+        List<AddressEntity> list1 = new ArrayList<AddressEntity>( list.size() );
+        cycleAvoidingMappingContext.storeMappedInstance( list, list1 );
+
+        for ( AddressModel addressModel : list ) {
+            list1.add( addressModelToAddressEntity1( addressModel, cycleAvoidingMappingContext ) );
         }
 
         return list1;

@@ -13,11 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "store")
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StoreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id", unique = true, nullable = false)
     Long storeId;
     @Column(name = "siret", unique = true, nullable = false)

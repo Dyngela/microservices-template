@@ -3,6 +3,7 @@ package com.diy.api;
 import com.diy.generated.api.StoreApi;
 import com.diy.generated.model.AddressDto;
 import com.diy.generated.model.StoreDto;
+import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.StoreModelMapper;
 import com.diy.model.StoreModel;
 import com.diy.repository.StoreRepository;

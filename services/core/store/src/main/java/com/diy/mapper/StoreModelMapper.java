@@ -18,8 +18,8 @@ public interface StoreModelMapper {
 
     StoreEntity modelToEntity(StoreModel storeModel);
     List<StoreEntity> modelsToEntities(List<StoreEntity> storeEntities);
-    StoreModel entityToModel(StoreEntity storeEntity);
-    List<StoreModel> entitiesToModels(List<StoreEntity> storeEntities);
+    StoreModel entityToModel(StoreEntity storeEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+    List<StoreModel> entitiesToModels(List<StoreEntity> storeEntities, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateStoreFromModel(StoreModel model, @MappingTarget StoreEntity entity);
+    void updateStoreFromModel(StoreModel model, @MappingTarget StoreEntity entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 }

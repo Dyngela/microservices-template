@@ -18,8 +18,8 @@ public interface AddressModelMapper {
 
     AddressEntity modelToEntity(AddressModel storeModel);
     List<AddressEntity> modelsToEntities(List<AddressEntity> storeEntities);
-    AddressModel entityToModel(AddressEntity storeEntity);
-    List<AddressModel> entitiesToModels(List<AddressEntity> storeEntities);
+    AddressModel entityToModel(AddressEntity storeEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+    List<AddressModel> entitiesToModels(List<AddressEntity> storeEntities, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateStoreFromModel(AddressModel model, @MappingTarget AddressEntity entity);
+    void updateStoreFromModel(AddressModel model, @MappingTarget AddressEntity entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 }

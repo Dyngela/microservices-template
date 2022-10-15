@@ -2,6 +2,7 @@ package com.diy.service;
 
 import com.diy.entity.StoreEntity;
 import com.diy.exception.ExceptionHandler;
+import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.StoreModelMapper;
 import com.diy.model.StoreModel;
 import com.diy.repository.StoreRepository;
@@ -12,14 +13,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @RequiredArgsConstructor
@@ -30,26 +28,27 @@ public class StoreService {
     StoreModelMapper storeModelMapper;
     StoreRepository storeRepository;
 
-    static Specification<StoreEntity> storeHasNotBeenDeleted() {
-        return (store, cq, cb) -> cb.equal(store.get("deletedAt"), (LocalDateTime) null);
-    }
-
-static Specification<StoreEntity> addressHasNotBeenDeleted() {
-        return (store, cq, cb) -> cb.equal(store.get("deletedAt"), (LocalDateTime) null);
-    }
+//    static Specification<StoreEntity> storeHasNotBeenDeleted(LocalDateTime deletedAt) {
+//        return (store, cq, cb) -> cb.notEqual(store.get("deletedAt"), deletedAt);
+//    }
 
     public StoreModel findStoreById(Long id) {
-        StoreEntity storeEntity = storeRepository.findById(id).orElseThrow(() -> new ExceptionHandler("Store not found"));
-        return storeModelMapper.entityToModel(storeEntity);
+        try {
+            StoreEntity storeEntity = storeRepository.findById(id).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
+        }  catch (Exception e) {
+            log.error("Error while finding your store: " + e.getMessage());
+            throw new ExceptionHandler("We could not find your store");
+        }
     }
 
     public List<StoreModel> findAllStores(Integer size, Integer page, String sortBy, Boolean ascending) {
         Page<StoreEntity> storePage = storeRepository.findAll(
-                where(storeHasNotBeenDeleted()).and(addressHasNotBeenDeleted()),
                 PageRequest.of(page, size,
-                ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()));
+                ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())
+        );
         List<StoreEntity> storeEntities = storePage.getContent();
-        return storeModelMapper.entitiesToModels(storeEntities);
+        return storeModelMapper.entitiesToModels(storeEntities, new CycleAvoidingMappingContext());
     }
 
     @Transactional
@@ -63,13 +62,13 @@ static Specification<StoreEntity> addressHasNotBeenDeleted() {
     private StoreModel updateStore(StoreModel storeModel) {
         try {
             StoreEntity storeEntity = storeRepository.findById(storeModel.getStoreId()).orElseThrow(() -> new ExceptionHandler("Store not found"));
-            storeModelMapper.updateStoreFromModel(storeModel, storeEntity);
+            storeModelMapper.updateStoreFromModel(storeModel, storeEntity, new CycleAvoidingMappingContext());
             storeEntity.setUpdatedAt(LocalDateTime.now());
             storeRepository.save(storeEntity);
-            return storeModelMapper.entityToModel(storeEntity);
+            return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("Error while updating a store: " + e.getMessage());
-            log.error("Store model: " + storeModel);
+            log.error("Store model: " + storeModel.toString());
             throw new ExceptionHandler("We could not update your information");
         }
     }
@@ -78,11 +77,11 @@ static Specification<StoreEntity> addressHasNotBeenDeleted() {
             StoreEntity storeEntity = storeModelMapper.modelToEntity(storeModel);
             storeEntity.setCreatedAt(LocalDateTime.now());
             storeRepository.save(storeEntity);
-            return storeModelMapper.entityToModel(storeEntity);
+            return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("Error while creating a store: " + e.getMessage());
-            log.error("Store model: " + storeModel);
-            throw new ExceptionHandler("We could not update your information");
+            log.error("Store model: " + storeModel.toString());
+            throw new ExceptionHandler("We could not create your store");
         }
     }
 
@@ -92,6 +91,10 @@ static Specification<StoreEntity> addressHasNotBeenDeleted() {
             StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
             storeEntity.setUpdatedAt(LocalDateTime.now());
             storeEntity.setDeletedAt(LocalDateTime.now());
+            storeEntity.getAddresses().forEach(addressEntity -> {
+                addressEntity.setDeletedAt(LocalDateTime.now());
+                addressEntity.setUpdatedAt(LocalDateTime.now());
+            });
             storeRepository.save(storeEntity);
             return "Your store has been successfully deleted";
         } catch (Exception e) {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-10-15T15:07:38+0200",
+    date = "2022-10-15T20:37:04+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.4 (Oracle Corporation)"
 )
 @Component
@@ -119,12 +119,19 @@ public class AddressModelMapperImpl implements AddressModelMapper {
     }
 
     @Override
-    public AddressModel entityToModel(AddressEntity storeEntity) {
+    public AddressModel entityToModel(AddressEntity storeEntity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        AddressModel target = cycleAvoidingMappingContext.getMappedInstance( storeEntity, AddressModel.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( storeEntity == null ) {
             return null;
         }
 
         AddressModel addressModel = new AddressModel();
+
+        cycleAvoidingMappingContext.storeMappedInstance( storeEntity, addressModel );
 
         addressModel.setAddressId( storeEntity.getAddressId() );
         addressModel.setCity( storeEntity.getCity() );
@@ -135,30 +142,39 @@ public class AddressModelMapperImpl implements AddressModelMapper {
         addressModel.setCreatedAt( storeEntity.getCreatedAt() );
         addressModel.setUpdatedAt( storeEntity.getUpdatedAt() );
         addressModel.setDeletedAt( storeEntity.getDeletedAt() );
-        addressModel.setStore( storeEntityToStoreModel( storeEntity.getStore() ) );
+        addressModel.setStore( storeEntityToStoreModel( storeEntity.getStore(), cycleAvoidingMappingContext ) );
 
         return addressModel;
     }
 
     @Override
-    public List<AddressModel> entitiesToModels(List<AddressEntity> storeEntities) {
+    public List<AddressModel> entitiesToModels(List<AddressEntity> storeEntities, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        List<AddressModel> target = cycleAvoidingMappingContext.getMappedInstance( storeEntities, List.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( storeEntities == null ) {
             return null;
         }
 
         List<AddressModel> list = new ArrayList<AddressModel>( storeEntities.size() );
+        cycleAvoidingMappingContext.storeMappedInstance( storeEntities, list );
+
         for ( AddressEntity addressEntity : storeEntities ) {
-            list.add( entityToModel( addressEntity ) );
+            list.add( entityToModel( addressEntity, cycleAvoidingMappingContext ) );
         }
 
         return list;
     }
 
     @Override
-    public void updateStoreFromModel(AddressModel model, AddressEntity entity) {
+    public void updateStoreFromModel(AddressModel model, AddressEntity entity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
         if ( model == null ) {
             return;
         }
+
+        cycleAvoidingMappingContext.storeMappedInstance( model, entity );
 
         if ( model.getAddressId() != null ) {
             entity.setAddressId( model.getAddressId() );
@@ -191,7 +207,7 @@ public class AddressModelMapperImpl implements AddressModelMapper {
             if ( entity.getStore() == null ) {
                 entity.setStore( new StoreEntity() );
             }
-            storeModelToStoreEntity1( model.getStore(), entity.getStore() );
+            storeModelToStoreEntity1( model.getStore(), cycleAvoidingMappingContext, entity.getStore() );
         }
     }
 
@@ -232,12 +248,19 @@ public class AddressModelMapperImpl implements AddressModelMapper {
         return storeEntity;
     }
 
-    protected StoreModel storeEntityToStoreModel(StoreEntity storeEntity) {
+    protected StoreModel storeEntityToStoreModel(StoreEntity storeEntity, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        StoreModel target = cycleAvoidingMappingContext.getMappedInstance( storeEntity, StoreModel.class );
+        if ( target != null ) {
+            return target;
+        }
+
         if ( storeEntity == null ) {
             return null;
         }
 
         StoreModel storeModel = new StoreModel();
+
+        cycleAvoidingMappingContext.storeMappedInstance( storeEntity, storeModel );
 
         storeModel.setStoreId( storeEntity.getStoreId() );
         storeModel.setSiret( storeEntity.getSiret() );
@@ -251,15 +274,37 @@ public class AddressModelMapperImpl implements AddressModelMapper {
         storeModel.setUpdatedAt( storeEntity.getUpdatedAt() );
         storeModel.setDeletedAt( storeEntity.getDeletedAt() );
         storeModel.setSubscriptionId( storeEntity.getSubscriptionId() );
-        storeModel.setAddresses( entitiesToModels( storeEntity.getAddresses() ) );
+        storeModel.setAddresses( entitiesToModels( storeEntity.getAddresses(), cycleAvoidingMappingContext ) );
 
         return storeModel;
     }
 
-    protected void storeModelToStoreEntity1(StoreModel storeModel, StoreEntity mappingTarget) {
+    protected List<AddressEntity> addressModelListToAddressEntityList1(List<AddressModel> list, CycleAvoidingMappingContext cycleAvoidingMappingContext) {
+        List<AddressEntity> target = cycleAvoidingMappingContext.getMappedInstance( list, List.class );
+        if ( target != null ) {
+            return target;
+        }
+
+        if ( list == null ) {
+            return null;
+        }
+
+        List<AddressEntity> list1 = new ArrayList<AddressEntity>( list.size() );
+        cycleAvoidingMappingContext.storeMappedInstance( list, list1 );
+
+        for ( AddressModel addressModel : list ) {
+            list1.add( modelToEntity( addressModel ) );
+        }
+
+        return list1;
+    }
+
+    protected void storeModelToStoreEntity1(StoreModel storeModel, CycleAvoidingMappingContext cycleAvoidingMappingContext, StoreEntity mappingTarget) {
         if ( storeModel == null ) {
             return;
         }
+
+        cycleAvoidingMappingContext.storeMappedInstance( storeModel, mappingTarget );
 
         if ( storeModel.getStoreId() != null ) {
             mappingTarget.setStoreId( storeModel.getStoreId() );
@@ -298,14 +343,14 @@ public class AddressModelMapperImpl implements AddressModelMapper {
             mappingTarget.setSubscriptionId( storeModel.getSubscriptionId() );
         }
         if ( mappingTarget.getAddresses() != null ) {
-            List<AddressEntity> list = addressModelListToAddressEntityList( storeModel.getAddresses() );
+            List<AddressEntity> list = addressModelListToAddressEntityList1( storeModel.getAddresses(), cycleAvoidingMappingContext );
             if ( list != null ) {
                 mappingTarget.getAddresses().clear();
                 mappingTarget.getAddresses().addAll( list );
             }
         }
         else {
-            List<AddressEntity> list = addressModelListToAddressEntityList( storeModel.getAddresses() );
+            List<AddressEntity> list = addressModelListToAddressEntityList1( storeModel.getAddresses(), cycleAvoidingMappingContext );
             if ( list != null ) {
                 mappingTarget.setAddresses( list );
             }
