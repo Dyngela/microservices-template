@@ -1,4 +1,4 @@
-create table product.product (
+create table if not exists product (
                              product_id serial not null,
 
                              name varchar(255) not null unique,
@@ -19,7 +19,7 @@ create table product.product (
                              primary key (product_id)
 );
 
-create table product.category (
+create table if not exists category (
                                category_id serial not null,
 
                                name varchar(255) not null,
@@ -32,13 +32,13 @@ create table product.category (
                                primary key (category_id)
 );
 
-alter table if exists product.product add constraint product_has_category foreign key (category_id) references product.category;
+alter table if exists product add constraint product_has_category foreign key (category_id) references category;
 
 -- google product, store with id 1
-insert into product.product values (1, 'Cable RJ45 4 mètres', 74, 'Cable de connexion à internet pour un port RJ45', null, null, 'path/to/photo', true, now(), null, null, 1, 1);
-insert into product.product values (1, 'Cable HDMI', 15, 'Cable de connexion à un port HTML', null, null, 'path/to/photo', true, now(), null, null, 1, 1);
-insert into product.product values (2, 'Ecran lenovo', 455.32, 'Ecran lenovo 32 pouces', 15.3, 81.23, 'path/to/photo', true, now(), null, null, 1, 2);
-insert into product.product values (3, 'Télévision extra large', 1500, 'Télévision super grande et trop bien', 20, 3, 'path/to/photo', false, now(), null, null, 1, 2);
+insert into category values (1, 'Connectique', now(), null, null, 1);
+insert into category values (2, 'Ecran', now(), null, null, 1);
 
-insert into product.category values (1, 'Connectique', now(), null, null, 1);
-insert into product.category values (2, 'Ecran', now(), null, null, 1);
+insert into product values (1, 'Cable RJ45 4 mètres', 74, 'Cable de connexion à internet pour un port RJ45', null, null, 'path/to/photo', true, now(), null, null, 1, 1);
+insert into product values (2, 'Cable HDMI', 15, 'Cable de connexion à un port HTML', null, null, 'path/to/photo', true, now(), null, null, 1, 1);
+insert into product values (3, 'Ecran lenovo', 455.32, 'Ecran lenovo 32 pouces', 15.3, 81.23, 'path/to/photo', true, now(), null, null, 1, 2);
+insert into product values (4, 'Télévision extra large', 1500, 'Télévision super grande et trop bien', 20, 3, 'path/to/photo', false, now(), null, null, 1, 2);

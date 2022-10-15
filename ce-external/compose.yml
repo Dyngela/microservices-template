@@ -12,36 +12,44 @@ services:
       PGTZ: Europe/Paris
         #volumes:
         #  - ./data/postgres:/data/postgres
+    logging:
+      driver: none
     ports:
       - ${POSTGRES_PORT:-5432}:5432
 
-#  pgadmin:
-#    container_name: pgadmin
-#    image: dpage/pgadmin4:latest
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-#      PGADMIN_CONFIG_SERVER_MODE: 'False'
-#    volumes:
-#      - ./data/pgadmin:/var/lib/pgadmin
-#    ports:
-#      - ${PGADMIN_PORT:-5050}:80
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    ports:
+      - ${PGADMIN_PORT:-5050}:80
 
   zookeeper:
-    image: "wurstmeister/zookeeper"
+    image: "bitnami/zookeeper:latest"
     container_name: "zookeeper"
     ports:
       - "2181:2181"
     environment:
       ALLOW_ANONYMOUS_LOGIN: yes
+    logging:
+      driver: none
 
   kafka:
-    image: "wurstmeister/kafka"
+    image: "bitnami/kafka:latest"
+      #image: "wurstmeister/kafka"
     container_name: "kafka"
     ports:
       - "9092:9092"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_ADVERTISED_HOST_NAME: localhost
+      ALLOW_PLAINTEXT_LISTENER: yes
+    logging:
+      driver: none
     depends_on:
       - zookeeper
