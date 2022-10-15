@@ -5,6 +5,7 @@
  */
 package com.diy.generated.api;
 
+import com.diy.generated.model.AddressDto;
 import com.diy.generated.model.StoreDto;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,35 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T07:20:46.068097500+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T13:50:53.052458100+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Store", description = "the Store API")
 public interface StoreApi {
+
+    /**
+     * DELETE /address/{addressid} : Delete a store
+     * Delete an address by ID
+     *
+     * @param addressid Address ID (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Delete a store", nickname = "deleteAddressById", notes = "Delete an address by ID", response = String.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = String.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/address/{addressid}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<String> deleteAddressById(@ApiParam(value = "Address ID", required = true) @PathVariable("addressid") Long addressid
+
+);
+
 
     /**
      * DELETE /store/{storeId} : Delete a store
@@ -46,6 +72,62 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     ResponseEntity<String> deleteStoreById(@ApiParam(value = "Store ID", required = true) @PathVariable("storeId") Long storeId
+
+);
+
+
+    /**
+     * GET /address/{addressid} : Find a specific address with its ID
+     * Get an address by id
+     *
+     * @param addressid Address ID (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Find a specific address with its ID", nickname = "findAddressById", notes = "Get an address by id", response = AddressDto.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = AddressDto.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/address/{addressid}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<AddressDto> findAddressById(@ApiParam(value = "Address ID", required = true) @PathVariable("addressid") Long addressid
+
+);
+
+
+    /**
+     * GET /address/{storeid}/{sortby}/{ascending} : Find all address related to a store
+     * Get all stores
+     *
+     * @param storeid The store id we want those addresses to be attached to (required)
+     * @param sortby The name of the field to sort the result by (required)
+     * @param ascending Noting if the sorting is ascending or not (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Find all address related to a store", nickname = "findAddressesByStoreId", notes = "Get all stores", response = AddressDto.class, responseContainer = "List", tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = AddressDto.class, responseContainer = "List"),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/address/{storeid}/{sortby}/{ascending}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<List<AddressDto>> findAddressesByStoreId(@ApiParam(value = "The store id we want those addresses to be attached to", required = true) @PathVariable("storeid") Long storeid
+
+,@ApiParam(value = "The name of the field to sort the result by", required = true) @PathVariable("sortby") String sortby
+
+,@ApiParam(value = "Noting if the sorting is ascending or not", required = true) @PathVariable("ascending") Boolean ascending
 
 );
 

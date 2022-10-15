@@ -31,11 +31,11 @@ public class StoreService {
     StoreRepository storeRepository;
 
     static Specification<StoreEntity> storeHasNotBeenDeleted() {
-        return (store, cq, cb) -> cb.equal(store.get("deleted_at"), (LocalDateTime) null);
+        return (store, cq, cb) -> cb.equal(store.get("deletedAt"), (LocalDateTime) null);
     }
 
 static Specification<StoreEntity> addressHasNotBeenDeleted() {
-        return (store, cq, cb) -> cb.equal(store.get("deleted_at"), (LocalDateTime) null);
+        return (store, cq, cb) -> cb.equal(store.get("deletedAt"), (LocalDateTime) null);
     }
 
     public StoreModel findStoreById(Long id) {
@@ -87,6 +87,7 @@ static Specification<StoreEntity> addressHasNotBeenDeleted() {
     }
 
     public String deleteStore(Long storeId) {
+        //TODO Delete its dependencies in other microservices
         try {
             StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
             storeEntity.setUpdatedAt(LocalDateTime.now());

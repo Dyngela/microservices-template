@@ -1,6 +1,7 @@
 package com.diy.api;
 
 import com.diy.generated.api.StoreApi;
+import com.diy.generated.model.AddressDto;
 import com.diy.generated.model.StoreDto;
 import com.diy.mapper.StoreModelMapper;
 import com.diy.model.StoreModel;
@@ -43,8 +44,23 @@ public class StoreApiImpl implements StoreApi {
     }
 
     @Override
+    public ResponseEntity<String> deleteAddressById(Long addressid) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<String> deleteStoreById(Long storeId) {
         return ResponseEntity.ok(storeService.deleteStore(storeId));
+    }
+
+    @Override
+    public ResponseEntity<AddressDto> findAddressById(Long addressid) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<AddressDto>> findAddressesByStoreId(Long storeid, String sortby, Boolean ascending) {
+        return null;
     }
 
 

@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * AddressDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T07:20:46.068097500+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T13:50:53.052458100+02:00[Europe/Paris]")
 public class AddressDto   {
   @JsonProperty("addressId")
   private Long addressId;

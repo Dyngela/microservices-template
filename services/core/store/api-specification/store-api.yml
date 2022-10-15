@@ -130,6 +130,98 @@ paths:
           description: Invalid request
           content: {}
 
+  /address/{storeid}/{sortby}/{ascending}:
+    get:
+      tags:
+        - store
+      summary: Find all address related to a store
+      description: Get all stores
+      operationId: findAddressesByStoreId
+      parameters:
+        - name: storeid
+          in: path
+          description: The store id we want those addresses to be attached to
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: sortby
+          in: path
+          description: The name of the field to sort the result by
+          required: true
+          schema:
+            type: string
+        - name: ascending
+          in: path
+          description: Noting if the sorting is ascending or not
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+        404:
+          description: Invalid request
+          content: { }
+
+  /address/{addressid}:
+    get:
+      tags:
+        - store
+      summary: Find a specific address with its ID
+      description: Get an address by id
+      operationId: findAddressById
+      parameters:
+        - name: addressid
+          in: path
+          description: Address ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        404:
+          description: Invalid request
+          content: { }
+
+    delete:
+      tags:
+        - store
+      summary: Delete a store
+      description: Delete an address by ID
+      operationId: delete AddressById
+      parameters:
+        - name: addressid
+          in: path
+          description: Address ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+
+        404:
+          description: Invalid request
+          content: { }
+
 
 components:
   schemas:
