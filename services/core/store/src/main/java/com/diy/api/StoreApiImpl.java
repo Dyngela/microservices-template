@@ -3,10 +3,13 @@ package com.diy.api;
 import com.diy.generated.api.StoreApi;
 import com.diy.generated.model.AddressDto;
 import com.diy.generated.model.StoreDto;
+import com.diy.mapper.AddressModelMapper;
 import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.StoreModelMapper;
+import com.diy.model.AddressModel;
 import com.diy.model.StoreModel;
 import com.diy.repository.StoreRepository;
+import com.diy.service.AddressService;
 import com.diy.service.StoreService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,7 +28,9 @@ import java.util.List;
 public class StoreApiImpl implements StoreApi {
 
     StoreService storeService;
+    AddressService addressService;
     StoreModelMapper storeModelMapper;
+    AddressModelMapper addressModelMapper;
 
     @Override
     public ResponseEntity<StoreDto> findStoreById(Long storeId) {
@@ -39,14 +44,15 @@ public class StoreApiImpl implements StoreApi {
     }
 
     @Override
-    public ResponseEntity<StoreDto> saveStore(StoreDto storeDto) {
-        StoreModel store = storeModelMapper.dtoToModel(storeDto);
-        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.save(store)));
+    public ResponseEntity<AddressDto> saveAddress(Long storeid, AddressDto addressDto) {
+        AddressModel addressModel = addressModelMapper.dtoToModel(addressDto);
+        return ResponseEntity.ok(addressModelMapper.modelToDto(addressService.saveAddress(addressModel, storeid)));
     }
 
     @Override
-    public ResponseEntity<String> deleteAddressById(Long addressid) {
-        return null;
+    public ResponseEntity<StoreDto> saveStore(StoreDto storeDto) {
+        StoreModel store = storeModelMapper.dtoToModel(storeDto);
+        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.save(store)));
     }
 
     @Override
@@ -55,14 +61,18 @@ public class StoreApiImpl implements StoreApi {
     }
 
     @Override
-    public ResponseEntity<AddressDto> findAddressById(Long addressid) {
-        return null;
+    public ResponseEntity<String> deleteAddressById(Long addressid) {
+        return ResponseEntity.ok(addressService.deleteAddress(addressid));
     }
 
     @Override
-    public ResponseEntity<List<AddressDto>> findAddressesByStoreId(Long storeid, String sortby, Boolean ascending) {
-        return null;
+    public ResponseEntity<AddressDto> findAddressById(Long addressid) {
+        return ResponseEntity.ok(addressModelMapper.modelToDto(addressService.getAddressById(addressid)));
     }
 
+    @Override
+    public ResponseEntity<List<AddressDto>> findAddressesByStoreId(Long storeid) {
+        return ResponseEntity.ok(addressModelMapper.modelsToDtos(addressService.getAddressesFromStoreId(storeid)));
+    }
 
 }

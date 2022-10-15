@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * StoreDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T20:24:13.835509500+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T21:47:11.428813300+02:00[Europe/Paris]")
 public class StoreDto   {
   @JsonProperty("storeId")
   private Long storeId;

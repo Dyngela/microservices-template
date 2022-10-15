@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T20:24:13.835509500+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T21:47:11.428813300+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Store", description = "the Store API")
 public interface StoreApi {
@@ -102,12 +102,10 @@ public interface StoreApi {
 
 
     /**
-     * GET /address/{storeid}/{sortby}/{ascending} : Find all address related to a store
+     * GET /address/{storeid} : Find all address related to a store
      * Get all stores
      *
      * @param storeid The store id we want those addresses to be attached to (required)
-     * @param sortby The name of the field to sort the result by (required)
-     * @param ascending Noting if the sorting is ascending or not (required)
      * @return Successful operation (status code 200)
      *         or Invalid request (status code 404)
      */
@@ -120,14 +118,10 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Invalid request") })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/address/{storeid}/{sortby}/{ascending}",
+        value = "/address/{storeid}",
         produces = { "application/json" }
     )
     ResponseEntity<List<AddressDto>> findAddressesByStoreId(@ApiParam(value = "The store id we want those addresses to be attached to", required = true) @PathVariable("storeid") Long storeid
-
-,@ApiParam(value = "The name of the field to sort the result by", required = true) @PathVariable("sortby") String sortby
-
-,@ApiParam(value = "Noting if the sorting is ascending or not", required = true) @PathVariable("ascending") Boolean ascending
 
 );
 
@@ -189,6 +183,35 @@ public interface StoreApi {
 ,@ApiParam(value = "Noting if the sorting is ascending or not", required = true) @PathVariable("ascending") Boolean ascending
 
 );
+
+
+    /**
+     * POST /address/{storeid} : Create or update an address
+     * Get an address and create it or update it.
+     *
+     * @param storeid store ID (required)
+     * @param addressDto  (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Create or update an address", nickname = "saveAddress", notes = "Get an address and create it or update it.", response = AddressDto.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = AddressDto.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/address/{storeid}",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    ResponseEntity<AddressDto> saveAddress(@ApiParam(value = "store ID", required = true) @PathVariable("storeid") Long storeid
+
+,
+
+@ApiParam(value = "", required = true )   @Valid @RequestBody AddressDto addressDto);
 
 
     /**

@@ -130,7 +130,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /address/{storeid}/{sortby}/{ascending}:
+  /address/{storeid}:
     get:
       tags:
         - store
@@ -145,18 +145,6 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: sortby
-          in: path
-          description: The name of the field to sort the result by
-          required: true
-          schema:
-            type: string
-        - name: ascending
-          in: path
-          description: Noting if the sorting is ascending or not
-          required: true
-          schema:
-            type: boolean
       responses:
         200:
           description: Successful operation
@@ -166,6 +154,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Address'
+        404:
+          description: Invalid request
+          content: { }
+
+    post:
+      tags:
+        - store
+      summary: Create or update an address
+      description: Get an address and create it or update it.
+      operationId: saveAddress
+      parameters:
+        - name: storeid
+          in: path
+          description: store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
         404:
           description: Invalid request
           content: { }
