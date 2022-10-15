@@ -26,7 +26,7 @@ public class AddressEntity {
     @Column(name = "postal_code", nullable = false)
     String postalCode;
 
-    @Column(name = "complement", nullable = false)
+    @Column(name = "complement")
     String complement;
 
     @Column(name = "street_number", nullable = false)
@@ -35,7 +35,7 @@ public class AddressEntity {
     @Column(name = "street_name", nullable = false)
     String streetName;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;

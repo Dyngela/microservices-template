@@ -1,6 +1,5 @@
 package com.diy.model;
 
-import com.diy.entity.AddressEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,6 +15,7 @@ public class StoreModel {
     Long storeId;
     String siret;
     String sector;
+    String storeName;
     String firstname;
     String lastname;
     String email;

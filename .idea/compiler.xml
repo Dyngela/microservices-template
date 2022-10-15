@@ -27,10 +27,10 @@
         <module name="authentication-service" />
         <module name="payment" />
         <module name="Subscription" />
-        <module name="customisation" />
         <module name="gateway" />
-        <module name="authentication" />
+        <module name="customisation" />
         <module name="customer" />
+        <module name="authentication" />
         <module name="order" />
       </profile>
     </annotationProcessing>

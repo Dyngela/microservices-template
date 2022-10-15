@@ -30,39 +30,40 @@
         <netflix-eureka.version>3.1.3</netflix-eureka.version>
         <configuration-service.version>1.0.0-SNAPSHOT</configuration-service.version>
         <postgresql.version>42.5.0</postgresql.version>
+        <springdoc-open-api.version>1.6.11</springdoc-open-api.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
             <!-- Connected Charger internal modules -->
-            <dependency>
-                <groupId>com.bosch.iot.diy.connectedcharger</groupId>
-                <artifactId>connected-charger-configuration</artifactId>
-                <version>${configuration-service.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
+<!--                <artifactId>connected-charger-configuration</artifactId>-->
+<!--                <version>${configuration-service.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
+<!--                <artifactId>connected-charger-provisioning</artifactId>-->
+<!--                <version>${provisioning-service.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
+<!--                <artifactId>connected-charger-registration</artifactId>-->
+<!--                <version>${registration-service.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
+<!--                <artifactId>connected-charger-proxy</artifactId>-->
+<!--                <version>${proxy-service.version}</version>-->
+<!--            </dependency>-->
+
+            <!-- 3rd party libraries -->
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.bosch.iot.diy.connectedcharger</groupId>
-                <artifactId>connected-charger-provisioning</artifactId>
-                <version>${provisioning-service.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.bosch.iot.diy.connectedcharger</groupId>
-                <artifactId>connected-charger-registration</artifactId>
-                <version>${registration-service.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.bosch.iot.diy.connectedcharger</groupId>
-                <artifactId>connected-charger-proxy</artifactId>
-                <version>${proxy-service.version}</version>
-            </dependency>
-
-            <!-- 3rd party libraries -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-config-server</artifactId>
@@ -136,6 +137,11 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-gateway</artifactId>
                 <version>${spring-cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-open-api.version}</version>
             </dependency>
 
         </dependencies>

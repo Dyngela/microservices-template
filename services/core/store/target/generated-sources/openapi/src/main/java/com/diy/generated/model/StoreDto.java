@@ -21,13 +21,16 @@ import java.util.*;
 /**
  * StoreDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T23:47:21.760531400+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T07:20:46.068097500+02:00[Europe/Paris]")
 public class StoreDto   {
   @JsonProperty("storeId")
-  private Integer storeId;
+  private Long storeId;
 
   @JsonProperty("siret")
   private String siret;
+
+  @JsonProperty("storeName")
+  private String storeName;
 
   @JsonProperty("sector")
   private String sector;
@@ -45,13 +48,13 @@ public class StoreDto   {
   private String phoneNumber;
 
   @JsonProperty("subscriptionId")
-  private Integer subscriptionId;
+  private Long subscriptionId;
 
   @JsonProperty("addresses")
   @Valid
   private List<AddressDto> addresses = null;
 
-  public StoreDto storeId(Integer storeId) {
+  public StoreDto storeId(Long storeId) {
     this.storeId = storeId;
     return this;
   }
@@ -63,11 +66,11 @@ public class StoreDto   {
   @ApiModelProperty(value = "")
 
 
-  public Integer getStoreId() {
+  public Long getStoreId() {
     return storeId;
   }
 
-  public void setStoreId(Integer storeId) {
+  public void setStoreId(Long storeId) {
     this.storeId = storeId;
   }
 
@@ -89,6 +92,26 @@ public class StoreDto   {
 
   public void setSiret(String siret) {
     this.siret = siret;
+  }
+
+  public StoreDto storeName(String storeName) {
+    this.storeName = storeName;
+    return this;
+  }
+
+  /**
+   * Get storeName
+   * @return storeName
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getStoreName() {
+    return storeName;
+  }
+
+  public void setStoreName(String storeName) {
+    this.storeName = storeName;
   }
 
   public StoreDto sector(String sector) {
@@ -191,7 +214,7 @@ public class StoreDto   {
     this.phoneNumber = phoneNumber;
   }
 
-  public StoreDto subscriptionId(Integer subscriptionId) {
+  public StoreDto subscriptionId(Long subscriptionId) {
     this.subscriptionId = subscriptionId;
     return this;
   }
@@ -203,11 +226,11 @@ public class StoreDto   {
   @ApiModelProperty(value = "")
 
 
-  public Integer getSubscriptionId() {
+  public Long getSubscriptionId() {
     return subscriptionId;
   }
 
-  public void setSubscriptionId(Integer subscriptionId) {
+  public void setSubscriptionId(Long subscriptionId) {
     this.subscriptionId = subscriptionId;
   }
 
@@ -252,6 +275,7 @@ public class StoreDto   {
     StoreDto store = (StoreDto) o;
     return Objects.equals(this.storeId, store.storeId) &&
         Objects.equals(this.siret, store.siret) &&
+        Objects.equals(this.storeName, store.storeName) &&
         Objects.equals(this.sector, store.sector) &&
         Objects.equals(this.firstname, store.firstname) &&
         Objects.equals(this.lastname, store.lastname) &&
@@ -263,7 +287,7 @@ public class StoreDto   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(storeId, siret, sector, firstname, lastname, email, phoneNumber, subscriptionId, addresses);
+    return Objects.hash(storeId, siret, storeName, sector, firstname, lastname, email, phoneNumber, subscriptionId, addresses);
   }
 
   @Override
@@ -273,6 +297,7 @@ public class StoreDto   {
     
     sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
     sb.append("    siret: ").append(toIndentedString(siret)).append("\n");
+    sb.append("    storeName: ").append(toIndentedString(storeName)).append("\n");
     sb.append("    sector: ").append(toIndentedString(sector)).append("\n");
     sb.append("    firstname: ").append(toIndentedString(firstname)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");

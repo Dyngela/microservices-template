@@ -1,9 +1,101 @@
 package com.diy.service;
 
-import lombok.AllArgsConstructor;
+import com.diy.entity.StoreEntity;
+import com.diy.exception.ExceptionHandler;
+import com.diy.mapper.StoreModelMapper;
+import com.diy.model.StoreModel;
+import com.diy.repository.StoreRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Log4j2
 public class StoreService {
+
+    StoreModelMapper storeModelMapper;
+    StoreRepository storeRepository;
+
+    static Specification<StoreEntity> storeHasNotBeenDeleted() {
+        return (store, cq, cb) -> cb.equal(store.get("deleted_at"), (LocalDateTime) null);
+    }
+
+static Specification<StoreEntity> addressHasNotBeenDeleted() {
+        return (store, cq, cb) -> cb.equal(store.get("deleted_at"), (LocalDateTime) null);
+    }
+
+    public StoreModel findStoreById(Long id) {
+        StoreEntity storeEntity = storeRepository.findById(id).orElseThrow(() -> new ExceptionHandler("Store not found"));
+        return storeModelMapper.entityToModel(storeEntity);
+    }
+
+    public List<StoreModel> findAllStores(Integer size, Integer page, String sortBy, Boolean ascending) {
+        Page<StoreEntity> storePage = storeRepository.findAll(
+                where(storeHasNotBeenDeleted()).and(addressHasNotBeenDeleted()),
+                PageRequest.of(page, size,
+                ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()));
+        List<StoreEntity> storeEntities = storePage.getContent();
+        return storeModelMapper.entitiesToModels(storeEntities);
+    }
+
+    @Transactional
+    public StoreModel save(StoreModel storeModel) {
+        if (storeModel.getStoreId() == null)
+            return createStore(storeModel);
+        else
+            return updateStore(storeModel);
+    }
+
+    private StoreModel updateStore(StoreModel storeModel) {
+        try {
+            StoreEntity storeEntity = storeRepository.findById(storeModel.getStoreId()).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            storeModelMapper.updateStoreFromModel(storeModel, storeEntity);
+            storeEntity.setUpdatedAt(LocalDateTime.now());
+            storeRepository.save(storeEntity);
+            return storeModelMapper.entityToModel(storeEntity);
+        } catch (Exception e) {
+            log.error("Error while updating a store: " + e.getMessage());
+            log.error("Store model: " + storeModel);
+            throw new ExceptionHandler("We could not update your information");
+        }
+    }
+    private StoreModel createStore(StoreModel storeModel) {
+        try {
+            StoreEntity storeEntity = storeModelMapper.modelToEntity(storeModel);
+            storeEntity.setCreatedAt(LocalDateTime.now());
+            storeRepository.save(storeEntity);
+            return storeModelMapper.entityToModel(storeEntity);
+        } catch (Exception e) {
+            log.error("Error while creating a store: " + e.getMessage());
+            log.error("Store model: " + storeModel);
+            throw new ExceptionHandler("We could not update your information");
+        }
+    }
+
+    public String deleteStore(Long storeId) {
+        try {
+            StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            storeEntity.setUpdatedAt(LocalDateTime.now());
+            storeEntity.setDeletedAt(LocalDateTime.now());
+            storeRepository.save(storeEntity);
+            return "Your store has been successfully deleted";
+        } catch (Exception e) {
+            log.error("Error while deleting a store: " + e.getMessage());
+            throw new ExceptionHandler("We could not delete your store");
+        }
+    }
 }

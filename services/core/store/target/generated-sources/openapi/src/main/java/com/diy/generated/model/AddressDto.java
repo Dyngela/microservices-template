@@ -18,10 +18,10 @@ import java.util.*;
 /**
  * AddressDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T23:47:21.760531400+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T07:20:46.068097500+02:00[Europe/Paris]")
 public class AddressDto   {
   @JsonProperty("addressId")
-  private Integer addressId;
+  private Long addressId;
 
   @JsonProperty("city")
   private String city;
@@ -38,7 +38,7 @@ public class AddressDto   {
   @JsonProperty("streetName")
   private String streetName;
 
-  public AddressDto addressId(Integer addressId) {
+  public AddressDto addressId(Long addressId) {
     this.addressId = addressId;
     return this;
   }
@@ -50,11 +50,11 @@ public class AddressDto   {
   @ApiModelProperty(value = "")
 
 
-  public Integer getAddressId() {
+  public Long getAddressId() {
     return addressId;
   }
 
-  public void setAddressId(Integer addressId) {
+  public void setAddressId(Long addressId) {
     this.addressId = addressId;
   }
 

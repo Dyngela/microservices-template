@@ -22,18 +22,20 @@ public class StoreEntity {
     Long storeId;
     @Column(name = "siret", unique = true, nullable = false)
     String siret;
+    @Column(name = "store_name", unique = true, nullable = false)
+    String storeName;
     @Column(name = "sector", nullable = false)
     String sector;
     @Column(name = "firstname", nullable = false)
     String firstname;
     @Column(name = "lastname", nullable = false)
     String lastname;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     String email;
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;

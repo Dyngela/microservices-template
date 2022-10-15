@@ -20,15 +20,69 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T23:47:21.760531400+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T07:20:46.068097500+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Store", description = "the Store API")
 public interface StoreApi {
 
     /**
-     * GET /stores : Find all stores
+     * DELETE /store/{storeId} : Delete a store
+     * Delete a store by ID with all its dependencies in other microservices
+     *
+     * @param storeId Store ID (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Delete a store", nickname = "deleteStoreById", notes = "Delete a store by ID with all its dependencies in other microservices", response = String.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = String.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/store/{storeId}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<String> deleteStoreById(@ApiParam(value = "Store ID", required = true) @PathVariable("storeId") Long storeId
+
+);
+
+
+    /**
+     * GET /store/{storeId} : Find a specific store with its ID
+     * Get a store by id
+     *
+     * @param storeId Store ID (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Find a specific store with its ID", nickname = "findStoreById", notes = "Get a store by id", response = StoreDto.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = StoreDto.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/store/{storeId}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<StoreDto> findStoreById(@ApiParam(value = "Store ID", required = true) @PathVariable("storeId") Long storeId
+
+);
+
+
+    /**
+     * GET /stores/{size}/{page}/{sortby}/{ascending} : Find all stores
      * Get all stores
      *
+     * @param size The size of the array wanted, usually no more than 50 (required)
+     * @param page The page number to know where to put sql cursor on. Pages start at index 0 (required)
+     * @param sortby The name of the field to sort the result by (required)
+     * @param ascending Noting if the sorting is ascending or not (required)
      * @return Successful operation (status code 200)
      *         or Invalid request (status code 404)
      */
@@ -41,9 +95,43 @@ public interface StoreApi {
         @ApiResponse(code = 404, message = "Invalid request") })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/stores",
+        value = "/stores/{size}/{page}/{sortby}/{ascending}",
         produces = { "application/json" }
     )
-    ResponseEntity<List<StoreDto>> findStores();
+    ResponseEntity<List<StoreDto>> findStores(@ApiParam(value = "The size of the array wanted, usually no more than 50", required = true) @PathVariable("size") Integer size
+
+,@ApiParam(value = "The page number to know where to put sql cursor on. Pages start at index 0", required = true) @PathVariable("page") Integer page
+
+,@ApiParam(value = "The name of the field to sort the result by", required = true) @PathVariable("sortby") String sortby
+
+,@ApiParam(value = "Noting if the sorting is ascending or not", required = true) @PathVariable("ascending") Boolean ascending
+
+);
+
+
+    /**
+     * POST /store : Create or update a store
+     * Get a store object and potentially an address object nested, from the body
+     *
+     * @param storeDto  (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Create or update a store", nickname = "saveStore", notes = "Get a store object and potentially an address object nested, from the body", response = StoreDto.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = StoreDto.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/store",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    ResponseEntity<StoreDto> saveStore(
+
+@ApiParam(value = "", required = true )   @Valid @RequestBody StoreDto storeDto);
 
 }
