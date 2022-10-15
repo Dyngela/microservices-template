@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T21:47:11.428813300+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-15T22:23:26.463975200+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Store", description = "the Store API")
 public interface StoreApi {
@@ -147,6 +147,31 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     ResponseEntity<StoreDto> findStoreById(@ApiParam(value = "Store ID", required = true) @PathVariable("storeId") Long storeId
+
+);
+
+
+    /**
+     * GET /store/{storename} : Find a specific store with its ID
+     * Get a store by name, namely for ms communication
+     *
+     * @param storename Store&#39; name (required)
+     * @return Successful operation (status code 200)
+     *         or Invalid request (status code 404)
+     */
+
+    @ApiOperation(value = "Find a specific store with its ID", nickname = "findStoreByStoreName", notes = "Get a store by name, namely for ms communication", response = StoreDto.class, tags={ "store", })
+    @ApiResponses(value = { 
+
+        @ApiResponse(code = 200, message = "Successful operation", response = StoreDto.class),
+
+        @ApiResponse(code = 404, message = "Invalid request") })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/store/{storename}",
+        produces = { "application/json" }
+    )
+    ResponseEntity<StoreDto> findStoreByStoreName(@ApiParam(value = "Store' name", required = true) @PathVariable("storename") String storename
 
 );
 

@@ -34,8 +34,12 @@ public class StoreApiImpl implements StoreApi {
 
     @Override
     public ResponseEntity<StoreDto> findStoreById(Long storeId) {
-
         return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.findStoreById(storeId)));
+    }
+
+    @Override
+    public ResponseEntity<StoreDto> findStoreByStoreName(String storename) {
+        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.findStoreByStoreName(storename)));
     }
 
     @Override

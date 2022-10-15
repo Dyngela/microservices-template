@@ -15,6 +15,6 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<StoreEntity, Long>, JpaSpecificationExecutor<StoreEntity> {
-
+    Optional<StoreEntity> findByStoreName(String name);
 }
 

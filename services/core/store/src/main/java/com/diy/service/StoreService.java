@@ -42,6 +42,16 @@ public class StoreService {
         }
     }
 
+    public StoreModel findStoreByStoreName(String name) {
+        try {
+            StoreEntity storeEntity = storeRepository.findByStoreName(name).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
+        }  catch (Exception e) {
+            log.error("Error while finding your store: " + e.getMessage());
+            throw new ExceptionHandler("We could not find your store");
+        }
+    }
+
     public List<StoreModel> findAllStores(Integer size, Integer page, String sortBy, Boolean ascending) {
         Page<StoreEntity> storePage = storeRepository.findAll(
                 PageRequest.of(page, size,

@@ -130,6 +130,31 @@ paths:
           description: Invalid request
           content: {}
 
+  /store/{storename}:
+    get:
+      tags:
+        - store
+      summary: Find a specific store with its ID
+      description: Get a store by name, namely for ms communication
+      operationId: findStoreByStoreName
+      parameters:
+        - name: storename
+          in: path
+          description: Store' name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        404:
+          description: Invalid request
+          content: { }
+
   /address/{storeid}:
     get:
       tags:
