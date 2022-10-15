@@ -37,6 +37,10 @@ create table if not exists address (
 
 alter table if exists address add constraint address_has_store foreign key (store_id) references store;
 
+-- PK starts at 1
+ALTER SEQUENCE public.address_address_id_seq RESTART WITH 1;
+ALTER SEQUENCE public.store_store_id_seq RESTART WITH 1;
+
 insert into store values (1, 'Google',          'google@gmail.com',    'Tai',      'Mui',        '+90 678 443 223',   'Hardware', '8883999332', now(), null, null, 1);
 insert into store values (2, 'Flower and co',   'flower@gmail.com',    'Erwan',    'Nutz',       '+33 7 70 17 98 18', 'Flower',   '3443443434', now(), null, null, 2);
 insert into store values (3, 'Your food',       'your.food@gmail.com', 'Aymeric',  'Guth',       '+33 7 70 17 98 18', 'Aliments', '4355758778', now(), null, null, 1);

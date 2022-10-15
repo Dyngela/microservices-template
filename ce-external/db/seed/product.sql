@@ -34,6 +34,10 @@ create table if not exists category (
 
 alter table if exists product add constraint product_has_category foreign key (category_id) references category;
 
+-- PK starts at 1
+ALTER SEQUENCE public.category_category_id_seq RESTART WITH 1;
+ALTER SEQUENCE public.product_product_id_seq RESTART WITH 1;
+
 -- google product, store with id 1
 insert into category values (1, 'Connectique', now(), null, null, 1);
 insert into category values (2, 'Ecran', now(), null, null, 1);
