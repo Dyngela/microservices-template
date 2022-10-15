@@ -10,10 +10,8 @@ services:
       PGDATA: /data/postgres
       TZ: Europe/Paris
       PGTZ: Europe/Paris
-        #volumes:
-        #  - ./data/postgres:/data/postgres
-    logging:
-      driver: none
+    #volumes:
+      #  - ./data/postgres:/data/postgres
     ports:
       - ${POSTGRES_PORT:-5432}:5432
 
@@ -36,12 +34,9 @@ services:
       - "2181:2181"
     environment:
       ALLOW_ANONYMOUS_LOGIN: yes
-    logging:
-      driver: none
 
   kafka:
     image: "bitnami/kafka:latest"
-      #image: "wurstmeister/kafka"
     container_name: "kafka"
     ports:
       - "9092:9092"
@@ -49,7 +44,5 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_ADVERTISED_HOST_NAME: localhost
       ALLOW_PLAINTEXT_LISTENER: yes
-    logging:
-      driver: none
     depends_on:
       - zookeeper
