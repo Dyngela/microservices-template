@@ -12,7 +12,7 @@
 
     <artifactId>service-parent</artifactId>
     <packaging>pom</packaging>
-    <name>Parent</name>
+    <name>service-parent</name>
     <description>Parent POM for all modules</description>
     <modules>
         <module>../../../services/config/eureka-server</module>
