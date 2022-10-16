@@ -29,7 +29,7 @@ ce-external/data/**
 **/target/maven-status/**
 *.jar.original
 *.jar
-*.iml
+# *.iml
 
 ### Linux ###
 *~
@@ -75,4 +75,4 @@ Temporary Items
 .DS_Store
 .func.sh
 .tmuxp.yaml
-
+.envrc

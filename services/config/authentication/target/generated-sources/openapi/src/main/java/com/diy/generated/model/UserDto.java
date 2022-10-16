@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * UserDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T10:45:03.566989+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T12:18:29.590087+02:00[Europe/Paris]")
 public class UserDto   {
   @JsonProperty("userId")
   private Integer userId;
