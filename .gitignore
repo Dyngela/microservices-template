@@ -29,6 +29,7 @@ ce-external/data/**
 **/target/maven-status/**
 *.jar.original
 *.jar
+*.iml
 
 ### Linux ###
 *~
@@ -72,3 +73,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .DS_Store
+.func.sh
+.tmuxp.yaml
+
