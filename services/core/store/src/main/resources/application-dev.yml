@@ -1,9 +1,6 @@
 spring:
   application:
     name: store
-  jackson:
-    time-zone: Europe/Berlin
-    date-format: yyyy-MM-dd
   jpa:
     show-sql: true
   datasource:

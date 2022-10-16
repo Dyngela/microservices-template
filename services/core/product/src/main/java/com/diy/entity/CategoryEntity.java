@@ -24,6 +24,9 @@ public class CategoryEntity {
     @Column(name = "name", nullable = false)
     String name;
 
+    @Column(name = "store_id", nullable = false)
+    Long storeId;
+
     @Column(name = "created_at", nullable = false)
     LocalDateTime createdAt;
     @Column(name = "updated_at")

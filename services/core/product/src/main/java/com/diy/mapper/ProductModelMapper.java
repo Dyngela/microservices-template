@@ -1,9 +1,11 @@
 package com.diy.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
+import com.diy.model.ProductModel;
+import org.mapstruct.*;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.ERROR, unmappedTargetPolicy = ReportingPolicy.ERROR,
-        typeConversionPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+import java.util.List;
+
+@Mapper(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        typeConversionPolicy = ReportingPolicy.ERROR, componentModel = "spring")
 public interface ProductModelMapper {
 }

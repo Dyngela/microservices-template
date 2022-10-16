@@ -3,6 +3,7 @@ package com.diy.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class StoreModel {
     String storeName;
     String firstname;
     String lastname;
+    @Email
     String email;
     String phoneNumber;
     LocalDateTime createdAt;
