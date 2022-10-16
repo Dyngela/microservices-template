@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * PagerDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T02:04:42.948897100+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T11:17:22.104862800+02:00[Europe/Paris]")
 public class PagerDto   {
   @JsonProperty("size")
   private Integer size;
