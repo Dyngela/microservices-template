@@ -24,12 +24,13 @@ hs_err_pid*
 ce-external/data/**
 .idea
 
-**/target/classes/**
-**/target/maven-archiver/**
-**/target/maven-status/**
+**/target/**
+#**/target/classes/**
+#**/target/maven-archiver/**
+#**/target/maven-status/**
 *.jar.original
 *.jar
-# *.iml
+*.iml
 
 ### Linux ###
 *~
