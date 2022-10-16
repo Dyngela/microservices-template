@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T12:18:32.220491+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T14:03:30.242737300+02:00[Europe/Paris]")
 @Validated
 @Api(value = "Product", description = "the Product API")
 public interface ProductApi {
@@ -113,10 +113,10 @@ public interface ProductApi {
      *         or Invalid request (status code 404)
      */
 
-    @ApiOperation(value = "Find all product according to its store id", nickname = "getAllProductByStoreId", notes = "Get all product related to a store", response = ProductDto.class, tags={ "product", })
+    @ApiOperation(value = "Find all product according to its store id", nickname = "getAllProductByStoreId", notes = "Get all product related to a store", response = ProductDto.class, responseContainer = "List", tags={ "product", })
     @ApiResponses(value = { 
 
-        @ApiResponse(code = 200, message = "Successful operation", response = ProductDto.class),
+        @ApiResponse(code = 200, message = "Successful operation", response = ProductDto.class, responseContainer = "List"),
 
         @ApiResponse(code = 404, message = "Invalid request") })
     @RequestMapping(
@@ -125,7 +125,7 @@ public interface ProductApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<ProductDto> getAllProductByStoreId(
+    ResponseEntity<List<ProductDto>> getAllProductByStoreId(
 
 @ApiParam(value = "", required = true )   @Valid @RequestBody PagerDto pagerDto);
 

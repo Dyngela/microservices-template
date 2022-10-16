@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * CategoryWithoutProductDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T12:18:32.220491+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T14:03:30.242737300+02:00[Europe/Paris]")
 public class CategoryWithoutProductDto   {
   @JsonProperty("categoryId")
   private Long categoryId;

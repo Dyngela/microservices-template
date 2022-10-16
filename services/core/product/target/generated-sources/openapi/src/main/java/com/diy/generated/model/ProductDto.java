@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,7 +19,7 @@ import java.util.*;
 /**
  * ProductDto
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T12:18:32.220491+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-16T14:03:30.242737300+02:00[Europe/Paris]")
 public class ProductDto   {
   @JsonProperty("productId")
   private Long productId;
@@ -29,16 +28,16 @@ public class ProductDto   {
   private String name;
 
   @JsonProperty("price")
-  private BigDecimal price;
+  private Float price;
 
   @JsonProperty("description")
   private String description;
 
   @JsonProperty("weight")
-  private BigDecimal weight;
+  private Float weight;
 
   @JsonProperty("height")
-  private BigDecimal height;
+  private Float height;
 
   @JsonProperty("photo")
   private String photo;
@@ -92,7 +91,7 @@ public class ProductDto   {
     this.name = name;
   }
 
-  public ProductDto price(BigDecimal price) {
+  public ProductDto price(Float price) {
     this.price = price;
     return this;
   }
@@ -103,13 +102,12 @@ public class ProductDto   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public BigDecimal getPrice() {
+  public Float getPrice() {
     return price;
   }
 
-  public void setPrice(BigDecimal price) {
+  public void setPrice(Float price) {
     this.price = price;
   }
 
@@ -133,7 +131,7 @@ public class ProductDto   {
     this.description = description;
   }
 
-  public ProductDto weight(BigDecimal weight) {
+  public ProductDto weight(Float weight) {
     this.weight = weight;
     return this;
   }
@@ -144,17 +142,16 @@ public class ProductDto   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public BigDecimal getWeight() {
+  public Float getWeight() {
     return weight;
   }
 
-  public void setWeight(BigDecimal weight) {
+  public void setWeight(Float weight) {
     this.weight = weight;
   }
 
-  public ProductDto height(BigDecimal height) {
+  public ProductDto height(Float height) {
     this.height = height;
     return this;
   }
@@ -165,13 +162,12 @@ public class ProductDto   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public BigDecimal getHeight() {
+  public Float getHeight() {
     return height;
   }
 
-  public void setHeight(BigDecimal height) {
+  public void setHeight(Float height) {
     this.height = height;
   }
 

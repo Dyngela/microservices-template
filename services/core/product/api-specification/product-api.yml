@@ -29,7 +29,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
         404:
           description: Invalid request
           content: { }
@@ -178,12 +180,18 @@ components:
           type: string
         price:
           type: number
+          format: float
+
         description:
           type: string
         weight:
           type: number
+          format: float
+
         height:
           type: number
+          format: float
+
         photo:
           type: string
         availableInStore:
@@ -204,12 +212,15 @@ components:
           type: string
         price:
           type: number
+          format: float
         description:
           type: string
         weight:
           type: number
+          format: float
         height:
           type: number
+          format: float
         photo:
           type: string
         availableInStore:
