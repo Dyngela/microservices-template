@@ -24,6 +24,7 @@
         <module>../../../services/core/order</module>
         <module>../../../services/back-office/payment</module>
         <module>../../../services/core/product</module>
+        <module>../../../services/core/store</module>
         <module>../../../services/back-office/Subscription</module>
         <module>../../../services/back-office/ticket</module>
     </modules>
