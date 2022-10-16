@@ -13,8 +13,13 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
+<<<<<<< HEAD
     date = "2022-10-16T11:11:27+0200",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.4 (Oracle Corporation)"
+=======
+    date = "2022-10-16T10:45:08+0200",
+    comments = "version: 1.5.2.Final, compiler: javac, environment: Java 17.0.4.1 (OpenJDK Porters Group)"
+>>>>>>> yul
 )
 @Component
 public class StoreModelMapperImpl implements StoreModelMapper {
