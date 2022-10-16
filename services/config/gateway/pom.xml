@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gateway</artifactId>
-    <name>Gateway</name>
+    <name>gateway</name>
     <description>Gateway service for all microservices</description>
 
     <dependencies>
