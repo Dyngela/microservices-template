@@ -10,19 +10,21 @@ tags:
     description: Everything about products
 paths:
 
-  /products:
-    post:
+  /products/{storeid}:
+    get:
       tags:
         - product
       summary: Find all product according to its store id
       description: Get all product related to a store
       operationId: getAllProductByStoreId
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pager'
+      parameters:
+        - name: storeid
+          in: path
+          description: Store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: Successful operation
@@ -112,37 +114,74 @@ paths:
           description: Invalid request
           content: { }
 
-  /categories:
-    post:
+  /categories/{storeid}:
+    get:
       tags:
-        - product
+        - category
       summary: Find all categories according to its store id
       description: Get all categories related to a store
       operationId: getAllCategoryByStoreId
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pager'
+      parameters:
+        - name: storeid
+          in: path
+          description: Store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryWithoutProduct'
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryWithoutProduct'
+        404:
+          description: Invalid request
+          content: { }
+
+  /category/{storeid}/{categoryid}:
+    get:
+      tags:
+        - category
+      summary: find a category by ID and all its product associated
+      description: Get a single category and all its product associated. According to a specific store id
+      operationId: getCategoryAndItsProductByStoreId
+      parameters:
+        - name: storeid
+          in: path
+          description: Store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: categoryid
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryWithProduct'
         404:
           description: Invalid request
           content: { }
 
   /category/{categoryid}:
-    get:
+    delete:
       tags:
-        - product
-      summary: find a category by ID and all its product associated
-      description: Get a single category and all its product associated. According to a specific store id
-      operationId: getCategoryAndItsProductByStoreId
+        - category
+      summary: Delete a category
+      description: Delete a category by ID
+      operationId: deleteCategoryById
       parameters:
         - name: categoryid
           in: path
@@ -151,19 +190,38 @@ paths:
           schema:
             type: integer
             format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pager'
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryWithProduct'
+                type: string
+
+        404:
+          description: Invalid request
+          content: { }
+
+  /category:
+    post:
+      tags:
+        - category
+      summary: Create or update a category
+      description: Get a category object and save it
+      operationId: saveCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryWithoutProduct'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryWithoutProduct'
         404:
           description: Invalid request
           content: { }
@@ -272,19 +330,4 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProductWithoutCategory'
-
-    Pager:
-      type: object
-      properties:
-        size:
-          type: integer
-        page:
-          type: integer
-        sortBy:
-          type: string
-        ascending:
-          type: boolean
-        storeId:
-          type: integer
-          format: int64
 

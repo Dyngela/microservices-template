@@ -40,8 +40,8 @@ public class StoreApiImpl implements StoreApi {
     }
 
     @Override
-    public ResponseEntity<List<StoreDto>> findStores(Integer size, Integer page, String sortBy, Boolean ascending) {
-        return ResponseEntity.ok(storeModelMapper.modelsToDtos(storeService.findAllStores(size, page, sortBy, ascending)));
+    public ResponseEntity<List<StoreDto>> findStores() {
+        return ResponseEntity.ok(storeModelMapper.modelsToDtos(storeService.findAllStores()));
     }
 
     @Override

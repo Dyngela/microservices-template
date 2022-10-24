@@ -9,38 +9,13 @@ tags:
   - name: store
     description: Everything about store, dixit the merchant.
 paths:
-  /stores/{size}/{page}/{sortby}/{ascending}:
+  /stores:
     get:
       tags:
         - store
       summary: Find all stores
       description: Get all stores
       operationId: findStores
-      parameters:
-        - name: size
-          in: path
-          description: The size of the array wanted, usually no more than 50
-          required: true
-          schema:
-            type: integer
-        - name: page
-          in: path
-          description: The page number to know where to put sql cursor on. Pages start at index 0
-          required: true
-          schema:
-            type: integer
-        - name: sortby
-          in: path
-          description: The name of the field to sort the result by
-          required: true
-          schema:
-            type: string
-        - name: ascending
-          in: path
-          description: Noting if the sorting is ascending or not
-          required: true
-          schema:
-            type: boolean
       responses:
         200:
           description: Successful operation

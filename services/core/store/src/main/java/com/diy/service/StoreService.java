@@ -52,12 +52,8 @@ public class StoreService {
         }
     }
 
-    public List<StoreModel> findAllStores(Integer size, Integer page, String sortBy, Boolean ascending) {
-        Page<StoreEntity> storePage = storeRepository.findAll(
-                PageRequest.of(page, size,
-                ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending())
-        );
-        List<StoreEntity> storeEntities = storePage.getContent();
+    public List<StoreModel> findAllStores() {
+        List<StoreEntity> storeEntities = storeRepository.findAll();
         return storeModelMapper.entitiesToModels(storeEntities, new CycleAvoidingMappingContext());
     }
 

@@ -2,23 +2,14 @@ package com.diy.service;
 
 import com.diy.entity.ProductEntity;
 import com.diy.exception.ExceptionHandler;
-import com.diy.generated.model.CategoryWithProductDto;
-import com.diy.generated.model.CategoryWithoutProductDto;
-import com.diy.generated.model.PagerDto;
-import com.diy.generated.model.ProductDto;
 import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.ProductModelMapper;
 import com.diy.model.ProductModel;
 import com.diy.repository.ProductRepository;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -42,7 +33,7 @@ public class ProductService {
             productRepository.save(productEntity);
             return "Your product has been deleted";
         } catch (Exception e) {
-            log.error("Error while deleting a product : " + e.getMessage());
+            log.error("Error while deleting a product: " + e.getMessage());
             throw new ExceptionHandler("We could not delete your product");
         }
     }
@@ -58,12 +49,9 @@ public class ProductService {
         }
     }
 
-    public List<ProductModel> getAllProductByStoreId(PagerDto pagerDto) {
+    public List<ProductModel> getAllProductByStoreId(Long storeid) {
         try {
-            Page<ProductEntity> productPage = productRepository.findAll(
-                    PageRequest.of(pagerDto.getPage(), pagerDto.getSize(),
-                            pagerDto.getAscending() ? Sort.by(pagerDto.getSortBy()).ascending() : Sort.by(pagerDto.getSortBy()).descending()));
-            List<ProductEntity> productEntity = productPage.getContent();
+            List<ProductEntity> productEntity = productRepository.findAllByStoreId(storeid);
             return productModelMapper.entitiesToModels(productEntity, new CycleAvoidingMappingContext());
         }  catch (Exception e) {
             log.error("Error while finding products: " + e.getMessage());
@@ -104,9 +92,6 @@ public class ProductService {
             log.error("Product model: " + productModel.toString());
             throw new ExceptionHandler("We could not update your information");
         }
-
-
     }
-
 
 }

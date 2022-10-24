@@ -16,5 +16,10 @@ import java.util.Optional;
 @Repository
 public interface StoreRepository extends JpaRepository<StoreEntity, Long>, JpaSpecificationExecutor<StoreEntity> {
     Optional<StoreEntity> findByStoreName(String name);
+//    @Query(name =
+//            "select * from store inner join address on address.store_id = store.store_id where store.deleted_at is null and address.deleted at is null",
+//            nativeQuery = true)
+//    List<StoreEntity> findAllStores();
+
 }
 
