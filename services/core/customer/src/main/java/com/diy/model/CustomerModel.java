@@ -10,4 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerModel {
+
+    Long customerId;
+    String firstName;
+    String lastName;
+    String email;
+    String phoneNumber;
+    Long storeId;
+
 }
