@@ -31,6 +31,7 @@
         <configuration-service.version>1.0.0-SNAPSHOT</configuration-service.version>
         <postgresql.version>42.5.0</postgresql.version>
         <springdoc-open-api.version>1.6.11</springdoc-open-api.version>
+        <spring-security-test>5.7.3</spring-security-test>
     </properties>
 
     <dependencyManagement>
@@ -59,6 +60,12 @@
 <!--            </dependency>-->
 
             <!-- 3rd party libraries -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-test</artifactId>
+                <scope>test</scope>
+                <version>${spring-security-test}</version>
+            </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>

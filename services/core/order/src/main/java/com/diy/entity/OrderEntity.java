@@ -27,7 +27,7 @@ public class OrderEntity {
     Float totalPrice;
 
     @Column(name = "assigned_to")
-    String assignedTo;
+    Long assignedTo;
 
     @Column(name = "order_payed")
     Boolean orderPayed;
