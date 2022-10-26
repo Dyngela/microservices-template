@@ -2,7 +2,10 @@ spring:
   application:
     name: notification
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: localhost:9092
+#    consumer:
+#    producer:
+#      bootstrap-servers: 192.168.1.100:9092
   jpa:
     show-sql: true
     hibernate:

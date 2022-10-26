@@ -1,0 +1,293 @@
+Build Command: mvn install -e -pl com.diy:eureka-server, com.diy:gateway, com.diy:notification, com.diy:product, com.diy:store
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] eureka-server
+[INFO] gateway
+[INFO] notification
+[INFO] product
+[INFO] store
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building eureka-server 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ eureka-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ eureka-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ eureka-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/eureka-server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ eureka-server ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ eureka-server ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.2:jar (default-jar) @ eureka-server ---
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (repackage) @ eureka-server ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (default) @ eureka-server ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ eureka-server ---
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/eureka-server/target/eureka-server-1.0.0-SNAPSHOT.jar to /Users/yul/.m2/repository/com/diy/eureka-server/1.0.0-SNAPSHOT/eureka-server-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/eureka-server/pom.xml to /Users/yul/.m2/repository/com/diy/eureka-server/1.0.0-SNAPSHOT/eureka-server-1.0.0-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building gateway 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ gateway ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ gateway ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ gateway ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/gateway/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ gateway ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ gateway ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.2:jar (default-jar) @ gateway ---
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (repackage) @ gateway ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (default) @ gateway ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ gateway ---
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/gateway/target/gateway-1.0-SNAPSHOT.jar to /Users/yul/.m2/repository/com/diy/gateway/1.0-SNAPSHOT/gateway-1.0-SNAPSHOT.jar
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/config/gateway/pom.xml to /Users/yul/.m2/repository/com/diy/gateway/1.0-SNAPSHOT/gateway-1.0-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building notification 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- openapi-generator-maven-plugin:5.3.1:generate (default) @ notification ---
+[INFO] Generating with dryRun=false
+[INFO] No .openapi-generator-ignore file found.
+[INFO] OpenAPI Generator: spring (server)
+[INFO] Generator 'spring' is considered stable.
+[INFO] ----------------------------------
+[INFO] Processing operation sendNotification
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/src/main/java/com/diy/generated/model/SMSDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/src/main/java/com/diy/generated/api/NotificationApi.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/pom.xml (Skipped by supportingFiles options supplied by user.)
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/README.md (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/src/main/java/com/diy/generated/api/ApiUtil.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/.openapi-generator-ignore (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/.openapi-generator/VERSION
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/generated-sources/openapi/.openapi-generator/FILES
+################################################################################
+# Thanks for using OpenAPI Generator.                                          #
+# Please consider donation to help us maintain this project 🙏                 #
+# https://opencollective.com/openapi_generator/donate                          #
+################################################################################
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ notification ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ notification ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ notification ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ notification ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ notification ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.2:jar (default-jar) @ notification ---
+[INFO] Building jar: /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/notification-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (repackage) @ notification ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ notification ---
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/target/notification-1.0.0-SNAPSHOT.jar to /Users/yul/.m2/repository/com/diy/notification/1.0.0-SNAPSHOT/notification-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/notification/pom.xml to /Users/yul/.m2/repository/com/diy/notification/1.0.0-SNAPSHOT/notification-1.0.0-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building product 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- openapi-generator-maven-plugin:5.3.1:generate (default) @ product ---
+[INFO] Generating with dryRun=false
+[INFO] No .openapi-generator-ignore file found.
+[INFO] OpenAPI Generator: spring (server)
+[INFO] Generator 'spring' is considered stable.
+[INFO] ----------------------------------
+[INFO] Processing operation getAllProductByStoreId
+[INFO] Processing operation findProductById
+[INFO] Processing operation deleteProductById
+[INFO] Processing operation saveProduct
+[INFO] Processing operation getAllCategoryByStoreId
+[INFO] Processing operation getCategoryAndItsProductByStoreId
+[INFO] Processing operation deleteCategoryById
+[INFO] Processing operation saveCategory
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/model/CategoryDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/model/CategoryWithProductDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/model/CategoryWithoutProductDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/model/ProductDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/model/ProductWithoutCategoryDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/api/CategoryApi.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/api/ProductApi.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/pom.xml (Skipped by supportingFiles options supplied by user.)
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/README.md (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/src/main/java/com/diy/generated/api/ApiUtil.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/.openapi-generator-ignore (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/.openapi-generator/VERSION
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/generated-sources/openapi/.openapi-generator/FILES
+################################################################################
+# Thanks for using OpenAPI Generator.                                          #
+# Please consider donation to help us maintain this project 🙏                 #
+# https://opencollective.com/openapi_generator/donate                          #
+################################################################################
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ product ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ product ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 25 source files to /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ product ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ product ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ product ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.2:jar (default-jar) @ product ---
+[INFO] Building jar: /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/product-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (repackage) @ product ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ product ---
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/target/product-1.0.0-SNAPSHOT.jar to /Users/yul/.m2/repository/com/diy/product/1.0.0-SNAPSHOT/product-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/product/pom.xml to /Users/yul/.m2/repository/com/diy/product/1.0.0-SNAPSHOT/product-1.0.0-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building store 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- openapi-generator-maven-plugin:5.3.1:generate (default) @ store ---
+[INFO] Generating with dryRun=false
+[INFO] No .openapi-generator-ignore file found.
+[INFO] OpenAPI Generator: spring (server)
+[INFO] Generator 'spring' is considered stable.
+[INFO] ----------------------------------
+[INFO] Processing operation findStores
+[INFO] Processing operation findStoreById
+[INFO] Processing operation deleteStoreById
+[INFO] Processing operation saveStore
+[INFO] Processing operation findStoreByStoreName
+[INFO] Processing operation findAddressesByStoreId
+[INFO] Processing operation saveAddress
+[INFO] Processing operation findAddressById
+[INFO] Processing operation delete AddressById
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/src/main/java/com/diy/generated/model/AddressDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/src/main/java/com/diy/generated/model/StoreDto.java
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/src/main/java/com/diy/generated/api/StoreApi.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/pom.xml (Skipped by supportingFiles options supplied by user.)
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/README.md (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/src/main/java/com/diy/generated/api/ApiUtil.java
+[INFO] Skipped /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/.openapi-generator-ignore (Skipped by supportingFiles options supplied by user.)
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/.openapi-generator/VERSION
+[INFO] writing file /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/generated-sources/openapi/.openapi-generator/FILES
+################################################################################
+# Thanks for using OpenAPI Generator.                                          #
+# Please consider donation to help us maintain this project 🙏                 #
+# https://opencollective.com/openapi_generator/donate                          #
+################################################################################
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:resources (default-resources) @ store ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:compile (default-compile) @ store ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 20 source files to /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.2.0:testResources (default-testResources) @ store ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] skip non existing resourceDirectory /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.10.1:testCompile (default-testCompile) @ store ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ store ---
+[INFO] Surefire report directory: /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/surefire-reports
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.2:jar (default-jar) @ store ---
+[INFO] Building jar: /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/store-1.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.7.2:repackage (repackage) @ store ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ store ---
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/target/store-1.0.0-SNAPSHOT.jar to /Users/yul/.m2/repository/com/diy/store/1.0.0-SNAPSHOT/store-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/yul/Desktop/dev/learning/MNS/CollectEverything/ce-srv-cleanservice/services/core/store/pom.xml to /Users/yul/.m2/repository/com/diy/store/1.0.0-SNAPSHOT/store-1.0.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] eureka-server ...................................... SUCCESS [  1.486 s]
+[INFO] gateway ............................................ SUCCESS [  0.223 s]
+[INFO] notification ....................................... SUCCESS [  3.603 s]
+[INFO] product ............................................ SUCCESS [  2.278 s]
+[INFO] store .............................................. SUCCESS [  2.670 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 11.374 s
+[INFO] Finished at: 2022-10-26T20:16:40+02:00
+[INFO] Final Memory: 98M/388M
+[INFO] ------------------------------------------------------------------------
+[WARNING] The requested profile "dev" could not be activated because it does not exist.
