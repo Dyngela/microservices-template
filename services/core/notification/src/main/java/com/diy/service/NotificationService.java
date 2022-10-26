@@ -29,7 +29,7 @@ public class NotificationService {
         notificationRepository.save(entity);
     }
 
-    @KafkaListener(topics = "notification-service")
+    @KafkaListener(topics = "notification-service", groupId = "com.diy")
     public void listenForNotification(NotificationModel model) {
         send(model);
     }

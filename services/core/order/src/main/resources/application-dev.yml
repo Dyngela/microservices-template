@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 172.19.176.1:9092
   application:
     name: order
   jpa:

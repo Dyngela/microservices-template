@@ -2,21 +2,24 @@ package com.diy.kafka;
 
 import com.diy.model.NotificationModel;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
-
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String boostrapServers;
@@ -30,12 +33,16 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, NotificationModel> consumerFactory() {
-        return new DefaultKafkaProducerFactory<>(consumerConfig());
+    public ConsumerFactory<String, NotificationModel> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
 
     @Bean
-    public KafkaTemplate<String, NotificationModel> kafkaTemplate(ProducerFactory<String, NotificationModel> consumerFactory) {
-        return new KafkaTemplate<>(consumerFactory);
+    public KafkaListenerContainerFactory<
+            ConcurrentMessageListenerContainer<String, NotificationModel>> factory(ConsumerFactory<String, NotificationModel> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, NotificationModel> kafkaListenerContainerFactory  =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        kafkaListenerContainerFactory .setConsumerFactory(consumerFactory);
+        return kafkaListenerContainerFactory ;
     }
 }
