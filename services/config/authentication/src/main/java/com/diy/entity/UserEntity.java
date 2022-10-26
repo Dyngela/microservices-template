@@ -23,22 +23,16 @@ public class UserEntity {
     @Column(name = "email", unique = true, nullable = false)
     String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "user_password", nullable = false)
     String password;
-
-    @Column(name = "firstname", unique = true, nullable = false)
-    String firstName;
-
-    @Column(name = "lastname", unique = true, nullable = false)
-    String lastName;
-
-    @Column(name = "phonenumber", unique = true, nullable = false)
-    String phoneNumber;
 
     @Column(name = "store_id", nullable = false)
     Long storeId;
 
-    @Column(name = "role", unique = true, nullable = false)
+    @Column(name = "customer_id")
+    Long customerId;
+
+    @Column(name = "user_role", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     Roles role;
 
