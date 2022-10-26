@@ -1,4 +1,4 @@
-package com.diy.model;
+package com.diy.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationModel {
-    Long notificationId;
     Long customerId;
     String message;
     String phoneNumber;

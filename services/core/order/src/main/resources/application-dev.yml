@@ -1,4 +1,6 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
   application:
     name: order
   jpa:
@@ -11,3 +13,5 @@ spring:
     password: gernika54
 server:
   port: 8008
+
+

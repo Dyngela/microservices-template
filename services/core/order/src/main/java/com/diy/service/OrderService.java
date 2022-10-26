@@ -25,6 +25,7 @@ public class OrderService {
 
     OrderModelMapper orderMapper;
     OrderRepository orderRepository;
+    OrderStateService orderStateService;
 
     public OrderModel findOrderById(Long orderId) {
         try {
@@ -64,6 +65,9 @@ public class OrderService {
             orderMapper.updateOrderFromModel(orderModel, orderEntity, new CycleAvoidingMappingContext());
             orderEntity.setUpdatedAt(LocalDateTime.now());
             orderRepository.save(orderEntity);
+            if (true) {
+                orderStateService.orderReady(orderEntity);
+            }
             return orderMapper.entityToModel(orderEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not update order: " + e.getMessage());
