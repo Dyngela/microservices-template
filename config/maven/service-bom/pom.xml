@@ -32,32 +32,14 @@
         <postgresql.version>42.5.0</postgresql.version>
         <springdoc-open-api.version>1.6.11</springdoc-open-api.version>
         <spring-security-test>5.7.3</spring-security-test>
+        <twilio-sdk>7.34</twilio-sdk>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
             <!-- Connected Charger internal modules -->
-<!--            <dependency>-->
-<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
-<!--                <artifactId>connected-charger-configuration</artifactId>-->
-<!--                <version>${configuration-service.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
-<!--                <artifactId>connected-charger-provisioning</artifactId>-->
-<!--                <version>${provisioning-service.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
-<!--                <artifactId>connected-charger-registration</artifactId>-->
-<!--                <version>${registration-service.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.bosch.iot.diy.connectedcharger</groupId>-->
-<!--                <artifactId>connected-charger-proxy</artifactId>-->
-<!--                <version>${proxy-service.version}</version>-->
-<!--            </dependency>-->
+
 
             <!-- 3rd party libraries -->
             <dependency>
@@ -66,6 +48,12 @@
                 <scope>test</scope>
                 <version>${spring-security-test}</version>
             </dependency>
+            <dependency>
+                <groupId>com.twilio.sdk</groupId>
+                <artifactId>twilio</artifactId>
+                <version>${twilio-sdk}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>

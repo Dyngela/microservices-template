@@ -2,9 +2,9 @@ package com.diy.enums;
 
 public enum Status {
     waiting,
-    ongoing,
+    payed,
     treated,
-    problematic,
     ready,
-    shipped
+    shipped,
+    problematic,
 }

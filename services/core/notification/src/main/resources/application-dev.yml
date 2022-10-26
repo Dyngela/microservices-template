@@ -11,3 +11,12 @@ spring:
     password: gernika54
 server:
   port: 8007
+
+twilio:
+  account_sid: AC34f91f7b1d9b35144662cfff0e7c07be
+  auth_token: 4312f5dbd0d9bde84ac2a1d15896a593
+#  auth_token: LTALmjlfUyEO3SxtylYahifddLtk2vZK
+  trial_number: +13237010583
+  account_name: erwan.nutz@gmail.com
+#  password: 2NkBxK4Mh6QqKJPe
+  password: A1a3cecd94b0//22

@@ -42,8 +42,11 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     Roles role;
 
+    @Column(name = "created_at", nullable = false)
     LocalDateTime createdAt;
+    @Column(name = "updated_at")
     LocalDateTime updatedAt;
+    @Column(name = "deleted_at")
     LocalDateTime deletedAt;
 
 

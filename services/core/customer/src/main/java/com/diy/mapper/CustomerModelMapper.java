@@ -18,6 +18,7 @@ public interface CustomerModelMapper {
     List<CustomerModel> dtosToModels(List<CustomerDto> dtos);
 
     CustomerModel entityToModel(CustomerEntity entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+    List<CustomerModel> entitiesToModels(List<CustomerEntity> entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     CustomerEntity modelToEntity(CustomerModel model);
 

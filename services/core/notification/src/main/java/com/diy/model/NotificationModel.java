@@ -10,4 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationModel {
+    Long notificationId;
+    String customerId;
+    String message;
+    String phoneNumber;
 }

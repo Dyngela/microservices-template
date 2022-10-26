@@ -2,6 +2,8 @@ package com.diy.api;
 
 import com.diy.generated.api.CustomerApi;
 import com.diy.generated.model.CustomerDto;
+import com.diy.mapper.CustomerModelMapper;
+import com.diy.service.CustomerService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,9 +18,15 @@ import java.util.List;
 @Log4j2
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomerApiImpl implements CustomerApi {
+
+    CustomerService customerService;
+    CustomerModelMapper modelMapper;
     @Override
     public ResponseEntity<CustomerDto> createCustomer(CustomerDto customerDto) {
-        return null;
+        return ResponseEntity.ok(
+                modelMapper.modelToDto(
+                        customerService.createCustomer(
+                                modelMapper.dtoToModel(customerDto))));
     }
 
     @Override
