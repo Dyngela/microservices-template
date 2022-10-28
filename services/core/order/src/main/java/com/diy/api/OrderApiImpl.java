@@ -26,13 +26,13 @@ public class OrderApiImpl implements OrderApi {
     OrderService orderService;
 
     @Override
-    public ResponseEntity<OrderWithoutPurchaseDto> createOrder(List<PurchaseWithoutOrderDto> purchaseWithoutOrderDto) {
+    public ResponseEntity<OrderWithoutPurchaseDto> createOrder(Long storeId, Long customerId, List<PurchaseWithoutOrderDto> purchaseWithoutOrderDto) {
         return ResponseEntity.ok(
                 modelMapper.modelToOrderWithoutPurchaseDto(
                         orderService.createOrder(
-                                modelMapper.purchaseWithoutOrderDtoToPurchaseModel(purchaseWithoutOrderDto))
-                        )
-                );
+                                modelMapper.purchaseWithoutOrderDtoToPurchaseModel(purchaseWithoutOrderDto), storeId, customerId)
+                )
+        );
     }
 
     @Override

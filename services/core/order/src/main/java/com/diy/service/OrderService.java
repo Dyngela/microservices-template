@@ -91,7 +91,7 @@ public class OrderService {
         }
     }
 
-    public OrderModel createOrder(List<PurchaseModel> purchaseModels) {
+    public OrderModel createOrder(List<PurchaseModel> purchaseModels, Long storeId, Long customerId) {
         try {
             OrderEntity orderEntity = new OrderEntity();
             float orderPrice = 0;
@@ -100,8 +100,12 @@ public class OrderService {
                 orderPrice += purchaseModel.getPrice();
             }
             orderEntity.setTotalPrice(orderPrice);
+            orderEntity.setOrderPayed(false);
             orderEntity.setCreatedAt(LocalDateTime.now());
             orderEntity.setStatus(Status.waiting);
+            orderEntity.setCustomerId(customerId);
+            orderEntity.setStoreId(storeId);
+            orderRepository.saveAndFlush(orderEntity);
             return orderMapper.entityToModel(orderEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not create order: " + e.getMessage());

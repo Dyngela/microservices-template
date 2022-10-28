@@ -14,5 +14,5 @@ public class PurchaseModel {
     Long purchaseId;
     Float price;
     Long productId;
-    OrderModel orderModel;
+    OrderModel order;
 }
