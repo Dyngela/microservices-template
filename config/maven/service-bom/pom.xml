@@ -32,9 +32,8 @@
         <postgresql.version>42.5.0</postgresql.version>
         <springdoc-open-api.version>1.6.11</springdoc-open-api.version>
         <spring-security-test>5.7.3</spring-security-test>
-        <twilio-sdk>7.34</twilio-sdk>
-        <spring-kafka>2.9.2</spring-kafka>
-        <spring-kafka-test>2.9.2</spring-kafka-test>
+        <twilio-sdk>8.8.0</twilio-sdk>
+        <rabbitmq.version>2.7.5</rabbitmq.version>
     </properties>
 
     <dependencyManagement>
@@ -142,15 +141,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>${spring-kafka.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka-test</artifactId>
-                <scope>test</scope>
-                <version>${spring-kafka-test}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${rabbitmq.version}</version>
             </dependency>
 
 

@@ -3,6 +3,7 @@ package com.diy.service;
 import com.diy.entity.OrderEntity;
 import com.diy.enums.Status;
 import com.diy.exception.ExceptionHandler;
+import com.diy.generated.model.OrderStatusDto;
 import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.OrderModelMapper;
 import com.diy.model.OrderModel;
@@ -48,6 +49,8 @@ public class OrderService {
         }
     }
 
+
+
     public List<OrderModel> findOrdersByStoreId(Long storeid) {
         try {
             List<OrderEntity> orderEntities = orderRepository.findAllByStoreId(storeid);
@@ -65,13 +68,25 @@ public class OrderService {
             orderMapper.updateOrderFromModel(orderModel, orderEntity, new CycleAvoidingMappingContext());
             orderEntity.setUpdatedAt(LocalDateTime.now());
             orderRepository.save(orderEntity);
-            if (true) {
-                orderStateService.orderReady(orderEntity);
-            }
             return orderMapper.entityToModel(orderEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not update order: " + e.getMessage());
             log.error("Order model: " + orderModel.toString());
+            throw new ExceptionHandler("We could not update your order");
+        }
+    }
+
+    public String changeOrderStatus(OrderStatusDto orderStatusDto) {
+        try {
+            OrderEntity orderEntity = orderRepository.findById(orderStatusDto.getOrderId()).orElseThrow(
+                    () -> new ExceptionHandler("We could not find your order"));
+            orderEntity.setUpdatedAt(LocalDateTime.now());
+            orderEntity.setStatus(Status.valueOf(orderStatusDto.getStatus()));
+            orderRepository.save(orderEntity);
+            orderStateService.handleOrderStatus(orderEntity);
+            return "Order status updated.";
+        } catch (Exception e) {
+            log.error("We could not update order status: " + e.getMessage());
             throw new ExceptionHandler("We could not update your order");
         }
     }

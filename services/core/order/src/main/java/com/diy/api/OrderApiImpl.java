@@ -2,6 +2,7 @@ package com.diy.api;
 
 import com.diy.generated.api.OrderApi;
 import com.diy.generated.model.OrderDto;
+import com.diy.generated.model.OrderStatusDto;
 import com.diy.generated.model.OrderWithoutPurchaseDto;
 import com.diy.generated.model.PurchaseWithoutOrderDto;
 import com.diy.mapper.OrderModelMapper;
@@ -58,4 +59,10 @@ public class OrderApiImpl implements OrderApi {
     public ResponseEntity<OrderDto> updateOrder(OrderDto orderDto) {
         return ResponseEntity.ok(modelMapper.modelToDto(orderService.updateOrder(modelMapper.dtoToModel(orderDto))));
     }
+
+    @Override
+    public ResponseEntity<String> updateOrderStatus(OrderStatusDto orderStatusDto) {
+        return ResponseEntity.ok(orderService.changeOrderStatus(orderStatusDto));
+    }
+
 }

@@ -1,11 +1,14 @@
 spring:
   application:
     name: notification
+  rabbitmq:
+    addresses: localhost:5672
   kafka:
     bootstrap-servers: localhost:9092
 #    consumer:
 #    producer:
 #      bootstrap-servers: 192.168.1.100:9092
+
   jpa:
     show-sql: true
     hibernate:
@@ -19,9 +22,13 @@ server:
 
 twilio:
   account_sid: AC34f91f7b1d9b35144662cfff0e7c07be
-  auth_token: 4312f5dbd0d9bde84ac2a1d15896a593
-#  auth_token: LTALmjlfUyEO3SxtylYahifddLtk2vZK
-  trial_number: +13237010583
-  account_name: erwan.nutz@gmail.com
-#  password: 2NkBxK4Mh6QqKJPe
-  password: A1a3cecd94b0//22
+  auth_token: 90764088f400e64009b4373d06328f58
+  trial_number: +15005550006
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-key:
+    internal-notification: internal.notification.routing-key

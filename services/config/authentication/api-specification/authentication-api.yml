@@ -12,7 +12,7 @@ paths:
   /users:
     get:
       tags:
-        - authentication
+        - user
       summary: Find all users
       description: Get all users
       operationId: findUsers
@@ -28,6 +28,131 @@ paths:
         404:
           description: Invalid request
           content: {}
+  /users/{storeId}:
+    delete:
+      tags:
+        - user
+      summary: Delete all users by storeId
+      description: Delete all users of a particular store
+      operationId: deleteUsersByStoresId
+      parameters:
+        - name: storeId
+          in: path
+          description: Store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+
+        404:
+          description: Invalid request
+          content: { }
+
+  /user/{userId}:
+    delete:
+      tags:
+        - user
+      summary: Delete a user by userId
+      description: Delete a user
+      operationId: deleteUserByUserId
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+
+        404:
+          description: Invalid request
+          content: { }
+  /user:
+    post:
+      tags:
+        - user
+      summary: Update a user
+      description: Update a user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Invalid request
+          content: { }
+
+
+    put:
+      tags:
+        - user
+      summary: Create a user
+      description: Create a user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Invalid request
+          content: { }
+
+  /auth/login:
+    post:
+      tags:
+        - authentication
+      summary: Try to log a user
+      description: Validate a duet of password and email to generate a jwt token for a user
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Logging'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        404:
+          description: Invalid request
+          content: { }
+
 
 components:
   schemas:
@@ -49,4 +174,12 @@ components:
         storeId:
           type: string
         role:
+          type: string
+
+    Logging:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
           type: string
