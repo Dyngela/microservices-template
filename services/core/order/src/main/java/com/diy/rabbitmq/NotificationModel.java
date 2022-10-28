@@ -1,4 +1,4 @@
-package com.diy.kafka;
+package com.diy.rabbitmq;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: 172.19.176.1:9092
+    bootstrap-servers: localhost:9092
   application:
     name: order
   jpa:
@@ -11,6 +11,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/orders
     username: postgres
     password: gernika54
+  rabbitmq:
+    addresses: localhost:5672
 server:
   port: 8008
 
