@@ -3,6 +3,7 @@ package com.diy.api;
 
 import com.diy.generated.api.ProductApi;
 import com.diy.generated.model.ProductDto;
+import com.diy.generated.model.ProductWithoutCategoryDto;
 import com.diy.mapper.ProductModelMapper;
 import com.diy.model.ProductModel;
 import com.diy.service.ProductService;
@@ -30,21 +31,21 @@ public class ProductApiImpl implements ProductApi {
     }
 
     @Override
-    public ResponseEntity<ProductDto> findProductById(Long productid) {
-        return ResponseEntity.ok(productModelMapper.toProductDto(productService.findProductById(productid)));
+    public ResponseEntity<ProductWithoutCategoryDto> findProductById(Long productid) {
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.findProductById(productid)));
     }
 
 
 
     @Override
-    public ResponseEntity<List<ProductDto>> getAllProductByStoreId(Long storeid) {
-        return ResponseEntity.ok(productModelMapper.modelsToProductDtos(productService.getAllProductByStoreId(storeid)));
+    public ResponseEntity<List<ProductWithoutCategoryDto>> getAllProductByStoreId(Long storeid) {
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.getAllProductByStoreId(storeid)));
     }
 
     @Override
-    public ResponseEntity<ProductDto> saveProduct(ProductDto productDto) {
+    public ResponseEntity<ProductWithoutCategoryDto> saveProduct(ProductDto productDto) {
         ProductModel product = productModelMapper.dtoToModel(productDto);
-        return ResponseEntity.ok(productModelMapper.toProductDto(productService.saveProduct(product)));
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.saveProduct(product)));
     }
 
 }

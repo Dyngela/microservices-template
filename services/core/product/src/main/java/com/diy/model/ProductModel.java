@@ -21,7 +21,7 @@ public class ProductModel {
     String photo;
     Boolean availableInStore;
     Long storeId;
-    CategoryModel categoryEntity;
+    CategoryModel category;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     LocalDateTime deletedAt;

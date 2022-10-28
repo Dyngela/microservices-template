@@ -10,7 +10,7 @@ tags:
     description: Everything about products
 paths:
 
-  /products/{storeid}:
+  /products/storeid/{storeid}:
     get:
       tags:
         - product
@@ -33,7 +33,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/ProductWithoutCategory'
         404:
           description: Invalid request
           content: { }
@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductWithoutCategory'
         404:
           description: Invalid request
           content: { }
@@ -109,12 +109,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductWithoutCategory'
         404:
           description: Invalid request
           content: { }
 
-  /categories/{storeid}:
+  /categories/store/{storeid}:
     get:
       tags:
         - category

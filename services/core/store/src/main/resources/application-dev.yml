@@ -9,6 +9,8 @@ spring:
     password: gernika54
 server:
   port: 8001
+  servlet:
+    context-path: /store/api/
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

@@ -1,7 +1,8 @@
 package com.diy.api;
 
 import com.diy.generated.api.AuthenticationApi;
-import com.diy.generated.model.UserDto;
+
+import com.diy.generated.model.LoggingDto;
 import com.diy.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,14 @@ public class AuthenticationApiImpl implements AuthenticationApi {
     UserService userService;
 
     @Override
-    public ResponseEntity<List<UserDto>> findUsers() {
-        log.info("aze");
-        return ResponseEntity.ok((userService.test()));
+    public ResponseEntity<String> login(LoggingDto loggingDto) {
+        System.out.println(loggingDto.getEmail());
+        System.out.println(loggingDto.getPassword());
+        return ResponseEntity.ok(userService.login(loggingDto.getEmail(), loggingDto.getPassword()));
+    }
+
+    @Override
+    public ResponseEntity<String> validate(String jwt) {
+        return ResponseEntity.ok(userService.getRoleAccordingToJWT(jwt));
     }
 }

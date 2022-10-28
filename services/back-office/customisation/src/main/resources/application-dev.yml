@@ -11,3 +11,5 @@ spring:
     password: gernika54
 server:
   port: 8002
+  servlet:
+    context-path: /customisation/api/

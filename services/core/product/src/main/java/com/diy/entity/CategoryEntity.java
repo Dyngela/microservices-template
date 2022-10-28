@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "category")
@@ -34,6 +35,6 @@ public class CategoryEntity {
     @Column(name = "deleted_at")
     LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "categoryEntity")
-    List<ProductEntity> productEntities;
+    @OneToMany(mappedBy = "category")
+    List<ProductEntity> products;
 }

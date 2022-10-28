@@ -10,4 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomisationModel {
+    Long customisationId;
+    String colorBackground;
+    String colorButton;
+    String font;
+    String catchPhrase;
+    Long storeId;
 }

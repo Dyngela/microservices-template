@@ -11,3 +11,5 @@ spring:
     password: gernika54
 server:
   port: 8005
+  servlet:
+    context-path: /ticket/api/

@@ -1,6 +1,7 @@
 package com.diy.api;
 
 import com.diy.generated.api.CategoryApi;
+import com.diy.generated.model.CategoryDto;
 import com.diy.generated.model.CategoryWithProductDto;
 import com.diy.generated.model.CategoryWithoutProductDto;
 import com.diy.mapper.CategoryModelMapper;

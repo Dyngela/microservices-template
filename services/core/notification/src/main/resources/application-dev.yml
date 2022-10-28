@@ -19,6 +19,8 @@ spring:
     password: gernika54
 server:
   port: 8007
+  servlet:
+    context-path: /notification/api/
 
 twilio:
   account_sid: AC34f91f7b1d9b35144662cfff0e7c07be

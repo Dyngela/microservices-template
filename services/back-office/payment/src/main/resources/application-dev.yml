@@ -11,3 +11,5 @@ spring:
     password: gernika54
 server:
   port: 8003
+  servlet:
+    context-path: /payment/api/

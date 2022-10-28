@@ -9,6 +9,7 @@ tags:
   - name: store
     description: Everything about store, dixit the merchant.
 paths:
+
   /stores:
     get:
       tags:
@@ -29,7 +30,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /store/{storeId}:
+  /store/id/{storeId}:
     get:
       tags:
         - store
@@ -220,7 +221,7 @@ paths:
         - store
       summary: Delete a store
       description: Delete an address by ID
-      operationId: delete AddressById
+      operationId: deleteAddressById
       parameters:
         - name: addressid
           in: path

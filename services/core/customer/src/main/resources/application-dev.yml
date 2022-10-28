@@ -1,6 +1,6 @@
 spring:
   application:
-    name: customisation
+    name: customer
   jpa:
     show-sql: true
     hibernate:
@@ -11,3 +11,5 @@ spring:
     password: gernika54
 server:
   port: 8006
+  servlet:
+    context-path: /customer/api/

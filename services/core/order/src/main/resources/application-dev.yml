@@ -1,6 +1,4 @@
 spring:
-  kafka:
-    bootstrap-servers: localhost:9092
   application:
     name: order
   jpa:
@@ -15,5 +13,7 @@ spring:
     addresses: localhost:5672
 server:
   port: 8008
+  servlet:
+    context-path: /order/api/
 
 

@@ -11,3 +11,5 @@ spring:
     password: gernika54
 server:
   port: 8004
+  servlet:
+    context-path: /subscription/api/

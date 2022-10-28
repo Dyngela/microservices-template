@@ -1,4 +1,5 @@
-package com.diy.security;
+package com.diy.client.auth;
+
 
 import lombok.Getter;
 import lombok.Setter;

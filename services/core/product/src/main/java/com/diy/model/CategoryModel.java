@@ -11,12 +11,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryModel {
     Long categoryId;
     String name;
     Long storeId;
-    List<ProductModel> productEntities;
+    List<ProductModel> products;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     LocalDateTime deletedAt;

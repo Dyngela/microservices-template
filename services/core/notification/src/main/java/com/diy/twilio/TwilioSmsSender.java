@@ -8,6 +8,9 @@ import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service("twilio")
 public class TwilioSmsSender {
 
@@ -33,8 +36,9 @@ public class TwilioSmsSender {
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {
-        // TODO: Implement phone number validator
-        return true;
+        Pattern pattern = Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$");
+        Matcher matcher = pattern.matcher("+111 (202) 555-0125");
+        return matcher.matches();
     }
 
 }

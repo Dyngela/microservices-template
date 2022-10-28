@@ -53,6 +53,6 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    CategoryEntity categoryEntity;
+    CategoryEntity category;
 
 }

@@ -22,7 +22,6 @@ public class OrderStateService {
 
     public void handleOrderStatus(OrderEntity orderEntity) {
         switch (orderEntity.getStatus()) {
-            case payed -> orderPayed(orderEntity);
             case problematic -> orderProblematic(orderEntity);
             case ready -> orderReady(orderEntity);
             default -> throw new ExceptionHandler("Unable to update your order's status");
@@ -35,10 +34,6 @@ public class OrderStateService {
                 "internal.exchange",
                 "internal.notification.routing-key"
                 );
-    }
-
-    private void orderPayed(OrderEntity orderEntity) {
-        // todo doit on faire qqch ici réellement? ou on gère sur le front
     }
 
     private void orderProblematic(OrderEntity orderEntity) {

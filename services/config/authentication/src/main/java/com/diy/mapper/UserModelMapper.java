@@ -3,8 +3,7 @@ package com.diy.mapper;
 import com.diy.entity.UserEntity;
 import com.diy.generated.model.UserDto;
 import com.diy.model.UserModel;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +13,11 @@ import java.util.List;
 public interface UserModelMapper {
     UserDto toDto(UserModel userModel);
     List<UserDto> toDtos(Collection<UserDto> userModels);
-    UserModel entityToModel(UserEntity userEntity);
-    UserEntity toEntity(UserDto userDto);
+    UserModel entityToModel(UserEntity userEntity, @Context CycleAvoidingMappingContext c);
+    UserEntity toEntity(UserModel model);
     UserModel dtoToModel(UserDto userDto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateStoreFromModel(UserModel model, @MappingTarget UserEntity entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+
 }
