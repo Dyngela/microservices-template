@@ -22,6 +22,6 @@ public class OrderModel {
     Long assignedTo;
     Long storeId;
     Long customerId;
-    List<PurchaseModel> purchaseModels;
+    List<PurchaseModel> purchases;
 
 }

@@ -1,8 +1,7 @@
 package com.diy.service;
 
-import com.diy.config.RabbitMQMessageProducer;
+import com.diy.rabbitmq.RabbitMQMessageProducer;
 import com.diy.entity.OrderEntity;
-import com.diy.enums.Status;
 import com.diy.exception.ExceptionHandler;
 import com.diy.rabbitmq.NotificationModel;
 import lombok.AccessLevel;
@@ -10,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import static com.diy.enums.Status.*;
 
 @Service
 @RequiredArgsConstructor

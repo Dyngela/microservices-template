@@ -49,6 +49,6 @@ public class OrderEntity {
     @Column(name = "deleted_at")
     LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "orderEntity")
-    List<PurchaseEntity> purchaseEntities;
+    @OneToMany(mappedBy = "order")
+    List<PurchaseEntity> purchases;
 }

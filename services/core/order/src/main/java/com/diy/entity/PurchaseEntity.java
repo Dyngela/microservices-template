@@ -35,5 +35,5 @@ public class PurchaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    OrderEntity orderEntity;
+    OrderEntity order;
 }

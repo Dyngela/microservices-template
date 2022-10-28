@@ -7,11 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication(
-        scanBasePackages = {
-                "com.diy"
-        }
-)
+@SpringBootApplication
 @Configuration
 @EnableDiscoveryClient
 public class OrderApplication {

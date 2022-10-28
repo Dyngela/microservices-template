@@ -1,4 +1,4 @@
-package com.diy.config;
+package com.diy.rabbitmq;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
