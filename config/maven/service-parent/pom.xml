@@ -15,20 +15,17 @@
     <name>service-parent</name>
     <description>Parent POM for all modules</description>
     <modules>
-        <module>../../../services/config/eureka-server</module>
         <module>../../../services/config/gateway</module>
         <module>../../../services/config/authentication</module>
-        <module>../../../services/config/rabbitMQ</module>
-        <module>../../../services/back-office/customisation</module>
+<!--        <module>../../../services/config/rabbitMQ</module>-->
         <module>../../../services/core/customer</module>
         <module>../../../services/core/notification</module>
         <module>../../../services/core/order</module>
-        <module>../../../services/back-office/payment</module>
         <module>../../../services/core/product</module>
         <module>../../../services/core/store</module>
-        <module>../../../services/back-office/Subscription</module>
-        <module>../../../services/back-office/ticket</module>
-
+<!--        <module>../../../services/back-office/customisation</module>-->
+<!--        <module>../../../services/back-office/payment</module>-->
+<!--        <module>../../../services/back-office/subscription</module>-->
+<!--        <module>../../../services/back-office/ticket</module>-->
     </modules>
-
 </project>
