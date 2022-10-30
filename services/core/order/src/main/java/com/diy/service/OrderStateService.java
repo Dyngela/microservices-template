@@ -1,9 +1,9 @@
 package com.diy.service;
 
-import com.diy.rabbitmq.RabbitMQMessageProducer;
+import com.diy.rabbitMQ.RabbitMQMessageProducer;
 import com.diy.entity.OrderEntity;
 import com.diy.exception.ExceptionHandler;
-import com.diy.rabbitmq.NotificationModel;
+import com.diy.model.NotificationModel;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

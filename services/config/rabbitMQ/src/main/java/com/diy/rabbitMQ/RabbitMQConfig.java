@@ -1,4 +1,4 @@
-package com.diy.rabbitmq;
+package com.diy.rabbitMQ;
 
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;

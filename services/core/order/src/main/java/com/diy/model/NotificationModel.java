@@ -1,4 +1,4 @@
-package com.diy.rabbitmq;
+package com.diy.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
