@@ -10,6 +10,7 @@
     </parent>
     <groupId>com.diy</groupId>
     <artifactId>maven-config</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Maven build configuration for all services</description>
     <properties>
@@ -25,6 +26,9 @@
         <maven-plugin-version>3.0.0-M1</maven-plugin-version>
         <maven-helpen-plugin-version>3.2.0</maven-helpen-plugin-version>
     </properties>
+    <modules>
+        <module>service-bom.xml</module>
+    </modules>
 
     <build>
         <!-- Turn on filtering by default for application properties -->
