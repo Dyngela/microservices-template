@@ -33,6 +33,7 @@
         <postgresql.version>42.5.0</postgresql.version>
         <twilio-sdk>8.8.0</twilio-sdk>
         <rabbitmq.version>2.7.5</rabbitmq.version>
+        <spring-boot.version>2.7.2</spring-boot.version>
     </properties>
     <modules>
         <module>../../pom.xml</module>
@@ -49,6 +50,11 @@
             </dependency>
 
             <!-- 3rd party libraries -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-test</artifactId>
