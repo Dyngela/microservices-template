@@ -30,19 +30,19 @@ public class AddressService {
     AddressModelMapper addressModelMapper;
 
     public List<AddressModel> getAddressesFromStoreId(Long storeId) {
-        StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
+        StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeId, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
         List<AddressEntity> addressEntities = addressRepository.findByStoreAndDeletedAt(storeEntity, null);
         return addressModelMapper.entitiesToModels(addressEntities, new CycleAvoidingMappingContext());
     }
 
     public AddressModel getAddressById(Long addressId) {
-        AddressEntity addressEntity = addressRepository.findById(addressId).orElseThrow(() -> new ExceptionHandler("Address not found"));
+        AddressEntity addressEntity = addressRepository.findByAddressIdAndDeletedAt(addressId, null).orElseThrow(() -> new ExceptionHandler("Address not found"));
         return addressModelMapper.entityToModel(addressEntity, new CycleAvoidingMappingContext());
     }
 
     public String deleteAddress(Long addressId) {
         try {
-            AddressEntity addressEntity = addressRepository.findById(addressId).orElseThrow(() -> new ExceptionHandler("Address not found"));
+            AddressEntity addressEntity = addressRepository.findByAddressIdAndDeletedAt(addressId, null).orElseThrow(() -> new ExceptionHandler("Address not found"));
             addressEntity.setUpdatedAt(LocalDateTime.now());
             addressEntity.setDeletedAt(LocalDateTime.now());
             addressRepository.save(addressEntity);
@@ -63,7 +63,7 @@ public class AddressService {
 
     private AddressModel createAddress(AddressModel addressModel, Long storeId) {
         try {
-            StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeId, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             AddressEntity addressEntity = addressModelMapper.modelToEntity(addressModel);
             addressEntity.setStore(storeEntity);
             addressEntity.setCreatedAt(LocalDateTime.now());
@@ -79,7 +79,8 @@ public class AddressService {
 
     private AddressModel updateAddress(AddressModel addressModel) {
         try {
-            AddressEntity addressEntity = addressRepository.findById(addressModel.getAddressId()).orElseThrow(() -> new ExceptionHandler("Address not found"));
+            AddressEntity addressEntity = addressRepository.findByAddressIdAndDeletedAt(addressModel.getAddressId(), null).orElseThrow(()
+                    -> new ExceptionHandler("Address not found"));
             addressModelMapper.updateStoreFromModel(addressModel, addressEntity, new CycleAvoidingMappingContext());
             addressEntity.setUpdatedAt(LocalDateTime.now());
             addressRepository.save(addressEntity);

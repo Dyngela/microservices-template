@@ -31,26 +31,27 @@ public class CustomerApiImpl implements CustomerApi {
 
     @Override
     public ResponseEntity<String> deleteCustomerById(Long customerId) {
-        return null;
+        return ResponseEntity.ok(customerService.deleteCustomerById(customerId));
     }
 
     @Override
     public ResponseEntity<String> deleteCustomersByStoresId(Long storeId) {
-        return null;
+        return ResponseEntity.ok(customerService.deleteCustomersByStoresId(storeId));
     }
 
     @Override
     public ResponseEntity<CustomerDto> findCustomerById(Long customerId) {
-        return null;
+        return ResponseEntity.ok(modelMapper.modelToDto(customerService.findCustomerById(customerId)));
     }
 
     @Override
     public ResponseEntity<List<CustomerDto>> findCustomersByStoreId(Long storeId) {
-        return null;
+        return ResponseEntity.ok(modelMapper.modelsToDtos(customerService.findCustomersByStoreId(storeId)));
     }
 
     @Override
     public ResponseEntity<CustomerDto> updateCustomer(CustomerDto customerDto) {
-        return null;
+        return ResponseEntity.ok(modelMapper.modelToDto(customerService.updateCustomer(modelMapper.dtoToModel(customerDto))));
     }
+
 }

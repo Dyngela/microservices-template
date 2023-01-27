@@ -30,7 +30,7 @@ public class OrderService {
 
     public OrderModel findOrderById(Long orderId) {
         try {
-            OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(
+            OrderEntity orderEntity = orderRepository.findByOrderIdAndDeletedAt(orderId, null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your order"));
             return orderMapper.entityToModel(orderEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class OrderService {
 
     public List<OrderModel> findOrdersByCustomerId(Long customerId) {
         try {
-            List<OrderEntity> orderEntities = orderRepository.findAllByCustomerId(customerId);
+            List<OrderEntity> orderEntities = orderRepository.findAllByCustomerIdAndDeletedAt(customerId, null);
             return orderMapper.entitiesToModels(orderEntities, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not find orders by customerId: " + e.getMessage());
@@ -53,7 +53,7 @@ public class OrderService {
 
     public List<OrderModel> findOrdersByStoreId(Long storeid) {
         try {
-            List<OrderEntity> orderEntities = orderRepository.findAllByStoreId(storeid);
+            List<OrderEntity> orderEntities = orderRepository.findAllByStoreIdAndDeletedAt(storeid, null);
             return orderMapper.entitiesToModels(orderEntities, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not find orders by storeId: " + e.getMessage());
@@ -63,7 +63,7 @@ public class OrderService {
 
     public OrderModel updateOrder(OrderModel orderModel) {
         try {
-            OrderEntity orderEntity = orderRepository.findById(orderModel.getOrderId()).orElseThrow(
+            OrderEntity orderEntity = orderRepository.findByOrderIdAndDeletedAt(orderModel.getOrderId(), null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your order"));
             orderMapper.updateOrderFromModel(orderModel, orderEntity, new CycleAvoidingMappingContext());
             orderEntity.setUpdatedAt(LocalDateTime.now());
@@ -78,7 +78,7 @@ public class OrderService {
 
     public String changeOrderStatus(OrderStatusDto orderStatusDto) {
         try {
-            OrderEntity orderEntity = orderRepository.findById(orderStatusDto.getOrderId()).orElseThrow(
+            OrderEntity orderEntity = orderRepository.findByOrderIdAndDeletedAt(orderStatusDto.getOrderId(), null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your order"));
             orderEntity.setUpdatedAt(LocalDateTime.now());
             orderEntity.setStatus(Status.valueOf(orderStatusDto.getStatus()));
@@ -116,7 +116,7 @@ public class OrderService {
 
     public String deleteOrderById(Long orderId) {
         try {
-            OrderEntity categoryEntity = orderRepository.findById(orderId).orElseThrow(() ->
+            OrderEntity categoryEntity = orderRepository.findByOrderIdAndDeletedAt(orderId, null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your order"));
             categoryEntity.setUpdatedAt(LocalDateTime.now());
             categoryEntity.setDeletedAt(LocalDateTime.now());
@@ -129,3 +129,4 @@ public class OrderService {
     }
 
 }
+

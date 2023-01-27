@@ -30,7 +30,7 @@ public class CustomerService {
 
     public String deleteCustomerById(Long customerId) {
         try {
-            CustomerEntity entity = customerRepository.findById(customerId).orElseThrow(
+            CustomerEntity entity = customerRepository.findByCustomerIdAndDeletedAt(customerId, null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your account"));
             entity.setDeletedAt(LocalDateTime.now());
             entity.setUpdatedAt(LocalDateTime.now());
@@ -44,7 +44,7 @@ public class CustomerService {
     @Transactional
     public String deleteCustomersByStoresId(Long storeId) {
         try {
-            List<CustomerEntity> entities = customerRepository.findByStoreId(storeId);
+            List<CustomerEntity> entities = customerRepository.findByStoreIdAndDeletedAt(storeId, null);
             entities.forEach(entity -> {
                 entity.setDeletedAt(LocalDateTime.now());
                 entity.setUpdatedAt(LocalDateTime.now());
@@ -59,7 +59,7 @@ public class CustomerService {
 
     public CustomerModel findCustomerById(Long customerId) {
         try {
-            CustomerEntity entity = customerRepository.findById(customerId).orElseThrow(
+            CustomerEntity entity = customerRepository.findByCustomerIdAndDeletedAt(customerId, null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your account"));
             return modelMapper.entityToModel(entity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class CustomerService {
 
     public List<CustomerModel> findCustomersByStoreId(Long storeId) {
         try {
-            List<CustomerEntity> entities = customerRepository.findByStoreId(storeId);
+            List<CustomerEntity> entities = customerRepository.findByStoreIdAndDeletedAt(storeId, null);
             return modelMapper.entitiesToModels(entities, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("Error while finding all customers by storeId: " +  e.getMessage());
@@ -80,7 +80,7 @@ public class CustomerService {
 
     public CustomerModel updateCustomer(CustomerModel model) {
         try {
-            CustomerEntity entity = customerRepository.findById(model.getCustomerId()).orElseThrow(
+            CustomerEntity entity = customerRepository.findByCustomerIdAndDeletedAt(model.getCustomerId(), null).orElseThrow(
                     () -> new ExceptionHandler("We could not find your account"));
             modelMapper.updateCustomerFromModel(model, entity, new CycleAvoidingMappingContext());
             entity.setUpdatedAt(LocalDateTime.now());
@@ -105,5 +105,6 @@ public class CustomerService {
             throw new ExceptionHandler("We could not create your account");
         }
     }
-    
+
+
 }

@@ -28,13 +28,9 @@ public class StoreService {
     StoreModelMapper storeModelMapper;
     StoreRepository storeRepository;
 
-//    static Specification<StoreEntity> storeHasNotBeenDeleted(LocalDateTime deletedAt) {
-//        return (store, cq, cb) -> cb.notEqual(store.get("deletedAt"), deletedAt);
-//    }
-
     public StoreModel findStoreById(Long id) {
         try {
-            StoreEntity storeEntity = storeRepository.findById(id).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(id, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
         }  catch (Exception e) {
             log.error("Error while finding your store: " + e.getMessage());
@@ -44,7 +40,7 @@ public class StoreService {
 
     public StoreModel findStoreByStoreName(String name) {
         try {
-            StoreEntity storeEntity = storeRepository.findByStoreName(name).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            StoreEntity storeEntity = storeRepository.findByStoreNameAndDeletedAt(name, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
         }  catch (Exception e) {
             log.error("Error while finding your store: " + e.getMessage());
@@ -53,7 +49,7 @@ public class StoreService {
     }
 
     public List<StoreModel> findAllStores() {
-        List<StoreEntity> storeEntities = storeRepository.findAll();
+        List<StoreEntity> storeEntities = storeRepository.findAllByDeletedAt(null);
         return storeModelMapper.entitiesToModels(storeEntities, new CycleAvoidingMappingContext());
     }
 
@@ -67,7 +63,7 @@ public class StoreService {
 
     private StoreModel updateStore(StoreModel storeModel) {
         try {
-            StoreEntity storeEntity = storeRepository.findById(storeModel.getStoreId()).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeModel.getStoreId(), null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             storeModelMapper.updateStoreFromModel(storeModel, storeEntity, new CycleAvoidingMappingContext());
             storeEntity.setUpdatedAt(LocalDateTime.now());
             storeRepository.save(storeEntity);
@@ -94,7 +90,7 @@ public class StoreService {
     public String deleteStore(Long storeId) {
         //TODO Delete its dependencies in other microservices
         try {
-            StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeId, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             storeEntity.setUpdatedAt(LocalDateTime.now());
             storeEntity.setDeletedAt(LocalDateTime.now());
             storeEntity.getAddresses().forEach(addressEntity -> {

@@ -30,7 +30,7 @@ public class OrderStateService {
                 new NotificationModel(orderEntity.getCustomerId(), "Your order is ready at our store", "+33 7 70 17 98 18"),
                 "internal.exchange",
                 "internal.notification.routing-key"
-                );
+        );
     }
 
     private void orderProblematic(OrderEntity orderEntity) {
@@ -42,3 +42,4 @@ public class OrderStateService {
     }
 
 }
+

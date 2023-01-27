@@ -4,10 +4,16 @@ import com.diy.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
-    List<OrderEntity> findAllByCustomerId(Long customerId);
-    List<OrderEntity> findAllByStoreId(Long storeId);
+    List<OrderEntity> findAllByCustomerIdAndDeletedAt(Long customerId, LocalDateTime date);
+    List<OrderEntity> findAllByStoreIdAndDeletedAt(Long storeId, LocalDateTime date);
+
+    Optional<OrderEntity> findByOrderIdAndDeletedAt(Long id, LocalDateTime date);
 }
+
+
