@@ -17,11 +17,15 @@
         <module>services/config/authentication</module>
         <module>services/config/clients</module>
         <module>services/config/rabbitMQ</module>
+        <module>services/config/apigateway</module>
+        <module>services/config/eureka</module>
+
         <module>services/core/customer</module>
         <module>services/core/notification</module>
         <module>services/core/order</module>
         <module>services/core/product</module>
         <module>services/core/store</module>
+
         <module>services/back-office/customisation</module>
         <module>services/back-office/payment</module>
         <module>services/back-office/subscription</module>

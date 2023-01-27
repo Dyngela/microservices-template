@@ -9,7 +9,7 @@ tags:
   - name: customer
     description: Everything about customers
 paths:
-  /customer/{customerId}:
+  /customer/profile/{customerId}:
     get:
       tags:
         - customer

@@ -11,8 +11,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
-
 @Controller
 @AllArgsConstructor
 @Log4j2

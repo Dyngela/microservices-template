@@ -10,7 +10,7 @@ spring:
 server:
   port: 8009
   servlet:
-    context-path: /product/api/
+    context-path: api/v1/product/
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

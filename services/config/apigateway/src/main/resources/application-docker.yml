@@ -1,0 +1,50 @@
+server:
+    port: 8083
+
+spring:
+    application:
+        name: api-gateway
+    zipkin:
+        base-url: http://zipkin:9411
+    cloud:
+        gateway:
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins: "*"
+                allowedHeaders:
+                  - content-type
+                  - Authorization
+                  - Access-Control-Request-Method
+                  - Access-Control-Request-Headers
+                allowedMethods:
+                  - GET
+                  - POST
+                  - DELETE
+                  - PUT
+                allowCredentials: true
+          routes:
+            - id: customers
+              uri: lb://CUSTOMERS
+              predicates:
+                - Path=/api/customers/**
+            - id: products
+              uri: lb://PRODUCTS
+              predicates:
+                - Path=/api/products/**
+            - id: notification
+              uri: lb://NOTIFICATION
+              predicates:
+                - Path=/api/notification/**
+            - id: authentification
+              uri: lb://AUTHENTIFICATION
+              predicates:
+                - Path=/api/authentification/**
+            - id: orders
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://eureka-server:8761/eureka
+        fetch-registry: true
+        register-with-eureka: true
