@@ -1,0 +1,116 @@
+---
+services:
+
+  service-discovery:
+    build:
+      args:
+        SERVICE_NAME: eureka-server
+      context: .
+      dockerfile: Dockerfile.ms
+    container_name: eureka-server
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      TZ: ${TZ}
+    networks:
+      - spring
+    ports:
+      - 8080:8761
+
+  service-gateway:
+    build:
+      args:
+        SERVICE_NAME: gateway
+      context: .
+      dockerfile: Dockerfile.ms
+    container_name: gateway
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      SPRING_PROFILES_ACTIVE: docker
+      TZ: ${TZ}
+    networks:
+      - spring
+    depends_on:
+      - service-config
+    ports:
+      - 80:8080
+
+  service-config:
+    build:
+      args:
+        SERVICE_NAME: config-server
+      context: ./services/config/config-server
+    container_name: config-server
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      SPRING_PROFILES_ACTIVE: native,docker
+      TZ: ${TZ}
+    networks:
+      - spring
+    depends_on:
+      - service-discovery
+
+  # service-authentication:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: authentication
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: native
+#        DB_URI: jdbc:postgresql://localhost:5432/customer
+#        DB_USER:
+#        DB_PASS:
+  #   networks:
+  #     - spring
+  #   # depends_on:
+  #   #   - eureka
+
+
+  # service-customer:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: customer
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   networks:
+  #     - spring
+  #   # depends_on:
+  #   #   - eureka
+
+  # service-order:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: order
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   networks:
+  #     - spring
+  #   # depends_on:
+  #   #   - eureka
+
+  # service-store:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: store
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   container_name: service-store
+  #   networks:
+  #     - spring
+  #   # depends_on:
+  #   #   - eureka
+
+  # service-product:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: product
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   container_name: service-product
+  #   networks:
+  #     - spring
+  #   # depends_on:
+  #   #   - eureka
+
+networks:
+  spring:

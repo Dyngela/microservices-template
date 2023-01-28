@@ -1,0 +1,14 @@
+server:
+  port: 8006
+  servlet:
+    context-path: /api/v1/customer/
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/customer
+    username: postgres
+    password: gernika54
