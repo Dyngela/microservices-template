@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/notification/
+
+spring:
+  rabbitmq:
+    addresses: ${RABBITMQ_URI}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${DB_URI}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+
+twilio:
+  account_sid: ${TWILIO_SID}
+  auth_token: ${TWILIO_TOKEN}
+  trial_number: ${TWILIO_NUM}
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-key:
+    internal-notification: internal.notification.routing-key

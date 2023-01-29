@@ -1,3 +1,8 @@
+server:
+  port: 8002
+  servlet:
+    context-path: /api/v1/customisation/
+
 spring:
   application:
     name: customisation
@@ -9,7 +14,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/customisation
     username: postgres
     password: gernika54
-server:
-  port: 8002
-  servlet:
-    context-path: api/v1/customisation/

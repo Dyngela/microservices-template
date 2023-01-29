@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication(
         scanBasePackages = {
-                "com.diy.rabbitmq",
+                "com.diy.rabbitMQ",
                 "com.diy"
         }
 )

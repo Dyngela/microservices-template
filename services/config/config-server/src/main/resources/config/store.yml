@@ -1,0 +1,12 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /api/v1/store/
+
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/store
+    username: postgres
+    password: gernika54

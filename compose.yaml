@@ -9,10 +9,10 @@ services:
       dockerfile: Dockerfile.ms
     container_name: eureka-server
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       TZ: ${TZ}
     networks:
-      - spring
+      - net-ms
     ports:
       - 8080:8761
 
@@ -25,10 +25,10 @@ services:
     container_name: gateway
     environment:
       EUREKA_URI: ${EUREKA_URI}
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       TZ: ${TZ}
     networks:
-      - spring
+      - net-ms
     depends_on:
       - service-config
     ports:
@@ -42,29 +42,32 @@ services:
     container_name: config-server
     environment:
       EUREKA_URI: ${EUREKA_URI}
-      SPRING_PROFILES_ACTIVE: native,docker
+      SPRING_PROFILES_ACTIVE: native,${SPRING_PROFILES_ACTIVE}
       TZ: ${TZ}
     networks:
-      - spring
+      - net-ms
     depends_on:
       - service-discovery
 
-  # service-authentication:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: authentication
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   environment:
-  #     SPRING_PROFILES_ACTIVE: native
-#        DB_URI: jdbc:postgresql://localhost:5432/customer
-#        DB_USER:
-#        DB_PASS:
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
-
+  service-authentication:
+    build:
+      args:
+        SERVICE_NAME: authentication
+      context: .
+      dockerfile: Dockerfile.ms
+    container_name: authentication
+    environment:
+      DB_URI: ${DB_URI}/authentication
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      EUREKA_URI: ${EUREKA_URI}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      TZ: ${TZ}
+    networks:
+      - net-ms
+      - net-postgres
+    depends_on:
+      - service-gateway
 
   # service-customer:
   #   build:
@@ -112,5 +115,59 @@ services:
   #   # depends_on:
   #   #   - eureka
 
+  postgres:
+    build:
+      context: ./external/db
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ}
+      PGTZ: ${TZ}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    networks:
+      - net-postgres
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - net-rabbitmq
+
+  # service-notification:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: notification
+  #     context: .
+  #     dockerfile: Dockerfile.ms
+  #   container_name: notification
+  #   environment:
+  #     RABBITMQ_URI: ${RABBITMQ_URI}
+  #     DB_URI: ${DB_URI}/customer
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     TWILIO_SID: ${TWILIO_SID}
+  #     TWILIO_TOKEN: ${TWILIO_TOKEN}
+  #     TWILIO_NUM: ${TWILIO_NUM}
+  #     TZ: ${TZ}
+  #   networks:
+  #     - net-ms
+  #     - net-postgres
+  #     - net-rabbitmq
+  #   depends_on:
+  #     - service-config
+  #     - postgres
+  #     - rabbitmq
+
 networks:
-  spring:
+  net-ms:
+  net-postgres:
+  net-rabbitmq:

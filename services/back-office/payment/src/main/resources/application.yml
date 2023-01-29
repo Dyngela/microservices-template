@@ -1,9 +1,6 @@
-server:
-  port: 8080
-
 spring:
   application:
-    name: gateway
+    name: payment
   config:
     import: "optional:configserver:"
   cloud:

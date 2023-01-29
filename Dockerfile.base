@@ -1,16 +1,3 @@
-# FROM debian:bookworm-slim
-# ENV DEBIAN_FRONTEND=noninteractive
-# RUN apt-get update && apt-get upgrade -y
-# RUN apt-get install -y \
-#     git \
-#     wget \
-#     maven
-# ENV MVN_VERSION=3.8.7
-# RUN wget https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.tar.gz
-# RUN tar -xvzf apache-maven-${MVN_VERSION}-bin.tar.gz && mv apache-maven-${MVN_VERSION} /maven
-# RUN git clone --depth 1 https://ce-dev:FiWHUDMrXfy-XVAZwbFN@git.ars-virtualis.org/yul/ce-cfg-external /collect
-
-
 FROM openjdk:17-alpine as builder
 RUN apk add --update-cache \
     ncdu \
@@ -27,24 +14,25 @@ COPY config ${SRC}/config
 COPY services ${SRC}/services
 ENV SPRING_PROFILES_ACTIVE=docker
 RUN mvn verify --fail-never
+RUN mvn package -pl com.diy:service-parent
+RUN mvn package -pl com.diy:rabbitMQ
+
+
+FROM builder AS compiler
 RUN mvn package -pl com.diy:eureka-server
 RUN mvn package -pl com.diy:config-server
 RUN mvn package -pl com.diy:gateway
-# RUN mvn package -pl com.diy:rabbitMQ
-# 
-# RUN mvn package -pl com.diy:service-parent
-# RUN mvn package -pl com.diy:authentication
-# RUN mvn package -pl com.diy:clients
-# RUN mvn package -pl com.diy:rabbitMQ
-# RUN mvn package -pl com.diy:customer
-# RUN mvn package -pl com.diy:product
-# RUN mvn package -pl com.diy:store
-# # RUN mvn package -pl com.diy:notification
-# # RUN mvn package -pl com.diy:order
-# # RUN mvn package -pl com.diy:customisation
-# # RUN mvn package -pl com.diy:payment
-# # RUN mvn package -pl com.diy:subscription
-# # RUN mvn package -pl com.diy:ticket
+RUN mvn package -pl com.diy:notification,com.diy:rabbitMQ
+RUN mvn package -pl com.diy:authentication
+RUN mvn package -pl com.diy:clients
+RUN mvn package -pl com.diy:customer
+RUN mvn package -pl com.diy:order,com.diy:rabbitMQ
+RUN mvn package -pl com.diy:product
+RUN mvn package -pl com.diy:store
+RUN mvn package -pl com.diy:customisation
+# RUN mvn package -pl com.diy:payment
+# RUN mvn package -pl com.diy:subscription
+# RUN mvn package -pl com.diy:ticket
 
 
 FROM debian:bookworm-slim
@@ -52,17 +40,15 @@ ENV SRC=/usr/project/services
 ENV DST=/opt/project
 RUN mkdir -p ${DST}
 ENV VERSION="1.0-SNAPSHOT"
-COPY --from=builder ${SRC}/config/eureka-server/target/eureka-server-${VERSION}.jar ${DST}/eureka-server.jar
-COPY --from=builder ${SRC}/config/gateway/target/gateway-${VERSION}.jar ${DST}/gateway.jar
-COPY --from=builder ${SRC}/config/config-server/target/config-server-${VERSION}.jar ${DST}/config-server.jar
-COPY --from=builder ${SRC}/config/config-server/src/main/resources/config /data/config
-# COPY --from=builder ${SRC}/config/rabbitMQ/target/rabbitMQ-${VERSION}.jar ${DST}/rabbitMQ.jar
-
-# COPY --from=builder ${SRC}/config/authentication/target/authentication-${VERSION}.jar ${DST}/authentication.jar
-# COPY --from=builder ${SRC}/config/clients/target/clients-${VERSION}.jar ${DST}/clients.jar
-# COPY --from=builder ${SRC}/config/rabbitMQ/target/rabbitMQ-${VERSION}.jar ${DST}/rabbitMQ.jar
-# COPY --from=builder ${SRC}/core/customer/target/customer-${VERSION}.jar ${DST}/customer.jar
-# COPY --from=builder ${SRC}/core/notification/target/notification-${VERSION}.jar ${DST}/notification.jar
-# COPY --from=builder ${SRC}/core/order/target/order-${VERSION}.jar ${DST}/order.jar
-# COPY --from=builder ${SRC}/core/product/target/product-${VERSION}.jar ${DST}/product.jar
-# COPY --from=builder ${SRC}/core/store/target/store-${VERSION}.jar ${DST}/store.jar
+COPY --from=compiler ${SRC}/config/eureka-server/target/eureka-server-${VERSION}.jar ${DST}/eureka-server.jar
+COPY --from=compiler ${SRC}/config/gateway/target/gateway-${VERSION}.jar ${DST}/gateway.jar
+COPY --from=compiler ${SRC}/config/config-server/target/config-server-${VERSION}.jar ${DST}/config-server.jar
+COPY --from=compiler ${SRC}/config/config-server/src/main/resources/config /data/config
+COPY --from=compiler ${SRC}/core/notification/target/notification-${VERSION}.jar ${DST}/notification.jar
+COPY --from=compiler ${SRC}/config/authentication/target/authentication-${VERSION}.jar ${DST}/authentication.jar
+COPY --from=compiler ${SRC}/config/clients/target/clients-${VERSION}.jar ${DST}/clients.jar
+COPY --from=compiler ${SRC}/core/customer/target/customer-${VERSION}.jar ${DST}/customer.jar
+COPY --from=compiler ${SRC}/core/order/target/order-${VERSION}.jar ${DST}/order.jar
+COPY --from=compiler ${SRC}/core/product/target/product-${VERSION}.jar ${DST}/product.jar
+COPY --from=compiler ${SRC}/core/store/target/store-${VERSION}.jar ${DST}/store.jar
+COPY --from=compiler ${SRC}/back-office/customisation/target/customisation-${VERSION}.jar ${DST}/customisation.jar

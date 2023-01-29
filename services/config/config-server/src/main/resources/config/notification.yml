@@ -1,14 +1,11 @@
+server:
+  port: 8007
+  servlet:
+    context-path: /api/v1/notification/
+
 spring:
-  application:
-    name: notification
   rabbitmq:
     addresses: localhost:5672
-  kafka:
-    bootstrap-servers: localhost:9092
-#    consumer:
-#    producer:
-#      bootstrap-servers: 192.168.1.100:9092
-
   jpa:
     show-sql: true
     hibernate:
@@ -17,10 +14,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/notification
     username: postgres
     password: gernika54
-server:
-  port: 8007
-  servlet:
-    context-path: /api/v1/notification/
 
 twilio:
   account_sid: AC34f91f7b1d9b35144662cfff0e7c07be

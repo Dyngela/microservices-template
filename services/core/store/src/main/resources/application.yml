@@ -1,11 +1,6 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /api/v1/customer/
-
 spring:
   application:
-    name: customer
+    name: store
   config:
     import: "optional:configserver:"
   cloud:
@@ -19,14 +14,6 @@ spring:
         multiplier: 1.5
         maxInterval: 60000
         maxAttempts: 100
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: ${DB_URI}
-    username: ${DB_USER}
-    password: ${DB_PASS}
 
 eureka:
   client:

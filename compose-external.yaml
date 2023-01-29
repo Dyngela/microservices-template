@@ -1,0 +1,29 @@
+---
+services:
+
+  postgres:
+    build:
+      context: ./external/db
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ}
+      PGTZ: ${TZ}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ}
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+networks:
+  net-ms:
+  net-postgres:
+  net-rabbitmq:

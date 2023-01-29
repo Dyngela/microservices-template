@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   cloud:
     gateway:
@@ -59,7 +62,3 @@ spring:
           uri: lb://STORE
           predicates:
             - Path=/store/api/**
-
-server:
-  port: 8080
-

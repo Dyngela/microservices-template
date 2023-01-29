@@ -1,0 +1,12 @@
+server:
+  port: 8009
+  servlet:
+    context-path: /api/v1/product/
+
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product
+    username: postgres
+    password: gernika54

@@ -1,4 +1,9 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: gateway
   cloud:
     gateway:
       globalcors:
@@ -59,6 +64,3 @@ spring:
           uri: lb://STORE
           predicates:
             - Path=/store/api/**
-
-server:
-  port: 8080

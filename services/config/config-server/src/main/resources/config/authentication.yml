@@ -1,7 +1,7 @@
 server:
-  port: 8006
+  port: 8000
   servlet:
-    context-path: /api/v1/customer/
+    context-path: /api/v1/authentication/
 
 spring:
   jpa:
@@ -9,7 +9,8 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/customer
+    # url: ${env.DB_URI}
+    url: jdbc:postgresql://localhost:5432/authentication
     username: postgres
     password: gernika54
 

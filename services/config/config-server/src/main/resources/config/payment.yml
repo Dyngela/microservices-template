@@ -1,3 +1,8 @@
+server:
+  port: 8003
+  servlet:
+    context-path: /api/v1/payment/
+
 spring:
   application:
     name: payment
@@ -9,7 +14,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/payment
     username: postgres
     password: gernika54
-server:
-  port: 8003
-  servlet:
-    context-path: /api/v1/payment/

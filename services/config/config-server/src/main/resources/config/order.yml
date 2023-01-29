@@ -1,6 +1,9 @@
+server:
+  port: 8008
+  servlet:
+    context-path: /api/v1/order/
+
 spring:
-  application:
-    name: order
   jpa:
     show-sql: true
     hibernate:
@@ -11,9 +14,3 @@ spring:
     password: gernika54
   rabbitmq:
     addresses: localhost:5672
-server:
-  port: 8008
-  servlet:
-    context-path: /api/v1/order/
-
-
