@@ -29,53 +29,13 @@ paths:
           description: Invalid request
           content: { }
 
-  /subscriptionType:
-    post:
+  /{storeId}:
+    get:
       tags:
         - subscription
-      summary: Update a subscription type
-      description: Update a subscription type
-      operationId: updateSubscriptionType
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SubscriptionType'
-      responses:
-        200:
-          description: Successful operation
-          content: { }
-        404:
-          description: Invalid request
-          content: { }
-    put:
-      tags:
-        - subscription
-      summary: Create a subscription type
-      description: Create a subscription type
-      operationId: CreateSubscriptionType
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SubscriptionType'
-      responses:
-        200:
-          description: Successful operation
-          content: { }
-        404:
-          description: Invalid request
-          content: { }
-
-  /subscription/{storeId}:
-    post:
-      tags:
-        - subscription
-      summary: Update a subscription for a given store
-      description: Update a subscription for a given store
-      operationId: updateStoreSubscription
+      summary: Get subscription for a given store
+      description: Create a subscription for a given store
+      operationId: GetStoreSubscription
       parameters:
         - name: storeId
           in: path
@@ -87,11 +47,59 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: { }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
         404:
           description: Invalid request
           content: { }
 
+  /save:
+    post:
+      tags:
+        - subscription
+      summary: Update a subscription for a given store
+      description: Update a subscription for a given store
+      operationId: updateStoreSubscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveSubscription'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Invalid request
+          content: { }
+    put:
+      tags:
+        - subscription
+      summary: Create a subscription for a given store
+      description: Create a subscription for a given store
+      operationId: createStoreSubscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveSubscription'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Invalid request
+          content: { }
 
 components:
   schemas:
@@ -128,3 +136,21 @@ components:
           type: string
         price:
           type: number
+
+    SaveSubscription:
+      type: object
+      properties:
+        subscriptionId:
+          type: integer
+          format: int64
+        storeId:
+          type: integer
+          format: int64
+        dateStart:
+          type: string
+        dateEnd:
+          type: string
+        paymentType:
+          type: string
+        subscriptionType:
+          $ref: '#/components/schemas/SubscriptionType'

@@ -24,9 +24,9 @@ public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryModelMapper categoryModelMapper;
 
-    public List<CategoryModel> getAllCategoryByStoreId(Long storeid) {
+    public List<CategoryModel> getAllCategoryByStoreId(Long storeId) {
         try {
-            List<CategoryEntity> categoryEntities = categoryRepository.findAllByStoreIdAndDeletedAt(storeid, null);
+            List<CategoryEntity> categoryEntities = categoryRepository.findAllByStoreIdAndDeletedAt(storeId, null);
             return categoryModelMapper.entitiesToModels(categoryEntities, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("Error while finding your category by categoryid: " + e.getMessage());
@@ -34,9 +34,9 @@ public class CategoryService {
         }
     }
 
-    public CategoryModel getCategoryAndItsProductByStoreId(Long categoryid, Long storeid) {
+    public CategoryModel getCategoryAndItsProductByStoreId(Long categoryId) {
         try {
-            CategoryEntity categoryEntity = categoryRepository.findByCategoryIdAndStoreIdAndDeletedAtAndDeletedAt(categoryid, storeid, null, null).orElseThrow(() ->
+            CategoryEntity categoryEntity = categoryRepository.findByCategoryIdAndDeletedAt(categoryId, null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your category"));
             return categoryModelMapper.entityToModel(categoryEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
@@ -46,14 +46,7 @@ public class CategoryService {
 
     }
 
-    public CategoryModel saveCategory(CategoryModel categoryModel) {
-        if (categoryModel.getCategoryId() == null)
-            return createCategory(categoryModel);
-        else
-            return updateCategory(categoryModel);
-    }
-
-    private CategoryModel createCategory(CategoryModel categoryModel) {
+    public CategoryModel createCategory(CategoryModel categoryModel) {
         try {
             CategoryEntity categoryEntity = categoryModelMapper.modelToEntity(categoryModel);
             categoryEntity.setCreatedAt(LocalDateTime.now());
@@ -62,28 +55,29 @@ public class CategoryService {
         } catch (Exception e) {
             log.error("Error while creating a category: " + e.getMessage());
             log.error("Category model: " + categoryModel.toString());
-            throw new ExceptionHandler("We could not create your product");
+            throw new ExceptionHandler("We could not create your category of product");
         }
 
     }
 
-    private CategoryModel updateCategory(CategoryModel categoryModel) {
+    public CategoryModel updateCategory(CategoryModel categoryModel) {
         try {
             CategoryEntity categoryEntity = categoryRepository.findByCategoryIdAndDeletedAt(categoryModel.getCategoryId(), null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your category"));
             categoryModelMapper.updateCategoryFromModel(categoryModel, categoryEntity, new CycleAvoidingMappingContext());
             categoryEntity.setUpdatedAt(LocalDateTime.now());
+            categoryRepository.save(categoryEntity);
             return categoryModelMapper.entityToModel(categoryEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("Error while updating a category: " + e.getMessage());
             log.error("Category model: " + categoryModel.toString());
-            throw new ExceptionHandler("We could not update your product");
+            throw new ExceptionHandler("We could not update your category of product");
         }
     }
 
-    public String deleteCategoryById(Long categoryid) {
+    public String deleteCategoryById(Long categoryId) {
         try {
-            CategoryEntity categoryEntity = categoryRepository.findByCategoryIdAndDeletedAt(categoryid, null).orElseThrow(() ->
+            CategoryEntity categoryEntity = categoryRepository.findByCategoryIdAndDeletedAt(categoryId, null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your category"));
             categoryEntity.setUpdatedAt(LocalDateTime.now());
             categoryEntity.setDeletedAt(LocalDateTime.now());

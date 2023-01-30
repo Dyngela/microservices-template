@@ -42,10 +42,10 @@ public class CustomisationService {
 
     public String deleteCustomisationById(Long customisationId) {
         try {
-            CustomisationEntity storeEntity = customisationRepository.findById(customisationId).orElseThrow(() -> new ExceptionHandler("Theme not found"));
-            storeEntity.setUpdatedAt(LocalDateTime.now());
-            storeEntity.setDeletedAt(LocalDateTime.now());
-            customisationRepository.save(storeEntity);
+            CustomisationEntity entity = customisationRepository.findById(customisationId).orElseThrow(() -> new ExceptionHandler("Theme not found"));
+            entity.setUpdatedAt(LocalDateTime.now());
+            entity.setDeletedAt(LocalDateTime.now());
+            customisationRepository.save(entity);
             return "Your theme has been successfully deleted";
         } catch (Exception e) {
             log.error("Error while deleting a theme: " + e.getMessage());
@@ -64,12 +64,19 @@ public class CustomisationService {
     }
 
     public List<CustomisationModel> findCustomisationByStoreId(Long storeId) {
-        return null;
+        try {
+            List<CustomisationEntity> entites = customisationRepository.findAllByStoreIdAndDeletedAt(storeId, null);
+            return modelMapper.entitiesToModels(entites, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while finding your list of theme: " + e.getMessage());
+            throw new ExceptionHandler("We could not find your list of theme");
+        }
     }
 
     public CustomisationModel updateCustomisation(CustomisationModel model) {
         try {
-            CustomisationEntity entity = modelMapper.modelToEntity(model);
+
+            CustomisationEntity entity = customisationRepository.findById(model.getCustomisationId()).orElseThrow(() -> new ExceptionHandler("Theme not found"));
             modelMapper.updateStoreFromModel(model, entity, new CycleAvoidingMappingContext());
             entity.setUpdatedAt(LocalDateTime.now());
             customisationRepository.save(entity);

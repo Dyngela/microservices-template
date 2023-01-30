@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
     List<CategoryEntity> findAllByStoreIdAndDeletedAt(Long storeid, LocalDateTime date);
-    Optional<CategoryEntity> findByCategoryIdAndStoreIdAndDeletedAtAndDeletedAt(Long categoryId, Long storeId, LocalDateTime date, LocalDateTime date2);
     Optional<CategoryEntity> findByCategoryIdAndDeletedAt(Long id, LocalDateTime date);
 }
 

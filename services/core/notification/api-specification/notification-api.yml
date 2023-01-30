@@ -9,7 +9,7 @@ tags:
   - name: notification
     description: Everything about notification
 paths:
-  /notification/send:
+  /send:
     post:
       tags:
         - notification

@@ -29,7 +29,7 @@
 
         <module>services/back-office/customisation</module>
 <!--        <module>services/back-office/payment</module>-->
-<!--        <module>services/back-office/subscription</module>-->
-<!--        <module>services/back-office/ticket</module>-->
+        <module>services/back-office/subscription</module>
+        <module>services/back-office/ticket</module>
     </modules>
 </project>

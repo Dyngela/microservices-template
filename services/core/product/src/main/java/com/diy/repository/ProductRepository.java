@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findAllByStoreIdAndDeletedAt(Long storeid, LocalDateTime date);
-    Optional<ProductEntity> findByIdAndDeletedAt(Long id, LocalDateTime date);
+    Optional<ProductEntity> findByProductIdAndDeletedAt(Long id, LocalDateTime date);
 
 }

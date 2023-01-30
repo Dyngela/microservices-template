@@ -1,26 +1,58 @@
+#spring:
+#  application:
+#    name: notification
+#  config:
+#    import: "optional:configserver:"
+#  cloud:
+#    config:
+#      fail-fast: true
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#      retry:
+#        initialInterval: 2000
+#        multiplier: 1.5
+#        maxInterval: 60000
+#        maxAttempts: 100
+#
+#eureka:
+#  client:
+#    service-url:
+#      enabled: true
+#      fetch-registry: true
+#      register-with-eureka: true
+#      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+#  instance:
+#    lease-renewal-interval-in-seconds: 10
+
+server:
+  port: 8007
+  servlet:
+    context-path: /notification/api/v1/
+
 spring:
   application:
     name: notification
-  config:
-    import: "optional:configserver:"
-  cloud:
-    config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+  rabbitmq:
+    addresses: localhost:5672
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification
+    username: postgres
+    password: gernika54
 
-eureka:
-  client:
-    service-url:
-      enabled: true
-      fetch-registry: true
-      register-with-eureka: true
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
-  instance:
-    lease-renewal-interval-in-seconds: 10
+twilio:
+  account_sid: AC34f91f7b1d9b35144662cfff0e7c07be
+  auth_token: 90764088f400e64009b4373d06328f58
+  trial_number: +15005550006
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-key:
+    internal-notification: internal.notification.routing-key

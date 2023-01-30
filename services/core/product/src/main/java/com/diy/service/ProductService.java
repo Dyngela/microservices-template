@@ -26,7 +26,7 @@ public class ProductService {
 
     public String deleteProductById(Long productid) {
         try {
-            ProductEntity productEntity = productRepository.findByIdAndDeletedAt(productid, null).orElseThrow(() ->
+            ProductEntity productEntity = productRepository.findByProductIdAndDeletedAt(productid, null).orElseThrow(() ->
                     new ExceptionHandler("We could not find the product you want to delete"));
             productEntity.setUpdatedAt(LocalDateTime.now());
             productEntity.setDeletedAt(LocalDateTime.now());
@@ -40,7 +40,7 @@ public class ProductService {
 
     public ProductModel findProductById(Long productid) {
         try {
-            ProductEntity productEntity = productRepository.findByIdAndDeletedAt(productid, null).orElseThrow(() ->
+            ProductEntity productEntity = productRepository.findByProductIdAndDeletedAt(productid, null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your product"));
             return productModelMapper.entityToModel(productEntity, new CycleAvoidingMappingContext());
         }  catch (Exception e) {
@@ -59,14 +59,7 @@ public class ProductService {
         }
     }
 
-    public ProductModel saveProduct(ProductModel productModel) {
-        if (productModel.getProductId() == null)
-            return createProduct(productModel);
-        else
-            return updateProduct(productModel);
-    }
-
-    private ProductModel createProduct(ProductModel productModel) {
+    public ProductModel createProduct(ProductModel productModel) {
         try {
             ProductEntity productEntity = productModelMapper.modelToEntity(productModel);
             productEntity.setCreatedAt(LocalDateTime.now());
@@ -79,9 +72,9 @@ public class ProductService {
         }
     }
 
-    private ProductModel updateProduct(ProductModel productModel) {
+    public ProductModel updateProduct(ProductModel productModel) {
         try {
-            ProductEntity productEntity = productRepository.findByIdAndDeletedAt(productModel.getProductId(), null).orElseThrow(() ->
+            ProductEntity productEntity = productRepository.findByProductIdAndDeletedAt(productModel.getProductId(), null).orElseThrow(() ->
                     new ExceptionHandler("We could not find your product"));
             productModelMapper.updateStoreFromModel(productModel, productEntity, new CycleAvoidingMappingContext());
             productEntity.setUpdatedAt(LocalDateTime.now());

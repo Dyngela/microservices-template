@@ -10,7 +10,7 @@ tags:
     description: Everything about products
 paths:
 
-  /products/storeid/{storeid}:
+  /product/all/{storeId}:
     get:
       tags:
         - product
@@ -18,7 +18,7 @@ paths:
       description: Get all product related to a store
       operationId: getAllProductByStoreId
       parameters:
-        - name: storeid
+        - name: storeId
           in: path
           description: Store ID
           required: true
@@ -38,7 +38,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /product/{productid}:
+  /product/{productId}:
     get:
       tags:
         - product
@@ -46,7 +46,7 @@ paths:
       description: Get a product by id
       operationId: findProductById
       parameters:
-        - name: productid
+        - name: productId
           in: path
           description: Product ID
           required: true
@@ -71,7 +71,7 @@ paths:
       description: Delete a product by ID
       operationId: deleteProductById
       parameters:
-        - name: productid
+        - name: productId
           in: path
           description: Product ID
           required: true
@@ -90,13 +90,35 @@ paths:
           description: Invalid request
           content: { }
 
-  /product:
+  /product/save:
     post:
       tags:
         - product
-      summary: Create or update a product
+      summary: Update a product
       description: Get a product object and potentially a category object nested, from the body
-      operationId: saveProduct
+      operationId: updateProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithoutCategory'
+        404:
+          description: Invalid request
+          content: { }
+    put:
+      tags:
+        - product
+      summary: Create a product
+      description: Get a product object and potentially a category object nested, from the body
+      operationId: createProduct
       requestBody:
         required: true
         content:
@@ -114,7 +136,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /categories/store/{storeid}:
+  /categories/{storeId}:
     get:
       tags:
         - category
@@ -122,7 +144,7 @@ paths:
       description: Get all categories related to a store
       operationId: getAllCategoryByStoreId
       parameters:
-        - name: storeid
+        - name: storeId
           in: path
           description: Store ID
           required: true
@@ -142,7 +164,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /category/{storeid}/{categoryid}:
+  /category/{categoryId}:
     get:
       tags:
         - category
@@ -150,16 +172,9 @@ paths:
       description: Get a single category and all its product associated. According to a specific store id
       operationId: getCategoryAndItsProductByStoreId
       parameters:
-        - name: storeid
+        - name: categoryId
           in: path
           description: Store ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: categoryid
-          in: path
-          description: Category ID
           required: true
           schema:
             type: integer
@@ -175,7 +190,6 @@ paths:
           description: Invalid request
           content: { }
 
-  /category/{categoryid}:
     delete:
       tags:
         - category
@@ -183,9 +197,9 @@ paths:
       description: Delete a category by ID
       operationId: deleteCategoryById
       parameters:
-        - name: categoryid
+        - name: categoryId
           in: path
-          description: Category ID
+          description: store ID
           required: true
           schema:
             type: integer
@@ -202,13 +216,35 @@ paths:
           description: Invalid request
           content: { }
 
-  /category:
+  /category/save:
     post:
       tags:
         - category
-      summary: Create or update a category
-      description: Get a category object and save it
-      operationId: saveCategory
+      summary: Update a category
+      description: Get a category object and update it
+      operationId: updateCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryWithoutProduct'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryWithoutProduct'
+        404:
+          description: Invalid request
+          content: { }
+    put:
+      tags:
+        - category
+      summary: Create a category
+      description: Get a category object and create it
+      operationId: createCategory
       requestBody:
         required: true
         content:

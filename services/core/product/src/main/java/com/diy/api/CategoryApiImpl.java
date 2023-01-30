@@ -25,23 +25,30 @@ public class CategoryApiImpl implements CategoryApi {
     CategoryModelMapper categoryModelMapper;
 
     @Override
-    public ResponseEntity<List<CategoryWithoutProductDto>> getAllCategoryByStoreId(Long storeid) {
-        return ResponseEntity.ok(categoryModelMapper.modelsToCategoryWoProductDtos(categoryService.getAllCategoryByStoreId(storeid)));
+    public ResponseEntity<List<CategoryWithoutProductDto>> getAllCategoryByStoreId(Long storeId) {
+        return ResponseEntity.ok(categoryModelMapper.modelsToCategoryWoProductDtos(categoryService.getAllCategoryByStoreId(storeId)));
     }
 
     @Override
-    public ResponseEntity<CategoryWithProductDto> getCategoryAndItsProductByStoreId(Long storeid, Long categoryid) {
-        return ResponseEntity.ok(categoryModelMapper.modelToCategoryWPDto(categoryService.getCategoryAndItsProductByStoreId(categoryid, storeid)));
+    public ResponseEntity<CategoryWithProductDto> getCategoryAndItsProductByStoreId(Long categoryId) {
+        return ResponseEntity.ok(categoryModelMapper.modelToCategoryWPDto(categoryService.getCategoryAndItsProductByStoreId(categoryId)));
     }
 
     @Override
-    public ResponseEntity<CategoryWithoutProductDto> saveCategory(CategoryWithoutProductDto categoryWithoutProductDto) {
+    public ResponseEntity<CategoryWithoutProductDto> updateCategory(CategoryWithoutProductDto categoryWithoutProductDto) {
         return ResponseEntity.ok(categoryModelMapper.modelToCategoryWoPDto(
-                categoryService.saveCategory(categoryModelMapper.categoryWithoutProductDtoToModel(categoryWithoutProductDto))));
+                categoryService.updateCategory(categoryModelMapper.categoryWithoutProductDtoToModel(categoryWithoutProductDto))));
+    }
+
+
+    @Override
+    public ResponseEntity<CategoryWithoutProductDto> createCategory(CategoryWithoutProductDto categoryWithoutProductDto) {
+        return ResponseEntity.ok(categoryModelMapper.modelToCategoryWoPDto(
+                categoryService.createCategory(categoryModelMapper.categoryWithoutProductDtoToModel(categoryWithoutProductDto))));
     }
 
     @Override
-    public ResponseEntity<String> deleteCategoryById(Long categoryid) {
-        return ResponseEntity.ok(categoryService.deleteCategoryById(categoryid));
+    public ResponseEntity<String> deleteCategoryById(Long categoryId) {
+        return ResponseEntity.ok(categoryService.deleteCategoryById(categoryId));
     }
 }

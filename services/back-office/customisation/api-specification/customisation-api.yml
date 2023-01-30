@@ -9,7 +9,7 @@ tags:
   - name: customisation
     description: Everything about store's customisation
 paths:
-  /customisations/{storeId}:
+  /all/{storeId}:
     get:
       tags:
         - customisation
@@ -37,7 +37,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /customisation/{customisationId}:
+  /{customisationId}:
     get:
       tags:
         - customisation
@@ -89,7 +89,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /customisation:
+  /save:
     post:
       tags:
         - customisation

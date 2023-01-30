@@ -1,15 +1,15 @@
 spring:
   application:
-    name: subscription
+    name: ticket
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/subscription
+    url: jdbc:postgresql://localhost:5432/ticket
     username: postgres
     password: gernika54
 server:
-  port: 8004
+  port: 8005
   servlet:
-    context-path: /api/v1/subscription/
+    context-path: /ticket/api/v1/

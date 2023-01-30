@@ -50,10 +50,10 @@ public class CustomerService {
                 entity.setUpdatedAt(LocalDateTime.now());
                 customerRepository.save(entity);
             });
-            return "Your account has been deleted";
+            return "All your customers accounts has been deleted";
         } catch (Exception e) {
             log.error("Error while deleting a customer: " +  e.getMessage());
-            throw new ExceptionHandler("We could not delete your account");
+            throw new ExceptionHandler("We could not delete all your customers accounts");
         }
     }
 

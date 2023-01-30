@@ -26,26 +26,30 @@ public class ProductApiImpl implements ProductApi {
     ProductModelMapper productModelMapper;
 
     @Override
-    public ResponseEntity<String> deleteProductById(Long productid) {
-        return ResponseEntity.ok(productService.deleteProductById(productid));
-    }
-
-    @Override
-    public ResponseEntity<ProductWithoutCategoryDto> findProductById(Long productid) {
-        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.findProductById(productid)));
-    }
-
-
-
-    @Override
-    public ResponseEntity<List<ProductWithoutCategoryDto>> getAllProductByStoreId(Long storeid) {
-        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.getAllProductByStoreId(storeid)));
-    }
-
-    @Override
-    public ResponseEntity<ProductWithoutCategoryDto> saveProduct(ProductDto productDto) {
+    public ResponseEntity<ProductWithoutCategoryDto> createProduct(ProductDto productDto) {
         ProductModel product = productModelMapper.dtoToModel(productDto);
-        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.saveProduct(product)));
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.createProduct(product)));
+    }
+
+    @Override
+    public ResponseEntity<String> deleteProductById(Long productId) {
+        return ResponseEntity.ok(productService.deleteProductById(productId));
+    }
+
+    @Override
+    public ResponseEntity<ProductWithoutCategoryDto> findProductById(Long productId) {
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.findProductById(productId)));
+    }
+
+    @Override
+    public ResponseEntity<List<ProductWithoutCategoryDto>> getAllProductByStoreId(Long storeId) {
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.getAllProductByStoreId(storeId)));
+    }
+
+    @Override
+    public ResponseEntity<ProductWithoutCategoryDto> updateProduct(ProductDto productDto) {
+        ProductModel product = productModelMapper.dtoToModel(productDto);
+        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.updateProduct(product)));
     }
 
 }
