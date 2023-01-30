@@ -1,119 +1,33 @@
 ---
 services:
 
-  service-discovery:
-    build:
-      args:
-        SERVICE_NAME: eureka-server
-      context: .
-      dockerfile: Dockerfile.ms
-    container_name: eureka-server
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      TZ: ${TZ}
-    networks:
-      - net-ms
-    ports:
-      - 8080:8761
-
-  service-gateway:
-    build:
-      args:
-        SERVICE_NAME: gateway
-      context: .
-      dockerfile: Dockerfile.ms
-    container_name: gateway
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      TZ: ${TZ}
-    networks:
-      - net-ms
-    depends_on:
-      - service-config
-    ports:
-      - 80:8080
-
-  service-config:
-    build:
-      args:
-        SERVICE_NAME: config-server
-      context: ./services/config/config-server
-    container_name: config-server
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      SPRING_PROFILES_ACTIVE: native,${SPRING_PROFILES_ACTIVE}
-      TZ: ${TZ}
-    networks:
-      - net-ms
-    depends_on:
-      - service-discovery
-
-  service-authentication:
-    build:
-      args:
-        SERVICE_NAME: authentication
-      context: .
-      dockerfile: Dockerfile.ms
-    container_name: authentication
-    environment:
-      DB_URI: ${DB_URI}/authentication
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      EUREKA_URI: ${EUREKA_URI}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      TZ: ${TZ}
-    networks:
-      - net-ms
-      - net-postgres
-    depends_on:
-      - service-gateway
-
-  # service-customer:
+  # service-discovery:
   #   build:
   #     args:
-  #       SERVICE_NAME: customer
+  #       SERVICE_NAME: eureka-server
   #     context: .
   #     dockerfile: Dockerfile.ms
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
+  #   container_name: eureka-server
+  #   # environment:
+  #   #   SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #   #   TZ: ${TZ:-Europe/Paris}
+  #   ports:
+  #     - ${SRV_EUREKA:-8761}:8761
 
-  # service-order:
+  # service-config:
   #   build:
   #     args:
-  #       SERVICE_NAME: order
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
-
-  # service-store:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: store
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   container_name: service-store
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
-
-  # service-product:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: product
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   container_name: service-product
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
+  #       SERVICE_NAME: config-server
+  #     context: ./services/config/config-server
+  #   container_name: config-server
+  #   # environment:
+  #   #   EUREKA_URI: ${EUREKA_URI}
+  #   #   SPRING_PROFILES_ACTIVE: native,${SPRING_PROFILES_ACTIVE}
+  #   #   TZ: ${TZ}
+  #   depends_on:
+  #     - service-discovery
+  #   ports:
+  #     - ${SRV_CONFIG:-8888}:8888
 
   postgres:
     build:
@@ -122,52 +36,17 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
-      PGDATA: /data/postgres
-      TZ: ${TZ}
-      PGTZ: ${TZ}
+      PGDATA: ${PGDATA:-/data/postgres}
+      TZ: ${TZ:-Europe/Paris}
+      PGTZ: ${TZ:-Europe/Paris}
     ports:
       - ${POSTGRES_PORT:-5432}:5432
-    networks:
-      - net-postgres
 
-  # rabbitmq:
-  #   image: rabbitmq:3.9.11-management-alpine
-  #   container_name: rabbitmq
-  #   environment:
-  #     TZ: ${TZ}
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
-  #   networks:
-  #     - net-rabbitmq
-
-  # service-notification:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: notification
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   container_name: notification
-  #   environment:
-  #     RABBITMQ_URI: ${RABBITMQ_URI}
-  #     DB_URI: ${DB_URI}/customer
-  #     DB_USER: ${DB_USER}
-  #     DB_PASS: ${DB_PASS}
-  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-  #     TWILIO_SID: ${TWILIO_SID}
-  #     TWILIO_TOKEN: ${TWILIO_TOKEN}
-  #     TWILIO_NUM: ${TWILIO_NUM}
-  #     TZ: ${TZ}
-  #   networks:
-  #     - net-ms
-  #     - net-postgres
-  #     - net-rabbitmq
-  #   depends_on:
-  #     - service-config
-  #     - postgres
-  #     - rabbitmq
-
-networks:
-  net-ms:
-  net-postgres:
-  net-rabbitmq:
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ:-Europe/Paris}
+    ports:
+      - 5672:5672
+      - 15672:15672

@@ -6,12 +6,14 @@ server:
 spring:
   rabbitmq:
     addresses: localhost:5672
+    # addresses: 10.211.55.2:5672
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
     url: jdbc:postgresql://localhost:5432/notification
+    # url: jdbc:postgresql://10.211.55.2:5432/notification
     username: postgres
     password: gernika54
 
@@ -27,3 +29,4 @@ rabbitmq:
     notification: notification.queue
   routing-key:
     internal-notification: internal.notification.routing-key
+

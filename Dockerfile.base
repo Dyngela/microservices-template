@@ -19,16 +19,7 @@ RUN mvn package -pl com.diy:rabbitMQ
 
 
 FROM builder AS compiler
-ARG DB_URI
-ARG DB_USER
-ARG DB_PASS
-ENV DB_URI=${DB_URI}
-ENV DB_USER=${DB_USER}
-ENV DB_PASS=${DB_PASS}
-RUN mvn package -pl com.diy:config-server -Ddb.user=${DB_USER} -Ddb.pass=${DB_PASS} -Ddb.uri=${DB_URI}
-ENV DB_URI=
-ENV DB_USER=
-ENV DB_PASS=
+RUN mvn package -pl com.diy:config-server
 RUN mvn package -pl com.diy:eureka-server
 RUN mvn package -pl com.diy:gateway
 # RUN mvn package -pl com.diy:notification,com.diy:rabbitMQ
