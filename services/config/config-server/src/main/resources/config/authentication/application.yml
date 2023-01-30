@@ -1,17 +1,17 @@
 server:
-  port: 8080
+  port: 8000
   servlet:
     context-path: /api/v1/authentication/
 
 spring:
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${DB_URI}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: jdbc:postgresql://localhost:5432/authentication
+    username: postgres
+    password: gernika54
 
 springdoc:
   swagger-ui:
