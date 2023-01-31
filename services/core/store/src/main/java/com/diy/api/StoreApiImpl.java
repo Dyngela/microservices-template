@@ -9,12 +9,15 @@ import com.diy.model.AddressModel;
 import com.diy.model.StoreModel;
 import com.diy.service.AddressService;
 import com.diy.service.StoreService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -45,20 +48,37 @@ public class StoreApiImpl implements StoreApi {
     }
 
     @Override
-    public ResponseEntity<AddressDto> saveAddress(Long storeid, AddressDto addressDto) {
+    public ResponseEntity<AddressDto> updateAddress(AddressDto addressDto) {
         AddressModel addressModel = addressModelMapper.dtoToModel(addressDto);
-        return ResponseEntity.ok(addressModelMapper.modelToDto(addressService.saveAddress(addressModel, storeid)));
+        return ResponseEntity.ok(addressModelMapper.modelToDto(addressService.updateAddress(addressModel)));
     }
 
     @Override
-    public ResponseEntity<StoreDto> saveStore(StoreDto storeDto) {
+    public ResponseEntity<StoreDto> updateStore(StoreDto storeDto) {
         StoreModel store = storeModelMapper.dtoToModel(storeDto);
-        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.save(store)));
+        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.updateStore(store)));
     }
 
+    @GetMapping
+    @ApiOperation(value = "Create an address", nickname = "createAddress", notes = "Get an address and create it.", response = AddressDto.class, tags={ "store", })
+    @ApiResponse(description = "aze")
+    public void test() {
+    }
     @Override
     public ResponseEntity<String> deleteStoreById(Long storeId) {
         return ResponseEntity.ok(storeService.deleteStore(storeId));
+    }
+
+    @Override
+    public ResponseEntity<AddressDto> createAddress(Long storeid, AddressDto addressDto) {
+        AddressModel addressModel = addressModelMapper.dtoToModel(addressDto);
+        return ResponseEntity.ok(addressModelMapper.modelToDto(addressService.createAddress(addressModel, storeid)));
+    }
+
+    @Override
+    public ResponseEntity<StoreDto> createStore(StoreDto storeDto) {
+        StoreModel store = storeModelMapper.dtoToModel(storeDto);
+        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.createStore(store)));
     }
 
     @Override

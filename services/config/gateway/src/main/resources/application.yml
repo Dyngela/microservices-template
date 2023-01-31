@@ -95,7 +95,7 @@ spring:
             - Path=/store/api/**
 
           #Config
-        - id: authentification
-          uri: lb://AUTHENTIFICATION
+        - id: authentication
+          uri: lb://AUTHENTICATION
           predicates:
             - Path=/auth/api/**

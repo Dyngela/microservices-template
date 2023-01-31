@@ -1,6 +1,7 @@
 package com.diy.service;
 
 import com.diy.entity.OrderEntity;
+import com.diy.entity.PurchaseEntity;
 import com.diy.enums.Status;
 import com.diy.exception.ExceptionHandler;
 import com.diy.generated.model.OrderStatusDto;
@@ -9,12 +10,15 @@ import com.diy.mapper.OrderModelMapper;
 import com.diy.model.OrderModel;
 import com.diy.model.PurchaseModel;
 import com.diy.repository.OrderRepository;
+import com.diy.repository.PurchaseRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,6 +31,7 @@ public class OrderService {
     OrderModelMapper orderMapper;
     OrderRepository orderRepository;
     OrderStateService orderStateService;
+    PurchaseRepository purchaseRepository;
 
     public OrderModel findOrderById(Long orderId) {
         try {
@@ -94,18 +99,29 @@ public class OrderService {
     public OrderModel createOrder(List<PurchaseModel> purchaseModels, Long storeId, Long customerId) {
         try {
             OrderEntity orderEntity = new OrderEntity();
+            DecimalFormat df = new DecimalFormat("##.##");
+            df.setRoundingMode(RoundingMode.CEILING);
             float orderPrice = 0;
-            // todo regarder avec Salaheddine pour faire un stream. Intérêt? side effect?
+
             for (PurchaseModel purchaseModel : purchaseModels) {
                 orderPrice += purchaseModel.getPrice();
             }
-            orderEntity.setTotalPrice(orderPrice);
+
+            orderEntity.setTotalPrice(Float.parseFloat(df.format(orderPrice)));
             orderEntity.setOrderPayed(false);
             orderEntity.setCreatedAt(LocalDateTime.now());
             orderEntity.setStatus(Status.waiting);
             orderEntity.setCustomerId(customerId);
             orderEntity.setStoreId(storeId);
-            orderRepository.saveAndFlush(orderEntity);
+            OrderEntity savedOrder = orderRepository.saveAndFlush(orderEntity);
+
+            List<PurchaseEntity> purchaseEntities = orderMapper.purchaseModelsToPurchaseEntities(purchaseModels, new CycleAvoidingMappingContext());
+            for (PurchaseEntity p : purchaseEntities) {
+                p.setCreatedAt(LocalDateTime.now());
+                p.setOrder(savedOrder);
+            }
+            purchaseRepository.saveAll(purchaseEntities);
+
             return orderMapper.entityToModel(orderEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
             log.error("We could not create order: " + e.getMessage());

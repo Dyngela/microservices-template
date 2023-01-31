@@ -1,26 +1,47 @@
+#spring:
+#  application:
+#    name: order
+#  config:
+#    import: "optional:configserver:"
+#  cloud:
+#    config:
+#      fail-fast: true
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#      retry:
+#        initialInterval: 2000
+#        multiplier: 1.5
+#        maxInterval: 60000
+#        maxAttempts: 100
+#
+#eureka:
+#  client:
+#    service-url:
+#      enabled: true
+#      fetch-registry: true
+#      register-with-eureka: true
+#      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+#  instance:
+#    lease-renewal-interval-in-seconds: 10
+
+server:
+  port: 8008
+  servlet:
+    context-path: /order/api/v1/
+
 spring:
   application:
     name: order
-  config:
-    import: "optional:configserver:"
-  cloud:
-    config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders
+    username: postgres
+    password: gernika54
+  rabbitmq:
+    addresses: localhost:5672
 
-eureka:
-  client:
-    service-url:
-      enabled: true
-      fetch-registry: true
-      register-with-eureka: true
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
-  instance:
-    lease-renewal-interval-in-seconds: 10
+

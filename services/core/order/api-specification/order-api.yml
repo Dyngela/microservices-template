@@ -10,7 +10,7 @@ tags:
     description: Everything about orders
 paths:
 
-  /orders/store/{storeid}:
+  /all/store/{storeid}:
     get:
       tags:
         - order
@@ -37,12 +37,11 @@ paths:
           description: Invalid request
           content: { }
 
-
-  /orders/customer/{customerId}:
+  /all/customer/{customerId}:
     get:
       tags:
         - order
-      summary: Find all orders for a given store
+      summary: Find all orders for a given customer
       description: Get all orders for a given customer
       operationId: findOrdersByCustomerId
       parameters:
@@ -65,8 +64,7 @@ paths:
           description: Invalid request
           content: { }
 
-
-  /order/{orderId}:
+  /{orderId}:
     get:
       tags:
         - order
@@ -90,6 +88,7 @@ paths:
         404:
           description: Invalid request
           content: { }
+
     delete:
       tags:
         - order
@@ -116,8 +115,7 @@ paths:
           description: Invalid request
           content: { }
 
-
-  /order:
+  /save:
     post:
       tags:
         - order
@@ -141,7 +139,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /order/{storeId}/{customerId}:
+  /save/{storeId}/{customerId}:
     put:
       tags:
         - order
@@ -182,8 +180,8 @@ paths:
           description: Invalid request
           content: { }
 
-  /order/status:
-    put:
+  /status:
+    post:
       tags:
         - order
       summary: Update the status of an order
@@ -206,6 +204,7 @@ paths:
         404:
           description: Invalid request
           content: { }
+
 components:
   schemas:
     Order:

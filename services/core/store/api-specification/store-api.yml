@@ -4,13 +4,15 @@ info:
   description: 'MNS store'
   version: 1.0.0
 servers:
-  - url: http://localhost:8001/com/diy/store/v1
+  - url: http://localhost:8001/store/api/v1/
+    description: Some random documentation
 tags:
   - name: store
     description: Everything about store, dixit the merchant.
+
 paths:
 
-  /stores:
+  /all:
     get:
       tags:
         - store
@@ -30,7 +32,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /store/id/{storeId}:
+  /{storeId}:
     get:
       tags:
         - store
@@ -82,13 +84,13 @@ paths:
           description: Invalid request
           content: { }
 
-  /store:
+  /save:
     post:
       tags:
         - store
-      summary: Create or update a store
+      summary: Update a store
       description: Get a store object and potentially an address object nested, from the body
-      operationId: saveStore
+      operationId: updateStore
       requestBody:
         required: true
         content:
@@ -106,11 +108,34 @@ paths:
           description: Invalid request
           content: {}
 
-  /store/{storename}:
+    put:
+      tags:
+        - store
+      summary: Create a store
+      description: Get a store object and potentially an address object nested, from the body
+      operationId: createStore
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        404:
+          description: Invalid request
+          content: { }
+
+  /name/{storename}:
     get:
       tags:
         - store
-      summary: Find a specific store with its ID
+      summary: Find a specific store with its name
       description: Get a store by name, namely for ms communication
       operationId: findStoreByStoreName
       parameters:
@@ -127,6 +152,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Store'
+        404:
+          description: Invalid request
+          content: { }
+
+  /address/save/{storeid}:
+    put:
+      tags:
+        - store
+      summary: Create an address
+      description: Get an address and create it.
+      operationId: createAddress
+      parameters:
+        - name: storeid
+          in: path
+          description: store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
         404:
           description: Invalid request
           content: { }
@@ -159,20 +216,13 @@ paths:
           description: Invalid request
           content: { }
 
+  /address/save:
     post:
       tags:
         - store
-      summary: Create or update an address
-      description: Get an address and create it or update it.
-      operationId: saveAddress
-      parameters:
-        - name: storeid
-          in: path
-          description: store ID
-          required: true
-          schema:
-            type: integer
-            format: int64
+      summary: Update an address
+      description: Get an address and update it.
+      operationId: updateAddress
       requestBody:
         required: true
         content:
@@ -190,7 +240,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /address/{addressid}:
+  /address/id/{addressid}:
     get:
       tags:
         - store
@@ -219,7 +269,7 @@ paths:
     delete:
       tags:
         - store
-      summary: Delete a store
+      summary: Delete an address
       description: Delete an address by ID
       operationId: deleteAddressById
       parameters:

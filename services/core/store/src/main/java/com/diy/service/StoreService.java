@@ -53,15 +53,8 @@ public class StoreService {
         return storeModelMapper.entitiesToModels(storeEntities, new CycleAvoidingMappingContext());
     }
 
-    @Transactional
-    public StoreModel save(StoreModel storeModel) {
-        if (storeModel.getStoreId() == null)
-            return createStore(storeModel);
-        else
-            return updateStore(storeModel);
-    }
 
-    private StoreModel updateStore(StoreModel storeModel) {
+    public StoreModel updateStore(StoreModel storeModel) {
         try {
             StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeModel.getStoreId(), null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             storeModelMapper.updateStoreFromModel(storeModel, storeEntity, new CycleAvoidingMappingContext());
@@ -74,7 +67,7 @@ public class StoreService {
             throw new ExceptionHandler("We could not update your information");
         }
     }
-    private StoreModel createStore(StoreModel storeModel) {
+    public StoreModel createStore(StoreModel storeModel) {
         try {
             StoreEntity storeEntity = storeModelMapper.modelToEntity(storeModel);
             storeEntity.setCreatedAt(LocalDateTime.now());

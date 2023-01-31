@@ -53,15 +53,7 @@ public class AddressService {
         }
     }
 
-    @Transactional
-    public AddressModel saveAddress(AddressModel addressModel, Long storeId) {
-        if (addressModel.getAddressId() == null)
-            return createAddress(addressModel, storeId);
-        else
-            return updateAddress(addressModel);
-    }
-
-    private AddressModel createAddress(AddressModel addressModel, Long storeId) {
+    public AddressModel createAddress(AddressModel addressModel, Long storeId) {
         try {
             StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeId, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
             AddressEntity addressEntity = addressModelMapper.modelToEntity(addressModel);
@@ -77,7 +69,7 @@ public class AddressService {
         }
     }
 
-    private AddressModel updateAddress(AddressModel addressModel) {
+    public AddressModel updateAddress(AddressModel addressModel) {
         try {
             AddressEntity addressEntity = addressRepository.findByAddressIdAndDeletedAt(addressModel.getAddressId(), null).orElseThrow(()
                     -> new ExceptionHandler("Address not found"));

@@ -1,6 +1,7 @@
 package com.diy.mapper;
 
 import com.diy.entity.OrderEntity;
+import com.diy.entity.PurchaseEntity;
 import com.diy.generated.model.OrderDto;
 import com.diy.generated.model.OrderWithoutPurchaseDto;
 import com.diy.generated.model.PurchaseWithoutOrderDto;
@@ -23,6 +24,8 @@ public interface OrderModelMapper {
     List<OrderWithoutPurchaseDto> modelToOrderWithoutPurchaseDto(List<OrderModel> model);
 
     List<PurchaseModel> purchaseWithoutOrderDtoToPurchaseModel(List<PurchaseWithoutOrderDto> dto);
+
+    List<PurchaseEntity> purchaseModelsToPurchaseEntities(List<PurchaseModel> models, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     OrderDto modelToDto(OrderModel orderModel);
     OrderModel dtoToModel(OrderDto dto);

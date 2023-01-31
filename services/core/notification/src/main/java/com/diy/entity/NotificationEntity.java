@@ -21,7 +21,7 @@ public class NotificationEntity {
     Long notificationId;
 
     @Column(name = "customer_id", nullable = false)
-    String customerId;
+    Long customerId;
 
     @Column(name = "message", nullable = false)
     String message;
