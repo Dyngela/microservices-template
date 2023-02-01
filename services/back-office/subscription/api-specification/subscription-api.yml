@@ -9,7 +9,7 @@ tags:
   - name: subscription
     description: Everything about subscriptions
 paths:
-  /subscriptionsType:
+  /subscription/subscriptionsType:
     get:
       tags:
         - subscription
@@ -29,7 +29,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /{storeId}:
+  /subscription/{storeId}:
     get:
       tags:
         - subscription
@@ -55,7 +55,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /save:
+  /subscription/save:
     post:
       tags:
         - subscription

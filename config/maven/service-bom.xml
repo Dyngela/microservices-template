@@ -24,7 +24,7 @@
         <org.openapitools>0.2.2</org.openapitools>
         <io.swagger.core.v3>2.2.2</io.swagger.core.v3>
         <io.swagger>1.6.6</io.swagger>
-        <springdoc-open-api.version>1.6.11</springdoc-open-api.version>
+        <springdoc-open-api.version>1.6.14</springdoc-open-api.version>
         <org.mapstruct.version>1.5.1.Final</org.mapstruct.version>
         <junit.version>4.13.2</junit.version>
         <junit-jupiter-api>5.9.0</junit-jupiter-api>
@@ -32,6 +32,7 @@
         <twilio-sdk>8.8.0</twilio-sdk>
         <rabbitmq.version>2.7.5</rabbitmq.version>
         <spring-boot.version>2.7.2</spring-boot.version>
+        <feign.version>3.1.5</feign.version>
     </properties>
     <modules>
         <module>../../pom.xml</module>
@@ -40,7 +41,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- Connected Charger internal modules -->
             <dependency>
                 <groupId>com.diy</groupId>
                 <artifactId>rabbitMQ</artifactId>
@@ -48,6 +48,11 @@
             </dependency>
 
             <!-- 3rd party libraries -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>

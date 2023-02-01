@@ -12,7 +12,7 @@ tags:
 
 paths:
 
-  /all:
+  /store/all:
     get:
       tags:
         - store
@@ -32,7 +32,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /{storeId}:
+  /store/{storeId}:
     get:
       tags:
         - store
@@ -84,7 +84,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /save:
+  /store/save:
     post:
       tags:
         - store
@@ -131,7 +131,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /name/{storename}:
+  /store/name/{storename}:
     get:
       tags:
         - store
@@ -156,7 +156,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /address/save/{storeid}:
+  /store/address/save/{storeid}:
     put:
       tags:
         - store
@@ -188,7 +188,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /address/{storeid}:
+  /store/address/{storeid}:
     get:
       tags:
         - store
@@ -216,7 +216,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /address/save:
+  /store/address/save:
     post:
       tags:
         - store
@@ -240,7 +240,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /address/id/{addressid}:
+  /store/address/id/{addressid}:
     get:
       tags:
         - store

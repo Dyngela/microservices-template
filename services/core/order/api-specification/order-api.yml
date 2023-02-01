@@ -10,7 +10,7 @@ tags:
     description: Everything about orders
 paths:
 
-  /all/store/{storeid}:
+  /order/all/store/{storeid}:
     get:
       tags:
         - order
@@ -37,7 +37,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /all/customer/{customerId}:
+  /order/all/customer/{customerId}:
     get:
       tags:
         - order
@@ -64,7 +64,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /{orderId}:
+  /order/{orderId}:
     get:
       tags:
         - order
@@ -115,7 +115,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /save:
+  /order/save:
     post:
       tags:
         - order
@@ -139,7 +139,7 @@ paths:
           description: Invalid request
           content: {}
 
-  /save/{storeId}/{customerId}:
+  /order/save/{storeId}/{customerId}:
     put:
       tags:
         - order
@@ -180,7 +180,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /status:
+  /order/status:
     post:
       tags:
         - order

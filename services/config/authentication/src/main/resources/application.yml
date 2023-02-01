@@ -28,7 +28,7 @@
 server:
   port: 8000
   servlet:
-    context-path: /authentication/api/v1/
+    context-path: /api/v1/
 
 spring:
   jpa:

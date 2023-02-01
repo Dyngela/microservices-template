@@ -4,8 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.diy.client.store.StoreClient;
 import com.diy.entity.UserEntity;
+import com.diy.enums.Roles;
 import com.diy.exception.ExceptionHandler;
+import com.diy.generated.model.StoreDto;
 import com.diy.generated.model.UserDto;
 import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.UserModelMapper;
@@ -21,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -39,6 +43,7 @@ public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
     UserModelMapper userModelMapper;
+    StoreClient storeClient;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -91,7 +96,16 @@ public class UserService implements UserDetailsService {
 
     public UserModel createUser(UserModel model) {
         try {
-            //todo create a customer or a store
+            //todo create store
+            if (model.getRole() == Roles.ADMIN) {
+                log.warn(storeClient.createStore(new StoreDto()));
+            }
+
+            //todo create a customer
+            if (model.getRole() == Roles.USER) {
+
+            }
+
             UserEntity userEntity = userModelMapper.toEntity(model);
             userEntity.setCreatedAt(LocalDateTime.now());
             userRepository.save(userEntity);

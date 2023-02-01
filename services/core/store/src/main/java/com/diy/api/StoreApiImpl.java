@@ -9,15 +9,12 @@ import com.diy.model.AddressModel;
 import com.diy.model.StoreModel;
 import com.diy.service.AddressService;
 import com.diy.service.StoreService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -59,11 +56,6 @@ public class StoreApiImpl implements StoreApi {
         return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.updateStore(store)));
     }
 
-    @GetMapping
-    @ApiOperation(value = "Create an address", nickname = "createAddress", notes = "Get an address and create it.", response = AddressDto.class, tags={ "store", })
-    @ApiResponse(description = "aze")
-    public void test() {
-    }
     @Override
     public ResponseEntity<String> deleteStoreById(Long storeId) {
         return ResponseEntity.ok(storeService.deleteStore(storeId));

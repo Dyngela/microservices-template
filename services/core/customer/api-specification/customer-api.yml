@@ -9,7 +9,7 @@ tags:
   - name: customer
     description: Everything about customers
 paths:
-  /{customerId}:
+  /customer/{customerId}:
     get:
       tags:
         - customer
@@ -60,7 +60,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /all/{storeId}:
+  /customer/all/{storeId}:
     get:
       tags:
         - customer
@@ -113,7 +113,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /save:
+  /customer/save:
     put:
       tags:
         - customer

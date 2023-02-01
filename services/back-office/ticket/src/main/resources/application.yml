@@ -12,4 +12,4 @@ spring:
 server:
   port: 8005
   servlet:
-    context-path: /ticket/api/v1/
+    context-path: /api/v1/

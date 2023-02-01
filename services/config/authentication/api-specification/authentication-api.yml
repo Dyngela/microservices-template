@@ -9,7 +9,7 @@ tags:
   - name: authentication
     description: Everything about authentication and authorization
 paths:
-  /users/{storeId}:
+  /authentication/all/{storeId}:
     delete:
       tags:
         - user
@@ -36,7 +36,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /user/{userId}:
+  /authentication/{userId}:
     delete:
       tags:
         - user
@@ -62,7 +62,8 @@ paths:
         404:
           description: Invalid request
           content: { }
-  /user:
+
+  /authentication/save:
     post:
       tags:
         - user
@@ -85,7 +86,6 @@ paths:
         404:
           description: Invalid request
           content: { }
-
 
     put:
       tags:
@@ -110,7 +110,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /auth/login:
+  /authentication/login:
     post:
       tags:
         - authentication
@@ -134,7 +134,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /auth/validate:
+  /authentication/role:
     post:
       tags:
         - authentication

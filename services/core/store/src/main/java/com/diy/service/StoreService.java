@@ -97,4 +97,5 @@ public class StoreService {
             throw new ExceptionHandler("We could not delete your store");
         }
     }
+
 }

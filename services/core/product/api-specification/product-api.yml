@@ -10,7 +10,7 @@ tags:
     description: Everything about products
 paths:
 
-  /product/all/{storeId}:
+  /product/product/all/{storeId}:
     get:
       tags:
         - product
@@ -38,7 +38,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /product/{productId}:
+  /product/product/{productId}:
     get:
       tags:
         - product
@@ -90,7 +90,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /product/save:
+  /product/product/save:
     post:
       tags:
         - product
@@ -136,7 +136,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /categories/{storeId}:
+  /product/categories/{storeId}:
     get:
       tags:
         - category
@@ -164,7 +164,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /category/{categoryId}:
+  /product/category/{categoryId}:
     get:
       tags:
         - category
@@ -216,7 +216,7 @@ paths:
           description: Invalid request
           content: { }
 
-  /category/save:
+  /product/category/save:
     post:
       tags:
         - category

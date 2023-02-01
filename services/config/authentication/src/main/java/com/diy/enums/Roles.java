@@ -2,5 +2,8 @@ package com.diy.enums;
 
 public enum Roles {
     USER,
-    ADMIN
+    ADMIN,
+    GESTIONNAIRE,
+    MANUTENTIONNAIRE,
+    PROPRIO
 }

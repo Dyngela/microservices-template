@@ -28,7 +28,7 @@
 server:
   port: 8001
   servlet:
-    context-path: /store/api/v1/
+    context-path: /api/v1/
 
 spring:
   mvc:

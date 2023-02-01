@@ -13,7 +13,7 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private final String uri = "http://localhost:8000/auth/api/auth/validate";
+    private final String uri = "http://localhost:8000/authentication/api/v1/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public AuthorizationFilter() {
