@@ -32,6 +32,9 @@ public class CustomisationEntity {
     @Column(name = "catch_phrase")
     String catchPhrase;
 
+    @Column(name = "active")
+    Boolean active;
+
     @Column(name = "store_id")
     Long storeId;
 

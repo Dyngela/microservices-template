@@ -181,6 +181,12 @@ components:
           format: int64
         role:
           type: string
+        siret:
+          type: string
+        storeName:
+          type: string
+        sector:
+          type: string
 
     Logging:
       type: object

@@ -16,4 +16,5 @@ public class CustomisationModel {
     String font;
     String catchPhrase;
     Long storeId;
+    Boolean active;
 }

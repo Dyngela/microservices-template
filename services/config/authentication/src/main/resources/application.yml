@@ -31,6 +31,8 @@ server:
     context-path: /api/v1/
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   jpa:
     show-sql: true
     hibernate:

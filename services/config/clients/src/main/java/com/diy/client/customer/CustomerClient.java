@@ -1,14 +1,16 @@
-package com.diy.client.store;
+package com.diy.client.customer;
 
+
+import com.diy.generated.model.CustomerDto;
 import com.diy.generated.model.StoreDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Component
-@FeignClient(value = "localhost:8001/api/v1/store")
-public interface StoreClient {
+@FeignClient(value = "localhost:8006/api/v1/customer")
+public interface CustomerClient {
     @PutMapping("/save")
-    StoreDto createStore(StoreDto store);
+    CustomerDto createCustomer(CustomerDto store);
 }
+

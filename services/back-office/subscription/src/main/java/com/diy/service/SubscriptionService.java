@@ -28,6 +28,12 @@ public class SubscriptionService {
     public String createSubscription(SubscriptionModel model) {
         try {
             SubscriptionEntity entity = modelMapper.modelToEntity(model);
+            switch (entity.getPaymentType()) {
+                case monthly -> entity.setDateEnd(LocalDateTime.now().plusMonths(1));
+                case weekly -> entity.setDateEnd(LocalDateTime.now().plusWeeks(1));
+                case yearly -> entity.setDateEnd(LocalDateTime.now().plusYears(1));
+            }
+            entity.setDateStart(LocalDateTime.now());
             entity.setCreatedAt(LocalDateTime.now());
             entity.setDateStart(LocalDateTime.now());
             repository.save(entity);
@@ -53,7 +59,7 @@ public class SubscriptionService {
     }
 
     public SubscriptionModel getStoreSubscription(Long storeId) {
-        SubscriptionEntity entity = repository.findById(storeId).orElseThrow(()
+        SubscriptionEntity entity = repository.findByStoreId(storeId).orElseThrow(()
                 -> new ExceptionHandler("We could not find your subscription. You may not have one."));
         return modelMapper.entityToModel(entity);
     }

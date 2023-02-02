@@ -4,10 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.diy.client.customer.CustomerClient;
 import com.diy.client.store.StoreClient;
 import com.diy.entity.UserEntity;
 import com.diy.enums.Roles;
 import com.diy.exception.ExceptionHandler;
+import com.diy.generated.model.CustomerDto;
 import com.diy.generated.model.StoreDto;
 import com.diy.generated.model.UserDto;
 import com.diy.mapper.CycleAvoidingMappingContext;
@@ -24,7 +26,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -44,6 +45,7 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
     UserModelMapper userModelMapper;
     StoreClient storeClient;
+    CustomerClient customerClient;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -96,18 +98,38 @@ public class UserService implements UserDetailsService {
 
     public UserModel createUser(UserModel model) {
         try {
-            //todo create store
-            if (model.getRole() == Roles.ADMIN) {
-                log.warn(storeClient.createStore(new StoreDto()));
+            Long storeId = 0L;
+            if (model.getRole() == Roles.OWNER) {
+                StoreDto request = new StoreDto();
+                request.setSiret(model.getSiret());
+                request.setStoreName(model.getStoreName());
+                request.setSector(model.getSector());
+                request.setFirstname(model.getFirstName());
+                request.setLastname(model.getLastName());
+                request.setEmail(model.getEmail());
+                request.setPhoneNumber(model.getPhoneNumber());
+                request.setStoreId(model.getStoreId());
+                StoreDto response = storeClient.createStore(request);
+                storeId = response.getStoreId();
             }
 
-            //todo create a customer
-            if (model.getRole() == Roles.USER) {
+            if (storeId != 0L){
+                model.setStoreId(storeId);
+            }
 
+            if (model.getRole() == Roles.USER) {
+                CustomerDto request = new CustomerDto();
+                request.setEmail(model.getEmail());
+                request.setStoreId(model.getStoreId());
+                request.setPhoneNumber(model.getPhoneNumber());
+                request.setFirstName(model.getFirstName());
+                request.setLastName(model.getLastName());
+                customerClient.createCustomer(request);
             }
 
             UserEntity userEntity = userModelMapper.toEntity(model);
             userEntity.setCreatedAt(LocalDateTime.now());
+
             userRepository.save(userEntity);
             return userModelMapper.entityToModel(userEntity, new CycleAvoidingMappingContext());
         } catch (Exception e) {
@@ -140,7 +162,8 @@ public class UserService implements UserDetailsService {
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
             String jwt = JWT.create()
                     .withSubject(user.getUsername())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 10000000L * 60 * 1000))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 10000000L * 600 * 1000))
+                    .withClaim("storeId", userEntity.getStoreId())
                     .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(algorithm);
             return "Bearer " + jwt;

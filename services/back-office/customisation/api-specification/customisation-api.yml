@@ -152,6 +152,8 @@ components:
           type: string
         catchPhrase:
           type: string
+        active:
+          type: boolean
         storeId:
           type: integer
           format: int64

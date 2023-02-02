@@ -1,10 +1,8 @@
 package com.diy.model;
 
 import com.diy.enums.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserModel {
     Long userId;
     String email;
@@ -24,4 +23,10 @@ public class UserModel {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     LocalDateTime deletedAt;
+
+    // Attribute only for owner
+    String siret;
+    String storeName;
+    String sector;
+
 }
