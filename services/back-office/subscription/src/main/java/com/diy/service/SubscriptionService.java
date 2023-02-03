@@ -43,13 +43,20 @@ public class SubscriptionService {
             throw new ExceptionHandler("We could not create your subscription, retry later please");
         }
     }
-
+    // TODO give back money if the invoice rate change for lower.
+    // Since payment part is fake we don't.
     public String  updateSubscription(SubscriptionModel model) {
         try {
             SubscriptionEntity entity = repository.findById(model.getSubscriptionId()).orElseThrow(()
                     -> new ExceptionHandler("We could not update your subscription"));
             modelMapper.updateCustomerFromModel(model, entity, new CycleAvoidingMappingContext());
+            entity.setDateStart(LocalDateTime.now());
             entity.setUpdatedAt(LocalDateTime.now());
+            switch (entity.getPaymentType()) {
+                case monthly -> entity.setDateEnd(LocalDateTime.now().plusMonths(1));
+                case weekly -> entity.setDateEnd(LocalDateTime.now().plusWeeks(1));
+                case yearly -> entity.setDateEnd(LocalDateTime.now().plusYears(1));
+            }
             repository.save(entity);
             return "Your subscription have been updated";
         } catch (Exception e) {

@@ -29,6 +29,13 @@ public class CustomisationService {
 
     public CustomisationModel createCustomisation(CustomisationModel model) {
         try {
+            if (model.getActive()) {
+                List<CustomisationEntity> entities = customisationRepository.findAllByStoreIdAndDeletedAt(model.getStoreId(), null);
+                for (CustomisationEntity entity: entities) {
+                    entity.setActive(false);
+                }
+                customisationRepository.saveAll(entities);
+            }
             CustomisationEntity entity = modelMapper.modelToEntity(model);
             entity.setCreatedAt(LocalDateTime.now());
             customisationRepository.save(entity);
@@ -43,6 +50,9 @@ public class CustomisationService {
     public String deleteCustomisationById(Long customisationId) {
         try {
             CustomisationEntity entity = customisationRepository.findById(customisationId).orElseThrow(() -> new ExceptionHandler("Theme not found"));
+            if (entity.getActive()) {
+                throw new ExceptionHandler("You can't delete your active theme");
+            }
             entity.setUpdatedAt(LocalDateTime.now());
             entity.setDeletedAt(LocalDateTime.now());
             customisationRepository.save(entity);
@@ -75,8 +85,12 @@ public class CustomisationService {
 
     public CustomisationModel updateCustomisation(CustomisationModel model) {
         try {
-
             CustomisationEntity entity = customisationRepository.findById(model.getCustomisationId()).orElseThrow(() -> new ExceptionHandler("Theme not found"));
+            if (model.getActive() && !entity.getActive()) {
+                CustomisationEntity activeTheme = customisationRepository.findByActive(true);
+                activeTheme.setActive(false);
+                customisationRepository.save(activeTheme);
+            }
             modelMapper.updateStoreFromModel(model, entity, new CycleAvoidingMappingContext());
             entity.setUpdatedAt(LocalDateTime.now());
             customisationRepository.save(entity);
