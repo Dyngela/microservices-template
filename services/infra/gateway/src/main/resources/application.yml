@@ -1,73 +1,26 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: gateway
+  config:
+    import: "optional:configserver:"
   cloud:
     config:
-      enabled: false
-    gateway:
-      globalcors:
-        corsConfigurations:
-          "[/**]":
-            allowedOrigins: "*"
-            allowedHeaders:
-              - content-type
-              - Authorization
-              - Access-Control-Request-Method
-              - Access-Control-Request-Headers
-            allowedMethods:
-              - GET
-              - POST
-              - DELETE
-              - PUT
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      retry:
+        initialInterval: 2000
+        multiplier: 1.5
+        maxInterval: 60000
+        maxAttempts: 100
 
-      routes:
-          # Backoffice
-        - id: customisation
-          uri: lb://CUSTOMISATION
-          predicates:
-            - Path=/api/v1/customisation/**
-        - id: payment
-          uri: lb://PAYMENT
-          predicates:
-            - Path=/api/v1/payment/**
-        - id: subscription
-          uri: lb://SUBSCRIPTION
-          predicates:
-            - Path=/api/v1/subscription/**
-        - id: ticket
-          uri: lb://TICKET
-          predicates:
-            - Path=/api/v1/ticket/**
-
-          #Core
-        - id: customer
-          uri: lb://CUSTOMER
-          predicates:
-            - Path=/api/v1/customer/**
-        - id: notification
-          uri: lb://NOTIFICATION
-          predicates:
-            - Path=/api/v1/notification/**
-        - id: order
-          uri: lb://ORDER
-          predicates:
-            - Path=/api/v1/order/**
-        - id: product
-          uri: lb://PRODUCT
-          predicates:
-            - Path=/api/v1/product/**
-#          filters:
-#            - AuthorizationFilter
-        - id: store
-          uri: lb://STORE
-          predicates:
-            - Path=/api/v1/store/**
-
-          #Config
-        - id: authentication
-          uri: lb://AUTHENTICATION
-          predicates:
-            - Path=/api/v1/authentication/**
+eureka:
+  client:
+    service-url:
+      enabled: true
+      fetch-registry: true
+      register-with-eureka: true
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+  instance:
+    lease-renewal-interval-in-seconds: 10

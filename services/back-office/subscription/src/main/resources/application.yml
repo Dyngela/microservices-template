@@ -1,15 +1,26 @@
 spring:
   application:
     name: subscription
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:postgresql://localhost:5432/subscription
-    username: postgres
-    password: gernika54
-server:
-  port: 8004
-  servlet:
-    context-path: /api/v1/
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      retry:
+        initialInterval: 2000
+        multiplier: 1.5
+        maxInterval: 60000
+        maxAttempts: 100
+
+eureka:
+  client:
+    service-url:
+      enabled: true
+      fetch-registry: true
+      register-with-eureka: true
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+  instance:
+    lease-renewal-interval-in-seconds: 10

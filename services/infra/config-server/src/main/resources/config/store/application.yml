@@ -1,12 +1,22 @@
 server:
   port: 8001
   servlet:
-    context-path: /api/v1/store/
+    context-path: /api/v1/
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: store
   jpa:
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/store
     username: postgres
     password: gernika54
+
+springdoc:
+  api-docs:
+    enabled: true
+  paths-to-match: /store/**

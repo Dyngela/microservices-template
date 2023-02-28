@@ -1,20 +1,22 @@
 server:
-  port: 8088
+  port: 8000
   servlet:
-    context-path: /api/v1/authentication/
+    context-path: /api/v1/
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${DB_URI}
-    # url: jdbc:postgresql://localhost:5432/authentication
+    # url: ${env.DB_URI}
+    url: jdbc:postgresql://localhost:5432/authentication
     username: postgres
     password: gernika54
-  environment:
-    DB_URI:
+  application:
+    name: authentication
 
 springdoc:
   swagger-ui:

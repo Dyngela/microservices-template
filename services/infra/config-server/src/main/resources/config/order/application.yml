@@ -1,9 +1,11 @@
 server:
   port: 8008
   servlet:
-    context-path: /api/v1/order/
+    context-path: /api/v1/
 
 spring:
+  application:
+    name: order
   jpa:
     show-sql: true
     hibernate:

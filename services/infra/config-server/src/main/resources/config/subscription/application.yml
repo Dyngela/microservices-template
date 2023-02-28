@@ -1,16 +1,15 @@
-server:
-  port: 8009
-  servlet:
-    context-path: /api/v1/
-
 spring:
   application:
-    name: product
+    name: subscription
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/product
+    url: jdbc:postgresql://localhost:5432/subscription
     username: postgres
     password: gernika54
+server:
+  port: 8004
+  servlet:
+    context-path: /api/v1/
