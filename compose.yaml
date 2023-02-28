@@ -3,7 +3,7 @@ services:
 
   postgres:
     build:
-      context: ./external/db
+      context: ./db
     container_name: postgres
     environment:
       POSTGRES_USER: ${DB_USER}

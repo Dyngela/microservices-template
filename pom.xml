@@ -40,6 +40,7 @@
         <rabbitmq.version>2.7.5</rabbitmq.version>
         <spring-boot.version>2.7.2</spring-boot.version>
         <feign.version>3.1.5</feign.version>
+        <com.google.code.gson.version>2.9.0</com.google.code.gson.version>
     </properties>
 
     <modules>
@@ -215,6 +216,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring-boot-aop-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${com.google.code.gson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
