@@ -11,26 +11,26 @@ services:
     ports:
       - 8080:8761
 
-  # service-gateway:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: gateway
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   container_name: gateway
-  #   depends_on:
-  #     - service-config
-  #   ports:
-  #     - 80:8080
+  service-gateway:
+    build:
+      args:
+        SERVICE_NAME: gateway
+      context: .
+      dockerfile: Dockerfile.ms
+    container_name: gateway
+    depends_on:
+      - service-config
+    ports:
+      - 80:8080
 
-  # service-config:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: config-server
-  #     context: ./services/infra/config-server
-  #   container_name: config-server
-  #   depends_on:
-  #     - service-discovery
+  service-config:
+    build:
+      args:
+        SERVICE_NAME: config-server
+      context: ./services/infra/config-server
+    container_name: config-server
+    depends_on:
+      - service-discovery
 
   # service-authentication:
   #   build:

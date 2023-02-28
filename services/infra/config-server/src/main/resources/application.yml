@@ -9,7 +9,10 @@ spring:
       - native
   cloud:
     config:
-      override-system-properties: true
+      # override-system-properties: true
+      # allow-override: true
+      # override-none: true
+
       server:
         native:
           # search-locations: "file://${CONFIG_DIR:@project-root@/src/main/resources/config/{application}/{profile}"
