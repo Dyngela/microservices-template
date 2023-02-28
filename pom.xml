@@ -43,19 +43,18 @@
     </properties>
 
     <modules>
-        <module>services/config/authentication</module>
-        <module>services/config/rabbitMQ</module>
-        <module>services/config/gateway</module>
-        <module>services/config/eureka-server</module>
-        <module>services/config/config-server</module>
+        <module>services/infra/rabbitMQ</module>
+        <module>services/infra/gateway</module>
+        <module>services/infra/eureka-server</module>
+        <module>services/infra/config-server</module>
 
+        <module>services/core/authentication</module>
         <module>services/core/customer</module>
         <module>services/core/notification</module>
         <module>services/core/order</module>
         <module>services/core/product</module>
         <module>services/core/store</module>
-
-        <module>services/config/clients</module>
+        <module>services/core/clients</module>
 
         <module>services/back-office/customisation</module>
 <!--        <module>services/back-office/payment</module>-->

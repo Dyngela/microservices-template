@@ -1,34 +1,6 @@
 ---
 services:
 
-  # service-discovery:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: eureka-server
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   container_name: eureka-server
-  #   # environment:
-  #   #   SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-  #   #   TZ: ${TZ:-Europe/Paris}
-  #   ports:
-  #     - ${SRV_EUREKA:-8761}:8761
-
-  # service-config:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: config-server
-  #     context: ./services/config/config-server
-  #   container_name: config-server
-  #   # environment:
-  #   #   EUREKA_URI: ${EUREKA_URI}
-  #   #   SPRING_PROFILES_ACTIVE: native,${SPRING_PROFILES_ACTIVE}
-  #   #   TZ: ${TZ}
-  #   depends_on:
-  #     - service-discovery
-  #   ports:
-  #     - ${SRV_CONFIG:-8888}:8888
-
   postgres:
     build:
       context: ./external/db
