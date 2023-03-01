@@ -107,7 +107,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.diy.PaymentApplication</mainClass>
+                    <mainClass>com.diy.EurekaApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
