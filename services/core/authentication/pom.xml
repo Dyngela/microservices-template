@@ -132,6 +132,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.diy.AuthenticationApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -148,11 +158,9 @@
                             <packageName>${project.groupId}.generated</packageName>
                             <apiPackage>${project.groupId}.generated.api</apiPackage>
                             <modelPackage>${project.groupId}.generated.model</modelPackage>
-
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <generateModelDocumentation>false</generateModelDocumentation>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-
                             <configOptions>
                                 <basePackage>${project.groupId}.generated</basePackage>
                                 <invokerPackage>${project.groupId}.generated</invokerPackage>

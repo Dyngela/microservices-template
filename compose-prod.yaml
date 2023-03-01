@@ -57,29 +57,33 @@ services:
   #   # depends_on:
   #   #   - eureka
 
-  # service-order:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: order
-  #     context: .
-  #     dockerfile: Dockerfile.ms
-  #   networks:
-  #     - spring
-  #   # depends_on:
-  #   #   - eureka
+  service-order:
+    build:
+      args:
+        SERVICE_NAME: customisation
+      context: .
+      dockerfile: Dockerfile.ms
+    container_name: customisation
+    # environment:
+    #   DB_URI: ${DB_URI}/customisation
+    #   DB_USER: ${DB_USER}
+    #   DB_PASS: ${DB_PASS}
+    depends_on:
+      - service-gateway
+      - postgres
 
-  # postgres:
-  #   build:
-  #     context: ./db
-  #   container_name: postgres
-  #   environment:
-  #     POSTGRES_USER: ${DB_USER}
-  #     POSTGRES_PASSWORD: ${DB_PASS}
-  #     PGDATA: /data/postgres
-  #     TZ: ${TZ}
-  #     PGTZ: ${TZ}
-  #   ports:
-  #     - ${POSTGRES_PORT:-5432}:5432
+  postgres:
+    build:
+      context: ./db
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ:-Europe/Paris}
+      PGTZ: ${TZ:-Europe/Paris}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
 
   # rabbitmq:
   #   image: rabbitmq:3.9.11-management-alpine

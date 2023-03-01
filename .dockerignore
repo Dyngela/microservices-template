@@ -1,0 +1,5 @@
+.idea
+.envrc
+.func.sh
+.tmuxp.yaml
+**/target/*

@@ -20,11 +20,10 @@ FROM builder AS compiler
 RUN mvn package -pl com.diy:config-server
 RUN mvn package -pl com.diy:eureka-server
 RUN mvn package -pl com.diy:gateway
-# RUN mvn install -pl com.diy:customer,com.diy:store
-# RUN mvn install -pl com.diy:store
-# RUN mvn install -pl com.diy:rabbitMQ
-# RUN mvn install -pl com.diy:clients --also-make
-# RUN mvn package -pl com.diy:authentication
+RUN mvn install -pl com.diy:customer,com.diy:store
+RUN mvn install -pl com.diy:clients --also-make
+RUN mvn package -pl com.diy:authentication
+RUN mvn package -pl com.diy:customisation
 
 
 FROM debian:bookworm-slim
@@ -37,10 +36,10 @@ COPY --from=compiler ${SRC}/infra/gateway/target/gateway-${VERSION}.jar ${DST}/g
 COPY --from=compiler ${SRC}/infra/config-server/target/config-server-${VERSION}.jar ${DST}/config-server.jar
 COPY --from=compiler ${SRC}/infra/config-server/src/main/resources/config /data/config
 # COPY --from=compiler ${SRC}/core/notification/target/notification-${VERSION}.jar ${DST}/notification.jar
-# COPY --from=compiler ${SRC}/core/authentication/target/authentication-${VERSION}.jar ${DST}/authentication.jar
+COPY --from=compiler ${SRC}/core/authentication/target/authentication-${VERSION}.jar ${DST}/authentication.jar
 # COPY --from=compiler ${SRC}/core/clients/target/clients-${VERSION}.jar ${DST}/clients.jar
 # COPY --from=compiler ${SRC}/core/customer/target/customer-${VERSION}.jar ${DST}/customer.jar
 # COPY --from=compiler ${SRC}/core/order/target/order-${VERSION}.jar ${DST}/order.jar
 # COPY --from=compiler ${SRC}/core/product/target/product-${VERSION}.jar ${DST}/product.jar
 # COPY --from=compiler ${SRC}/core/store/target/store-${VERSION}.jar ${DST}/store.jar
-# COPY --from=compiler ${SRC}/back-office/customisation/target/customisation-${VERSION}.jar ${DST}/customisation.jar
+COPY --from=compiler ${SRC}/back-office/customisation/target/customisation-${VERSION}.jar ${DST}/customisation.jar

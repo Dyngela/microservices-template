@@ -5,15 +5,19 @@ server:
 
 spring:
   rabbitmq:
-    addresses: ${RABBITMQ_URI}
+    addresses: rabbitmq:5672
+    # addresses: ${RABBITMQ_URI}
   jpa:
     show-sql: false
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${DB_URI}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: jdbc:postgresql://postgres:5432/notification
+    username: postgres
+    password: gernika54
+    # url: ${DB_URI}
+    # username: ${DB_USER}
+    # password: ${DB_PASS}
 
 twilio:
   account_sid: ${TWILIO_SID}
