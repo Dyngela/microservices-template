@@ -2,6 +2,8 @@ package com.diy.rabbitMQ;
 
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -15,6 +17,16 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     private final ConnectionFactory connectionFactory;
+
+    @Bean
+    Queue queue() {
+        return new Queue("notification.queue");
+    }
+
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange("internal.exchange");
+    }
 
     @Bean
     public AmqpTemplate amqpTemplate() {
@@ -33,8 +45,7 @@ public class RabbitMQConfig {
 
     @Bean
     public MessageConverter jacksonConverter() {
-        MessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
-        return jackson2JsonMessageConverter;
+        return new Jackson2JsonMessageConverter();
     }
 
 }
