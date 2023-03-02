@@ -9,8 +9,8 @@ spring:
       # override-system-properties: true
       server:
         native:
-          # search-locations: "file://${CONFIG_DIR:@project-root@/src/main/resources/config}"
-          search-locations: classpath:/config/{application}
+          search-locations: "file:///data/{application}"
+          # search-locations: classpath:/config/{application}
 
 eureka:
   client:
