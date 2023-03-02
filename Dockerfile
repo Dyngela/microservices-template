@@ -38,7 +38,7 @@ RUN mvn verify --fail-never
 
 
 FROM tier0 AS build-rabbitmq
-RUN mvn verify --fail-never -pl rabbitmq
+RUN mvn verify --fail-never -pl com.diy:rabbitmq
 ADD services/infra/rabbitMQ ${SRC}/services/infra/rabbitMQ
 RUN mvn install -pl com.diy:rabbitMQ
 
@@ -46,10 +46,11 @@ RUN mvn install -pl com.diy:rabbitMQ
 FROM build-rabbitmq AS package-rabbitmq
 COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 RUN mkdir /data
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 
 
 FROM tier0 AS build-eureka-server
-RUN mvn verify --fail-never -pl eureka-server
+RUN mvn verify --fail-never -pl com.diy:eureka-server
 ADD services/infra/eureka-server ${SRC}/services/infra/eureka-server
 RUN mvn package -pl com.diy:eureka-server
 
@@ -57,10 +58,11 @@ RUN mvn package -pl com.diy:eureka-server
 FROM build-eureka-server AS package-eureka-server
 COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 RUN mkdir /data
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 
 
 FROM tier0 AS build-config-server
-RUN mvn verify --fail-never -pl config-server
+RUN mvn verify --fail-never -pl com.diy:config-server
 ADD services/infra/config-server ${SRC}/services/infra/config-server
 RUN mvn package -pl com.diy:config-server
 
@@ -71,7 +73,7 @@ COPY --from=build-config-server ${SRC}/services/infra/config-server/src/main/res
 
 
 FROM tier0 AS build-gateway
-RUN mvn verify --fail-never -pl gateway
+RUN mvn verify --fail-never -pl com.diy:gateway
 ADD services/infra/gateway ${SRC}/services/infra/gateway
 RUN mvn package -pl com.diy:gateway
 
@@ -82,18 +84,18 @@ RUN mkdir /data
 
 
 FROM tier0 AS build-customer
-RUN mvn verify --fail-never -pl customer
+RUN mvn verify --fail-never -pl com.diy:customer
 ADD services/core/customer ${SRC}/services/core/customer
 RUN mvn package -pl com.diy:customer
 
 
 FROM build-customer AS package-customer
-COPY --from=build-customer ${SRC}/services/core/customer/target/store-1.0-SNAPSHOT.jar /target/customer-1.0-SNAPSHOT.jar
+COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT.jar /target/customer-1.0-SNAPSHOT.jar
 RUN mkdir /data
 
 
 FROM tier0 AS build-store
-RUN mvn verify --fail-never -pl store
+RUN mvn verify --fail-never -pl com.diy:store
 ADD services/core/store ${SRC}/services/core/store
 RUN mvn package -pl com.diy:store
 
@@ -103,23 +105,63 @@ COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT.jar
 RUN mkdir /data
 
 
+FROM tier0 AS build-product
+RUN mvn verify --fail-never -pl com.diy:product
+ADD services/core/product ${SRC}/services/core/product
+RUN mvn package -pl com.diy:product
+
+
+FROM build-product AS package-product
+COPY --from=build-product ${SRC}/services/core/product/target/product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
+RUN mkdir /data
+
+
+FROM tier0 AS build-customisation
+RUN mvn verify --fail-never -pl com.diy:customisation
+ADD services/back-office/customisation ${SRC}/services/back-office/customisation
+RUN mvn package -pl com.diy:customisation
+
+
+FROM build-customisation AS package-customisation
+COPY --from=build-customisation ${SRC}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
+RUN mkdir /data
+
+
+FROM tier0 AS build-subscription
+RUN mvn verify --fail-never -pl com.diy:subscription
+ADD services/back-office/subscription ${SRC}/services/back-office/subscription
+RUN mvn package -pl com.diy:subscription
+
+
+FROM build-subscription AS package-subscription
+COPY --from=build-subscription ${SRC}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
+RUN mkdir /data
+
+
+FROM tier0 AS build-ticket
+RUN mvn verify --fail-never -pl com.diy:ticket
+ADD services/back-office/ticket ${SRC}/services/back-office/ticket
+RUN mvn package -pl com.diy:ticket
+
+
+FROM build-ticket AS package-ticket
+COPY --from=build-ticket ${SRC}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
+RUN mkdir /data
+
+
 FROM tier0 AS tier1
 COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitMQ ${SRC}/services/infra/rabbitMQ
-COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitMQ/target/rabbitMQ-1.0-SNAPSHOT.jar /target/rabbitMQ-1.0-SNAPSHOT.jar
 COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server ${SRC}/services/infra/eureka-server
-COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 COPY --from=build-config-server ${SRC}/services/infra/config-server ${SRC}/services/infra/config-server
-COPY --from=build-config-server ${SRC}/services/infra/config-server/target/config-server-1.0-SNAPSHOT.jar /target/config-server-1.0-SNAPSHOT.jar
 COPY --from=build-gateway ${SRC}/services/infra/gateway ${SRC}/services/infra/gateway
-COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
 COPY --from=build-customer ${SRC}/services/core/customer ${SRC}/services/core/customer
-COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT.jar /target/customer-1.0-SNAPSHOT.jar
 COPY --from=build-store ${SRC}/services/core/store ${SRC}/services/core/store
-COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT.jar /target/store-1.0-SNAPSHOT.jar
+COPY --from=build-product ${SRC}/services/core/product ${SRC}/services/core/product
+COPY --from=build-customisation ${SRC}/services/back-office/customisation ${SRC}/services/back-office/customisation
 
 
 FROM tier1 AS build-clients
-RUN mvn verify --fail-never -pl clients
+RUN mvn verify --fail-never -pl com.diy:clients
 ADD services/core/clients ${SRC}/services/core/clients
 RUN mvn package -pl com.diy:customer,com.diy:store,com.diy:clients
 
@@ -128,7 +170,7 @@ FROM build-clients AS package-clients
 
 
 FROM tier1 AS build-notification
-RUN mvn verify --fail-never -pl notification
+RUN mvn verify --fail-never -pl com.diy:notification
 ADD services/core/notification ${SRC}/services/core/notification
 RUN mvn package -pl com.diy:notification --also-make
 
@@ -139,7 +181,7 @@ RUN mkdir /data
 
 
 FROM tier1 AS build-order
-RUN mvn verify --fail-never -pl order
+RUN mvn verify --fail-never -pl com.diy:order
 ADD services/core/order ${SRC}/services/core/order
 RUN mvn package -pl com.diy:order --also-make
 
@@ -157,7 +199,7 @@ COPY --from=build-authentication ${SRC}/services/core/authentication ${SRC}/serv
 
 
 FROM tier2 AS build-authentication
-RUN mvn verify --fail-never -pl authentication
+RUN mvn verify --fail-never -pl com.diy:authentication
 ADD services/core/authentication ${SRC}/services/core/authentication
 RUN mvn package -pl com.diy:authentication --also-make
 

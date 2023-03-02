@@ -1,19 +1,33 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/
+
 spring:
   application:
     name: customisation
-  config:
-    import: "optional:configserver:"
+  # config:
+  #   import: "optional:configserver:"
   cloud:
     config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+      enabled: false
+      # fail-fast: true
+      # discovery:
+      #   enabled: true
+      #   service-id: config-server
+      # retry:
+      #   initialInterval: 2000
+      #   multiplier: 1.5
+      #   maxInterval: 60000
+      #   maxAttempts: 100
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:${DB_URI}
+    username: ${DB_USER}
+    password: ${DB_PASS}
 
 eureka:
   client:
@@ -21,6 +35,6 @@ eureka:
       enabled: true
       fetch-registry: true
       register-with-eureka: true
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_URI}
   instance:
     lease-renewal-interval-in-seconds: 10
