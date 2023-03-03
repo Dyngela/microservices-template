@@ -9,77 +9,85 @@ services:
     ports:
       - 8080:8761
 
-  # service-config:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: config-server
-  #   container_name: config-server
-  #   depends_on:
-  #     - service-discovery
-
   service-gateway:
     build:
       args:
         SERVICE_NAME: gateway
     container_name: gateway
-    # depends_on:
-    #   - service-config
+    depends_on:
+      - service-discovery
     ports:
       - 80:8080
 
+  # CORE
   # service-authentication:
   #   build:
   #     args:
   #       SERVICE_NAME: authentication
-  #     context: .
-  #     dockerfile: Dockerfile.ms
   #   container_name: authentication
   #   environment:
-  #     DB_URI: ${DB_URI}/authentication
+  #     DB_URI: ${DB_URI}
   #     DB_USER: ${DB_USER}
   #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
+  #     - postgres
 
   # service-customer:
   #   build:
   #     args:
   #       SERVICE_NAME: customer
+  #   container_name: customer
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
   #     - postgres
 
-  # service-notification:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: notification
-  #   container_name: notification
-  #   # environment:
-  #   #   RABBITMQ_URI: ${RABBITMQ_URI}
-  #   #   DB_URI: ${DB_URI}/customer
-  #   #   DB_USER: ${DB_USER}
-  #   #   DB_PASS: ${DB_PASS}
-  #   #   SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-  #   #   TWILIO_SID: ${TWILIO_SID}
-  #   #   TWILIO_TOKEN: ${TWILIO_TOKEN}
-  #   #   TWILIO_NUM: ${TWILIO_NUM}
-  #   depends_on:
-  #     - service-gateway
-  #     - postgres
-  #     - rabbitmq
+  service-notification:
+    build:
+      args:
+        SERVICE_NAME: notification
+    container_name: notification
+    environment:
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      TWILIO_SID: ${TWILIO_SID}
+      TWILIO_TOKEN: ${TWILIO_TOKEN}
+      TWILIO_NUM: ${TWILIO_NUM}
+      RABBITMQ_URI: ${RABBITMQ_URI}
+    depends_on:
+      - service-gateway
+      - postgres
+      - rabbitmq
 
   # service-order:
   #   build:
   #     args:
   #       SERVICE_NAME: order
+  #   container_name: order
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     RABBITMQ_URI: ${RABBITMQ_URI}
   #   depends_on:
   #     - service-gateway
   #     - postgres
+  #     - rabbitmq
 
   # service-product:
   #   build:
   #     args:
   #       SERVICE_NAME: product
+  #   container_name: product
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
   #     - postgres
@@ -89,22 +97,27 @@ services:
   #     args:
   #       SERVICE_NAME: store
   #   container_name: store
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
   #     - postgres
 
-  service-customisation:
-    build:
-      args:
-        SERVICE_NAME: customisation
-    container_name: customisation
-    environment:
-      DB_URI: ${DB_URI}/customisation
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-    depends_on:
-      - service-gateway
-      - postgres
+  # BACK-OFFICE
+  # service-customisation:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: customisation
+  #   container_name: customisation
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #   depends_on:
+  #     - service-gateway
+  #     - postgres
 
   # service-payment:
   #   build:
@@ -120,6 +133,10 @@ services:
   #     args:
   #       SERVICE_NAME: subscription
   #   container_name: subscription
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
   #     - postgres
@@ -129,6 +146,10 @@ services:
   #     args:
   #       SERVICE_NAME: ticket
   #   container_name: ticket
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
   #   depends_on:
   #     - service-gateway
   #     - postgres
@@ -150,7 +171,7 @@ services:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     environment:
-      TZ: ${TZ}
+      TZ: ${TZ:-Europe/Paris}}
     ports:
       - 5672:5672
       - 15672:15672

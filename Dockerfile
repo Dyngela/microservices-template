@@ -61,17 +61,6 @@ RUN mkdir /data
 ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 
 
-FROM tier0 AS build-config-server
-RUN mvn verify --fail-never -pl com.diy:config-server
-ADD services/infra/config-server ${SRC}/services/infra/config-server
-RUN mvn package -pl com.diy:config-server
-
-
-FROM build-config-server AS package-config-server
-COPY --from=build-config-server ${SRC}/services/infra/config-server/target/config-server-1.0-SNAPSHOT.jar /target/config-server-1.0-SNAPSHOT.jar
-COPY --from=build-config-server ${SRC}/services/infra/config-server/src/main/resources/config /data
-
-
 FROM tier0 AS build-gateway
 RUN mvn verify --fail-never -pl com.diy:gateway
 ADD services/infra/gateway ${SRC}/services/infra/gateway
@@ -152,7 +141,6 @@ RUN mkdir /data
 FROM tier0 AS tier1
 COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitMQ ${SRC}/services/infra/rabbitMQ
 COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server ${SRC}/services/infra/eureka-server
-COPY --from=build-config-server ${SRC}/services/infra/config-server ${SRC}/services/infra/config-server
 COPY --from=build-gateway ${SRC}/services/infra/gateway ${SRC}/services/infra/gateway
 COPY --from=build-customer ${SRC}/services/core/customer ${SRC}/services/core/customer
 COPY --from=build-store ${SRC}/services/core/store ${SRC}/services/core/store
@@ -195,7 +183,6 @@ FROM tier1 AS tier2
 COPY --from=build-clients ${SRC}/services/core/clients ${SRC}/services/core/clients
 COPY --from=build-notification ${SRC}/services/core/notification ${SRC}/services/core/notification
 COPY --from=build-order ${SRC}/services/core/order ${SRC}/services/core/order
-COPY --from=build-authentication ${SRC}/services/core/authentication ${SRC}/services/core/authentication
 
 
 FROM tier2 AS build-authentication

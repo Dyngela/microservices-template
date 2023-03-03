@@ -1,11 +1,11 @@
 server:
   port: 8080
   servlet:
-    context-path: /api/v1/store/
+    context-path: /api/v1/order/
 
 spring:
   application:
-    name: store
+    name: order
   cloud:
     config:
       enabled: false
@@ -14,12 +14,11 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:${DB_URI}/${spring.application.name}
+    url: jdbc:${DB_URI}/${spring.application.name}s
     username: ${DB_USER}
     password: ${DB_PASS}
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  rabbitmq:
+    addresses: ${RABBITMQ_URI}
 
 eureka:
   client:
@@ -30,8 +29,3 @@ eureka:
       defaultZone: ${EUREKA_URI}
   instance:
     lease-renewal-interval-in-seconds: 10
-
-springdoc:
-  api-docs:
-    enabled: true
-  paths-to-match: /store/**

@@ -1,33 +1,22 @@
 server:
-  port: 8080
+  port: 8002
   servlet:
-    context-path: /api/v1/
+    context-path: /api/v1/customisation/
 
 spring:
   application:
     name: customisation
-  # config:
-  #   import: "optional:configserver:"
   cloud:
     config:
       enabled: false
-      # fail-fast: true
-      # discovery:
-      #   enabled: true
-      #   service-id: config-server
-      # retry:
-      #   initialInterval: 2000
-      #   multiplier: 1.5
-      #   maxInterval: 60000
-      #   maxAttempts: 100
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:${DB_URI}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: jdbc:postgresql://localhost:5432/${spring.application.name}
+    username: postgres
+    password: gernika54
 
 eureka:
   client:
@@ -35,6 +24,6 @@ eureka:
       enabled: true
       fetch-registry: true
       register-with-eureka: true
-      defaultZone: ${EUREKA_URI}
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
   instance:
     lease-renewal-interval-in-seconds: 10

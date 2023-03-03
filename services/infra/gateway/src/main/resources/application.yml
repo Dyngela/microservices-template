@@ -71,19 +71,6 @@ spring:
           uri: lb://AUTHENTICATION
           predicates:
             - Path=/api/v1/authentication/**
-  # config:
-  #   import: "optional:configserver:"
-  # cloud:
-  #   config:
-  #     fail-fast: true
-  #     discovery:
-  #       enabled: true
-  #       service-id: config-server
-  #     retry:
-  #       initialInterval: 2000
-  #       multiplier: 1.5
-  #       maxInterval: 60000
-  #       maxAttempts: 100
 
 eureka:
   client:

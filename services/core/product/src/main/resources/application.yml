@@ -1,19 +1,22 @@
+server:
+  port: 8009
+  servlet:
+    context-path: /api/v1/product/
+
 spring:
   application:
     name: product
-  config:
-    import: "optional:configserver:"
   cloud:
     config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+      enabled: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${spring.application.name}
+    username: postgres
+    password: gernika54
 
 eureka:
   client:

@@ -1,11 +1,11 @@
 server:
   port: 8080
   servlet:
-    context-path: /api/v1/store/
+    context-path: /api/v1/customer/
 
 spring:
   application:
-    name: store
+    name: customer
   cloud:
     config:
       enabled: false
@@ -17,9 +17,6 @@ spring:
     url: jdbc:${DB_URI}/${spring.application.name}
     username: ${DB_USER}
     password: ${DB_PASS}
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
 eureka:
   client:
@@ -32,6 +29,5 @@ eureka:
     lease-renewal-interval-in-seconds: 10
 
 springdoc:
-  api-docs:
-    enabled: true
-  paths-to-match: /store/**
+  swagger-ui:
+    path: /swagger-ui.html

@@ -1,19 +1,24 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /api/v1/authentication/
+
 spring:
   application:
     name: authentication
-  config:
-    import: "optional:configserver:"
   cloud:
     config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+      enabled: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${spring.application.name}
+    username: postgres
+    password: gernika54
+  main:
+    allow-bean-definition-overriding: true
 
 eureka:
   client:
@@ -24,3 +29,7 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
   instance:
     lease-renewal-interval-in-seconds: 10
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

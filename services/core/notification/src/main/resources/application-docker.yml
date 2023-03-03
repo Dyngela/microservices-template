@@ -1,11 +1,11 @@
 server:
   port: 8080
   servlet:
-    context-path: /api/v1/store/
+    context-path: /api/v1/notification/
 
 spring:
   application:
-    name: store
+    name: notification
   cloud:
     config:
       enabled: false
@@ -17,9 +17,8 @@ spring:
     url: jdbc:${DB_URI}/${spring.application.name}
     username: ${DB_USER}
     password: ${DB_PASS}
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  rabbitmq:
+    addresses: ${RABBITMQ_URI}
 
 eureka:
   client:
@@ -31,7 +30,15 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
 
-springdoc:
-  api-docs:
-    enabled: true
-  paths-to-match: /store/**
+twilio:
+  account_sid: ${TWILIO_SID}
+  auth_token: ${TWILIO_TOKEN}
+  trial_number: ${TWILIO_NUM}
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-key:
+    internal-notification: internal.notification.routing-key

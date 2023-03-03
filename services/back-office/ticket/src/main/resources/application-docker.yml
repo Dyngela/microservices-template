@@ -1,19 +1,22 @@
+sserver:
+  port: 8080
+  servlet:
+    context-path: /api/v1/ticket/
+
 spring:
   application:
     name: ticket
-  config:
-    import: "optional:configserver:"
   cloud:
     config:
-      fail-fast: true
-      discovery:
-        enabled: true
-        service-id: config-server
-      retry:
-        initialInterval: 2000
-        multiplier: 1.5
-        maxInterval: 60000
-        maxAttempts: 100
+      enabled: false
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:${DB_URI}/${spring.application.name}
+    username: ${DB_USER}
+    password: ${DB_PASS}
 
 eureka:
   client:
@@ -21,6 +24,6 @@ eureka:
       enabled: true
       fetch-registry: true
       register-with-eureka: true
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+      defaultZone: ${EUREKA_URI}
   instance:
     lease-renewal-interval-in-seconds: 10
