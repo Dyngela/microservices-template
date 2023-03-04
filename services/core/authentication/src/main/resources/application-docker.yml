@@ -1,14 +1,11 @@
 server:
   port: 8080
   servlet:
-    context-path: /api/v1/authentication/
+    context-path: /api/v1/
 
 spring:
   application:
     name: authentication
-  cloud:
-    config:
-      enabled: false
   jpa:
     show-sql: false
     hibernate:
@@ -29,7 +26,3 @@ eureka:
       defaultZone: ${EUREKA_URI}
   instance:
     lease-renewal-interval-in-seconds: 10
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html

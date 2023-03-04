@@ -6,9 +6,6 @@ server:
 spring:
   application:
     name: order
-  cloud:
-    config:
-      enabled: false
   jpa:
     show-sql: true
     hibernate:

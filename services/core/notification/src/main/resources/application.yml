@@ -6,9 +6,6 @@ server:
 spring:
   application:
     name: notification
-  cloud:
-    config:
-      enabled: false
   jpa:
     show-sql: true
     hibernate:

@@ -6,9 +6,6 @@ server:
 spring:
   application:
     name: store
-  cloud:
-    config:
-      enabled: false
   jpa:
     show-sql: false
     hibernate:
@@ -30,8 +27,3 @@ eureka:
       defaultZone: ${EUREKA_URI}
   instance:
     lease-renewal-interval-in-seconds: 10
-
-springdoc:
-  api-docs:
-    enabled: true
-  paths-to-match: /store/**
