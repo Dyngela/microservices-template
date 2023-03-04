@@ -18,11 +18,10 @@ ENV SPRING_PROFILES_ACTIVE=docker
 ADD pom.xml ${SRC}
 ADD services/infra/gateway/pom.xml ${SRC}/services/infra/gateway/pom.xml
 ADD services/infra/eureka-server/pom.xml ${SRC}/services/infra/eureka-server/pom.xml
-ADD services/infra/config-server/pom.xml ${SRC}/services/infra/config-server/pom.xml
 ADD services/infra/rabbitMQ/pom.xml ${SRC}/services/infra/rabbitMQ/pom.xml
 
 ADD services/back-office/customisation/pom.xml ${SRC}/services/back-office/customisation/pom.xml
-ADD services/back-office/payment/pom.xml ${SRC}/services/back-office/payment/pom.xml
+# ADD services/back-office/payment/pom.xml ${SRC}/services/back-office/payment/pom.xml
 ADD services/back-office/subscription/pom.xml ${SRC}/services/back-office/subscription/pom.xml
 ADD services/back-office/ticket/pom.xml ${SRC}/services/back-office/ticket/pom.xml
 

@@ -119,14 +119,14 @@ services:
       - service-gateway
       - postgres
 
-  service-payment:
-    build:
-      args:
-        SERVICE_NAME: payment
-    container_name: payment
-    depends_on:
-      - service-gateway
-      - postgres
+  # service-payment:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: payment
+  #   container_name: payment
+  #   depends_on:
+  #     - service-gateway
+  #     - postgres
 
   service-subscription:
     build:
