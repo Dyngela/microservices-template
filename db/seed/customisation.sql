@@ -4,6 +4,7 @@ create table if not exists customisation (
      color_button varchar not null,
      font varchar not null unique,
      catch_phrase varchar not null,
+     active boolean,
      created_at timestamp not null,
      deleted_at timestamp,
      updated_at timestamp,
