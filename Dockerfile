@@ -45,7 +45,6 @@ RUN mvn install -pl com.diy:rabbitMQ
 FROM build-rabbitmq AS package-rabbitmq
 COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 RUN mkdir /data
-ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 
 
 FROM tier0 AS build-eureka-server
@@ -57,7 +56,6 @@ RUN mvn package -pl com.diy:eureka-server
 FROM build-eureka-server AS package-eureka-server
 COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 RUN mkdir /data
-ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 
 
 FROM tier0 AS build-gateway
@@ -78,7 +76,7 @@ RUN mvn package -pl com.diy:customer
 
 
 FROM build-customer AS package-customer
-COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT.jar /target/customer-1.0-SNAPSHOT.jar
+COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
 RUN mkdir /data
 
 
@@ -89,7 +87,7 @@ RUN mvn package -pl com.diy:store
 
 
 FROM build-store AS package-store
-COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT.jar /target/store-1.0-SNAPSHOT.jar
+COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
 RUN mkdir /data
 
 
