@@ -1,6 +1,7 @@
 ---
 services:
 
+  # INFRA
   service-discovery:
     build:
       args:
@@ -19,19 +20,41 @@ services:
     ports:
       - ${GATEWAY_PORT:-80}:8080
 
+  postgres:
+    build:
+      context: ./db
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ:-Europe/Paris}
+      PGTZ: ${TZ:-Europe/Paris}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ:-Europe/Paris}}
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   # CORE
-  # service-authentication:
-  #   build:
-  #     args:
-  #       SERVICE_NAME: authentication
-  #   container_name: authentication
-  #   environment:
-  #     DB_URI: ${DB_URI}
-  #     DB_USER: ${DB_USER}
-  #     DB_PASS: ${DB_PASS}
-  #   depends_on:
-  #     - service-gateway
-  #     - postgres
+  service-authentication:
+    build:
+      args:
+        SERVICE_NAME: authentication
+    container_name: authentication
+    environment:
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+    depends_on:
+      - service-gateway
+      - postgres
 
   service-customer:
     build:
@@ -153,25 +176,3 @@ services:
     depends_on:
       - service-gateway
       - postgres
-
-  postgres:
-    build:
-      context: ./db
-    container_name: postgres
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      PGDATA: /data/postgres
-      TZ: ${TZ:-Europe/Paris}
-      PGTZ: ${TZ:-Europe/Paris}
-    ports:
-      - ${POSTGRES_PORT:-5432}:5432
-
-  rabbitmq:
-    image: rabbitmq:3.9.11-management-alpine
-    container_name: rabbitmq
-    environment:
-      TZ: ${TZ:-Europe/Paris}}
-    ports:
-      - 5672:5672
-      - 15672:15672

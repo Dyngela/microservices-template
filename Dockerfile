@@ -135,6 +135,7 @@ COPY --from=build-ticket ${SRC}/services/back-office/ticket/target/ticket-1.0-SN
 RUN mkdir /data
 
 
+# TIER0 -> TIER1
 FROM tier0 AS tier1
 COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitMQ ${SRC}/services/infra/rabbitMQ
 COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server ${SRC}/services/infra/eureka-server
@@ -148,7 +149,7 @@ COPY --from=build-customisation ${SRC}/services/back-office/customisation ${SRC}
 FROM tier1 AS build-clients
 RUN mvn verify --fail-never -pl com.diy:clients
 ADD services/core/clients ${SRC}/services/core/clients
-RUN mvn package -pl com.diy:customer,com.diy:store,com.diy:clients
+RUN mvn package -pl com.diy:clients --also-make
 
 
 FROM build-clients AS package-clients
@@ -176,6 +177,7 @@ COPY --from=build-order ${SRC}/services/core/order/target/order-1.0-SNAPSHOT.jar
 RUN mkdir /data
 
 
+# TIER1 -> TIER2
 FROM tier1 AS tier2
 COPY --from=build-clients ${SRC}/services/core/clients ${SRC}/services/core/clients
 COPY --from=build-notification ${SRC}/services/core/notification ${SRC}/services/core/notification
