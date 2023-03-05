@@ -16,10 +16,10 @@ public class NotificationConsumer {
 
     private final NotificationService notificationService;
 
-    @Bean
-    Queue queue() {
-        return new Queue("notification.queue");
-    }
+//    @Bean
+//    Queue queue() {
+//        return new Queue("notification.queue");
+//    }
 
     @RabbitListener(queues = "notification.queue")
     public void consumer(NotificationModel notificationRequest) {

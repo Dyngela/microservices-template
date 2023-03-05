@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -173,4 +174,35 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public UserModel createHandler(UserModel model) {
+        if (model.getStoreId() == null) {
+            throw new ExceptionHandler("Your store has to be specified");
+        }
+        try {
+            UserEntity entity = userModelMapper.toEntity(model);
+            entity.setCreatedAt(LocalDateTime.now());
+            entity.setRole(Roles.HANDLER);
+            userRepository.save(entity);
+            return userModelMapper.entityToModel(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while create a user: " + e.getMessage());
+            throw new ExceptionHandler("We could not create your account");
+        }
+    }
+
+    public UserModel createWorker(UserModel model) {
+        if (model.getStoreId() == null) {
+            throw new ExceptionHandler("Your store has to be specified");
+        }
+        try {
+            UserEntity entity = userModelMapper.toEntity(model);
+            entity.setCreatedAt(LocalDateTime.now());
+            entity.setRole(Roles.WORKER);
+            userRepository.save(entity);
+            return userModelMapper.entityToModel(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while create a user: " + e.getMessage());
+            throw new ExceptionHandler("We could not create your account");
+        }
+    }
 }

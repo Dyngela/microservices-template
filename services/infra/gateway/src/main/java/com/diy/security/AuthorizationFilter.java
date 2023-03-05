@@ -1,10 +1,13 @@
 package com.diy.security;
 
+import com.diy.exception.ExceptionHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,42 +29,41 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
         return (exchange, chain) -> {
 
-            ArrayList<String> adminURI = new ArrayList<>();
-            ArrayList<String> userURI = new ArrayList<>();
-
-            adminURI.add("http://localhost:8080/api/authentication/login");
-            userURI.add("http://localhost:8080/api/authentication/login");
-
             String APITargeted = String.valueOf(exchange.getRequest().getURI());
+            log.info("target: {}", APITargeted);
+
+            // If we want a public api, we don't do any check
+            if (getPublicPaths().contains(APITargeted)) {
+                log.info("public path");
+                return chain.filter(exchange);
+            }
 
             checks.setToken(exchange.getRequest().getHeaders().getFirst("Authorization"));
-            String role = "authNeeded";
+            String role;
             if (checks.getToken() != null) {
                 role = restTemplate.postForObject(uri, checks.getToken(), String.class);
+            } else {
+                log.info("no token");
+                throw  new RuntimeException("You need to sign in");
             }
 
             if (Objects.equals(role, "authNeeded")) {
-//                throw new RuntimeException("Authentication needed");
-                return chain.filter(exchange);
-
+                throw  new RuntimeException("You need to sign in");
             }
 
-            if (Objects.equals(role, "SUPERADMIN")) {
+            if (Objects.equals(role, "ADMIN") && getAdminPermission().contains(APITargeted)) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "ADMIN")) {
-                if (adminURI.contains(APITargeted) || userURI.contains(APITargeted)) {
-                    return chain.filter(exchange);
-                } else {
-                    throw new RuntimeException();
-                }
-            } else if (Objects.equals(role, "USER")) {
-                if (userURI.contains(APITargeted)) {
-                    return chain.filter(exchange);
-                }
+            } else if (Objects.equals(role, "OWNER") && getOwnerPermission().contains(APITargeted)) {
+                return chain.filter(exchange);
+            } else if (Objects.equals(role, "HANDLER") && getHandlerPermission().contains(APITargeted)) {
+                return chain.filter(exchange);
+            } else if (Objects.equals(role, "WORKER") && getWorkerPermission().contains(APITargeted)) {
+                return chain.filter(exchange);
+            } else if (Objects.equals(role, "USER") && getUserPermission().contains(APITargeted)) {
+                return chain.filter(exchange);
             } else {
-                return chain.filter(exchange);
+                throw new RuntimeException("Not enough privilege to do this.");
             }
-            return chain.filter(exchange);
         };
 
     }
@@ -70,6 +72,89 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         private String baseMessage;
         private boolean preLogger;
         private boolean postLogger;
+    }
+
+    /*
+     * Admin users are basically allowed everywhere
+     */
+    private ArrayList<String> getAdminPermission() {
+        ArrayList<String> permission = new ArrayList<>();
+        permission.add("api/v1/customisation");
+        permission.add("api/v1/subscription");
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/authentication");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/notification");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
+    }
+
+    private ArrayList<String> getOwnerPermission() {
+        ArrayList<String> permission = new ArrayList<>();
+        permission.add("api/v1/customisation");
+        permission.add("api/v1/subscription");
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/authentication");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/notification");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
+    }
+
+    private ArrayList<String> getHandlerPermission() {
+        ArrayList<String> permission = new ArrayList<>();
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/authentication");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
+    }
+
+    private ArrayList<String> getWorkerPermission() {
+        ArrayList<String> permission = new ArrayList<>();
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/authentication");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
+    }
+
+    private ArrayList<String> getUserPermission() {
+        ArrayList<String> permission = new ArrayList<>();
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/authentication");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
+    }
+
+
+    private ArrayList<String> getPublicPaths() {
+        ArrayList<String> permission = new ArrayList<>();
+//        permission.add("api/v1/customisation");
+        permission.add("api/v1/subscription");
+        permission.add("api/v1/ticket");
+        permission.add("api/v1/customer");
+        permission.add("api/v1/order");
+        permission.add("api/v1/product");
+        permission.add("api/v1/store");
+
+        return permission;
     }
 }
 

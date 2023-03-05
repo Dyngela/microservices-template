@@ -158,6 +158,53 @@ paths:
           description: Invalid request
           content: { }
 
+  /authentication/create/handler:
+    put:
+      tags:
+        - user
+      summary: Create a handler for a given store
+      description: Create a handler
+      operationId: createHandler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Invalid request
+          content: { }
+  /authentication/create/worker:
+    put:
+      tags:
+        - user
+      summary: Create a worker for a given store
+      description: Create a worker
+      operationId: createWorker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Invalid request
+          content: { }
+
 components:
   schemas:
     User:

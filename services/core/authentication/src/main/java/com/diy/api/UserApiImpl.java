@@ -20,9 +20,20 @@ public class UserApiImpl implements UserApi {
     UserModelMapper modelMapper;
     UserService userService;
 
+
     @Override
     public ResponseEntity<UserDto> createUser(UserDto userDto) {
         return ResponseEntity.ok(modelMapper.toDto(userService.createUser(modelMapper.dtoToModel(userDto))));
+    }
+
+    @Override
+    public ResponseEntity<UserDto> createHandler(UserDto userDto) {
+        return ResponseEntity.ok(modelMapper.toDto(userService.createHandler(modelMapper.dtoToModel(userDto))));
+    }
+
+    @Override
+    public ResponseEntity<UserDto> createWorker(UserDto userDto) {
+        return ResponseEntity.ok(modelMapper.toDto(userService.createWorker(modelMapper.dtoToModel(userDto))));
     }
 
     @Override
