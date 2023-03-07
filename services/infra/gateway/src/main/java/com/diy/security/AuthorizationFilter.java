@@ -1,15 +1,14 @@
 package com.diy.security;
 
-import com.diy.exception.ExceptionHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 @Log4j2
@@ -51,15 +50,19 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
                 throw  new RuntimeException("You need to sign in");
             }
 
-            if (Objects.equals(role, "ADMIN") && getAdminPermission().contains(APITargeted)) {
+            if (Objects.equals(role, "ADMIN")) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "OWNER") && getOwnerPermission().contains(APITargeted)) {
+            } else if (Objects.equals(role, "OWNER") && getOwnerPermission()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "HANDLER") && getHandlerPermission().contains(APITargeted)) {
+            } else if (Objects.equals(role, "HANDLER") && getHandlerPermission()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "WORKER") && getWorkerPermission().contains(APITargeted)) {
+            } else if (Objects.equals(role, "WORKER") && getWorkerPermission()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "USER") && getUserPermission().contains(APITargeted)) {
+            } else if (Objects.equals(role, "USER") && getUserPermission()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
                 return chain.filter(exchange);
             } else {
                 throw new RuntimeException("Not enough privilege to do this.");
@@ -75,84 +78,158 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     }
 
     /*
-     * Admin users are basically allowed everywhere
+     * Owner of a store can manage their store and do everything normal user and employees can do.
      */
-    private ArrayList<String> getAdminPermission() {
-        ArrayList<String> permission = new ArrayList<>();
-        permission.add("api/v1/customisation");
-        permission.add("api/v1/subscription");
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/authentication");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/notification");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
+    private ArrayList<Authorization> getOwnerPermission() {
+        ArrayList<Authorization> permission = new ArrayList<>();
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customisation/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customisation"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/customisation"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/customisation"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/customisation"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/subscription"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/subscription"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/subscription"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/subscription"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/customer/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/store/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/ticket/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/ticket/save"));
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/authentication/all"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/authentication/create/handler"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/authentication/create/worker"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/authentication"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/authentication/save"));
+
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customer"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customer/all"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/customer"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/customer/all"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/customer/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/customer/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/store"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/customer"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/status"));
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/product/product"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/product/product/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/product/product/save"));
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/product/category"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/product/category/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/product/category/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/all"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/store"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/store/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/store/save"));
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/store/address/id"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/store/address/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/store/address/save"));
 
         return permission;
     }
 
-    private ArrayList<String> getOwnerPermission() {
-        ArrayList<String> permission = new ArrayList<>();
-        permission.add("api/v1/customisation");
-        permission.add("api/v1/subscription");
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/authentication");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/notification");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
+    private ArrayList<Authorization> getHandlerPermission() {
+        ArrayList<Authorization> permission = new ArrayList<>();
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/customer/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/store/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/ticket/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/ticket/save"));
+
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/save"));
+
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/product/product"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/product/product/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/product/product/save"));
+
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/product/category"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/product/category/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/product/category/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/store"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/customer"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/status"));
 
         return permission;
     }
 
-    private ArrayList<String> getHandlerPermission() {
-        ArrayList<String> permission = new ArrayList<>();
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/authentication");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
+    private ArrayList<Authorization> getWorkerPermission() {
+        ArrayList<Authorization> permission = new ArrayList<>();
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/customer/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/store/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/ticket/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/ticket/save"));
+
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/store"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/customer"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/status"));
 
         return permission;
     }
 
-    private ArrayList<String> getWorkerPermission() {
-        ArrayList<String> permission = new ArrayList<>();
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/authentication");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
+    private ArrayList<Authorization> getUserPermission() {
+        ArrayList<Authorization> permission = new ArrayList<>();
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customer"));
+        permission.add(new Authorization(HttpMethod.DELETE, "api/v1/customer"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/customer/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket/customer/all"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/authentication/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/ticket"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/ticket/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/ticket/save"));
+
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order/all/customer"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/order"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/order/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/order/save"));
 
         return permission;
     }
 
-    private ArrayList<String> getUserPermission() {
-        ArrayList<String> permission = new ArrayList<>();
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/authentication");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
 
-        return permission;
-    }
+    private ArrayList<Authorization> getPublicPaths() {
+        ArrayList<Authorization> permission = new ArrayList<>();
 
-
-    private ArrayList<String> getPublicPaths() {
-        ArrayList<String> permission = new ArrayList<>();
-//        permission.add("api/v1/customisation");
-        permission.add("api/v1/subscription");
-        permission.add("api/v1/ticket");
-        permission.add("api/v1/customer");
-        permission.add("api/v1/order");
-        permission.add("api/v1/product");
-        permission.add("api/v1/store");
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/login"));
+        permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/save"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/product/product"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/product/product/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/product/categories"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/product/category"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/name"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address/id"));
 
         return permission;
     }
