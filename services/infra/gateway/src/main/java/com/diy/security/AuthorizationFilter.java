@@ -15,7 +15,7 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private final String uri = "http://localhost:8000/authentication/api/v1/role";
+    private final String uri = "AUTHENTICATION/authentication/api/v1/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public AuthorizationFilter() {
@@ -29,11 +29,9 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         return (exchange, chain) -> {
 
             String APITargeted = String.valueOf(exchange.getRequest().getURI());
-            log.info("target: {}", APITargeted);
 
             // If we want a public api, we don't do any check
-            if (getPublicPaths().contains(APITargeted)) {
-                log.info("public path");
+            if (getPublicPaths().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
                 return chain.filter(exchange);
             }
 
