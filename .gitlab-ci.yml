@@ -1,0 +1,12 @@
+image: docker:latest
+
+build_job:
+  stage: build
+  script:
+    - ls
+    - echo "starting job..."
+    - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
+    - echo job finished
+  only:
+    - develop
+    - master
