@@ -28,10 +28,13 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
         return (exchange, chain) -> {
 
-            String APITargeted = String.valueOf(exchange.getRequest().getURI());
-
+            String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
+            log.warn("api target: " + APITargeted);
+            log.warn("verb: " + exchange.getRequest().getMethod());
+            log.warn(getPublicPaths().toString());
+            log.warn(getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString()));
             // If we want a public api, we don't do any check
-            if (getPublicPaths().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
+            if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
             }
 
@@ -50,17 +53,17 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
             if (Objects.equals(role, "ADMIN")) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "OWNER") && getOwnerPermission()
-                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
+            } else if (Objects.equals(role, "OWNER") && getOwnerPermission().toString()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "HANDLER") && getHandlerPermission()
-                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
+            } else if (Objects.equals(role, "HANDLER") && getHandlerPermission().toString()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "WORKER") && getWorkerPermission()
-                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
+            } else if (Objects.equals(role, "WORKER") && getWorkerPermission().toString()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
-            } else if (Objects.equals(role, "USER") && getUserPermission()
-                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted))) {
+            } else if (Objects.equals(role, "USER") && getUserPermission().toString()
+                    .contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
             } else {
                 throw new RuntimeException("Not enough privilege to do this.");
@@ -214,7 +217,6 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         return permission;
     }
 
-
     private ArrayList<Authorization> getPublicPaths() {
         ArrayList<Authorization> permission = new ArrayList<>();
 
@@ -227,7 +229,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/name"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
-        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address/id"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
 
         return permission;
     }

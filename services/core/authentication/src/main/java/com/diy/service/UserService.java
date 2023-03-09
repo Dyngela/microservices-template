@@ -11,7 +11,6 @@ import com.diy.enums.Roles;
 import com.diy.exception.ExceptionHandler;
 import com.diy.generated.model.CustomerDto;
 import com.diy.generated.model.StoreDto;
-import com.diy.generated.model.UserDto;
 import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.UserModelMapper;
 import com.diy.model.UserModel;
@@ -28,7 +27,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
