@@ -18,6 +18,7 @@ public class UserModel {
     String firstName;
     String lastName;
     String phoneNumber;
+    String ethAddress;
     Long storeId;
     Roles role;
     LocalDateTime createdAt;

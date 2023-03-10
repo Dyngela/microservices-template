@@ -180,3 +180,5 @@ components:
         storeId:
           type: integer
           format: int64
+        ethAddress:
+          type: string

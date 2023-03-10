@@ -4,6 +4,8 @@ create table if not exists customer (
     lastname varchar not null ,
     email varchar not null unique,
     phone_number varchar not null,
+    address_eth varchar(255) not null ,
+
     created_at timestamp not null,
     deleted_at timestamp,
     updated_at timestamp,

@@ -315,6 +315,8 @@ components:
           type: string
         phoneNumber:
           type: string
+        ethAddress:
+          type: string
         subscriptionId:
           type: integer
           format: int64

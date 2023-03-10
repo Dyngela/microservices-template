@@ -8,6 +8,7 @@ create table if not exists store (
      phone_number varchar(255) not null,
      sector varchar(255) not null,
      siret varchar(255) not null unique,
+     address_eth varchar(255) NOT NULL ,
 
      created_at timestamp not null,
      deleted_at timestamp,

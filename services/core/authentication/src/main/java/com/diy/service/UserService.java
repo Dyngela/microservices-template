@@ -108,6 +108,7 @@ public class UserService implements UserDetailsService {
                 request.setEmail(model.getEmail());
                 request.setPhoneNumber(model.getPhoneNumber());
                 request.setStoreId(model.getStoreId());
+                request.setEthAddress(model.getEthAddress());
                 StoreDto response = storeClient.createStore(request);
                 storeId = response.getStoreId();
             }
@@ -123,6 +124,7 @@ public class UserService implements UserDetailsService {
                 request.setPhoneNumber(model.getPhoneNumber());
                 request.setFirstName(model.getFirstName());
                 request.setLastName(model.getLastName());
+                request.setEthAddress(model.getEthAddress());
                 customerClient.createCustomer(request);
             }
 

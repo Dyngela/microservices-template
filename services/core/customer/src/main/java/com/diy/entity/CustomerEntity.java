@@ -32,6 +32,9 @@ public class CustomerEntity {
     @Column(name = "phone_number", nullable = false)
     String phoneNumber;
 
+    @Column(name = "address_eth", nullable = false)
+    String ethAddress;
+
     @Column(name = "created_at", nullable = false)
     LocalDateTime createdAt;
     @Column(name = "updated_at")

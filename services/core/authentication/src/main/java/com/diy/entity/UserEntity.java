@@ -32,6 +32,9 @@ public class UserEntity {
     @Column(name = "customer_id")
     Long customerId;
 
+    @Column(name = "address_eth", nullable = false)
+    String ethAddress;
+
     @Column(name = "user_role", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     Roles role;

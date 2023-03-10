@@ -234,6 +234,8 @@ components:
           type: string
         sector:
           type: string
+        ethAddress:
+          type: string
 
     Logging:
       type: object

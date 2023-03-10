@@ -22,6 +22,8 @@ public class StoreModel {
     @Email
     String email;
     String phoneNumber;
+    String ethAddress;
+
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
     LocalDateTime deletedAt;
