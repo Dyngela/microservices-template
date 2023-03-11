@@ -222,6 +222,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
         permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/login"));
         permission.add(new Authorization(HttpMethod.POST, "api/v1/authentication/save"));
+        permission.add(new Authorization(HttpMethod.PUT, "api/v1/authentication/save"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/product"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/product/all"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/categories"));
