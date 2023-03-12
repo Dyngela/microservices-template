@@ -243,6 +243,8 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/subscription"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customisation/all"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/customisation"));
 
         return permission;
     }
