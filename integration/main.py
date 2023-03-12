@@ -11,7 +11,7 @@ if not stage:
 
 if stage == "-prod":
     # BASE_URL = "http://localhost"
-    BASE_URL = "http://gateway:8080"
+    BASE_URL = "https://collecteverything.fr"
 elif stage == "-stagging":
     BASE_URL = "http://localhost"
 elif stage == "-dev":
