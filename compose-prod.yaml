@@ -176,3 +176,15 @@ services:
     depends_on:
       - service-gateway
       - postgres
+
+  service-integration:
+    build:
+      context: ./integration
+      args:
+        DOCKER_IMAGE: python:3.11.2-slim-bullseye
+        PROJECT_NAME: integration
+    container_name: integration
+    environment:
+      STAGE: $STAGE
+    depends_on:
+      - service-authentication

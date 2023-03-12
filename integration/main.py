@@ -1,10 +1,27 @@
 import time
 import datetime
+import os
 
 import requests
 
-BASE_URL = "https://collecteverything.fr"
-# BASE_URL = "http://localhost"
+
+stage = os.getenv("STAGE")
+if not stage:
+    raise Exception("STAGE is not defined")
+
+if stage == "-prod":
+    # BASE_URL = "http://localhost"
+    BASE_URL = "http://gateway:8080"
+elif stage == "-stagging":
+    BASE_URL = "http://localhost"
+elif stage == "-dev":
+    BASE_URL = "http://localhost:8080"
+else:
+    raise Exception(f"Invalid stage: {stage}")
+
+
+SUCCESS = "\033[32;1;1mSUCCESS\033[0m"
+FAILED = "\033[31;1;1mFAILED\033[0m"
 
 
 def healthcheck(uri: str) -> bool:
@@ -12,6 +29,7 @@ def healthcheck(uri: str) -> bool:
 
 
 def login(email: str, password: str) -> str:
+    # status: 200
     return requests.post(
         f"{BASE_URL}/api/v1/authentication/login",
         json={
@@ -19,6 +37,27 @@ def login(email: str, password: str) -> str:
             "password": password,
         },
     ).content.decode("utf-8")
+
+
+while 1:
+    try:
+        resp = requests.get(f"{BASE_URL}/api/v1")
+    except requests.exceptions.ConnectionError:
+        print("Connection refused")
+        time.sleep(60)
+    else:
+        print("Gateway is accessible, proceeding")
+        break
+
+while 1:
+    # resp = requests.get(f"{BASE_URL}/api/v1/authentication/login")
+    resp = requests.get(f"{BASE_URL}/api/v1/store/all")
+    if resp.status_code == 200:
+        print("System is UP, executing tests")
+        break
+    else:
+        print("System is NOT UP, sleeping...")
+        time.sleep(60)
 
 
 # healthcheck("store/all")
@@ -41,20 +80,37 @@ payload = {
 }
 
 resp = requests.put(f"{BASE_URL}/api/v1/authentication/save", json=payload)
-print(resp)
-print(resp.content)
+msg = "{}: /api/v1/authentication/save"
+assert resp.status_code == 200, print(
+    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
+)
+print(msg.format(SUCCESS))
+#
 
+### login
+resp = requests.post(
+    f"{BASE_URL}/api/v1/authentication/login",
+    json={
+        "email": "azerty@gmail.com",
+        "password": "passeeeword",
+    },
+)
+msg = "{}: /api/v1/authentication/login"
+assert resp.status_code == 200, print(
+    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
+)
+print(msg.format(SUCCESS))
+token = resp.content.decode("utf-8")
 
-### connexion
-
-token = login(email="azerty@gmail.com", password="passeeeword")
-
-# token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhemVydHlAZ21haWwuY29tIiwicm9sZXMiOlsiQURNSU4iXSwiZXhwIjo3Njc4NTcxMTM0LCJzdG9yZUlkIjoxfQ.FL4Ib5RY4aukMIri_SCE_DI3ImHGeLDQTXf-bx69UJk"
-headers = {"Authorization": token}
-resp = requests.get(f"{BASE_URL}/api/v1/store/all", headers=headers)
-print(resp)
-print(resp.content)
+resp = requests.get(f"{BASE_URL}/api/v1/store/all", headers={"Authorization": token})
+msg = "{}: /api/v1/store/all"
+assert resp.status_code == 200, print(
+    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
+)
+print(msg.format(SUCCESS))
 
 resp = requests.get(f"{BASE_URL}/api/v1/product/product/all/1")
-print(resp)
-print(resp.content)
+assert resp.status_code == 200, print(
+    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
+)
+print(msg.format(SUCCESS))
