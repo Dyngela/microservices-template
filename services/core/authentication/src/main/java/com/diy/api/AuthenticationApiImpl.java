@@ -3,6 +3,7 @@ package com.diy.api;
 import com.diy.generated.api.AuthenticationApi;
 
 import com.diy.generated.model.LoggingDto;
+import com.diy.generated.model.RoleDto;
 import com.diy.service.UserService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,10 @@ public class AuthenticationApiImpl implements AuthenticationApi {
     }
 
     @Override
-    public ResponseEntity<String> validate(String jwt) {
-        return ResponseEntity.ok(userService.getRoleAccordingToJWT(jwt));
+    public ResponseEntity<String> validate(RoleDto roleDto) {
+        return ResponseEntity.ok(userService.getRoleAccordingToJWT(roleDto.getToken()));
+
     }
+
+
 }

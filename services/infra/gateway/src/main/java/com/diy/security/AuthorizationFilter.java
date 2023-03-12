@@ -15,7 +15,7 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private final String uri = "AUTHENTICATION/authentication/api/v1/role";
+    private final String uri = "http://localhost:8000/api/v1/authentication/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public AuthorizationFilter() {
@@ -29,10 +29,11 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         return (exchange, chain) -> {
 
             String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
-            log.warn("api target: " + APITargeted);
-            log.warn("verb: " + exchange.getRequest().getMethod());
-            log.warn(getPublicPaths().toString());
-            log.warn(getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString()));
+
+//            log.warn("api target: " + APITargeted);
+//            log.warn("verb: " + exchange.getRequest().getMethod());
+//            log.warn(getPublicPaths().toString());
+//            log.warn(getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString()));
             // If we want a public api, we don't do any check
             if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
@@ -41,12 +42,12 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             checks.setToken(exchange.getRequest().getHeaders().getFirst("Authorization"));
             String role;
             if (checks.getToken() != null) {
-                role = restTemplate.postForObject(uri, checks.getToken(), String.class);
+                role = restTemplate.postForObject(uri, checks, String.class);
             } else {
                 log.info("no token");
                 throw  new RuntimeException("You need to sign in");
             }
-
+            log.warn(role);
             if (Objects.equals(role, "authNeeded")) {
                 throw  new RuntimeException("You need to sign in");
             }

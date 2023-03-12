@@ -15,6 +15,8 @@ import com.diy.mapper.CycleAvoidingMappingContext;
 import com.diy.mapper.UserModelMapper;
 import com.diy.model.UserModel;
 import com.diy.repository.UserRepository;
+import com.diy.security.Authenticate;
+import com.diy.security.PasswordEncoder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -45,6 +47,8 @@ public class UserService implements UserDetailsService {
     UserModelMapper userModelMapper;
     StoreClient storeClient;
     CustomerClient customerClient;
+    PasswordEncoder bCryptPasswordEncoder;
+    Authenticate authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -127,7 +131,7 @@ public class UserService implements UserDetailsService {
                 request.setEthAddress(model.getEthAddress());
                 customerClient.createCustomer(request);
             }
-
+            model.setPassword(bCryptPasswordEncoder.bCryptPasswordEncoder().encode(model.getPassword()));
             UserEntity userEntity = userModelMapper.toEntity(model);
             userEntity.setCreatedAt(LocalDateTime.now());
 
@@ -140,7 +144,6 @@ public class UserService implements UserDetailsService {
     }
 
     public String getRoleAccordingToJWT(String  JWT) {
-
         if (JWT.startsWith("Bearer ")) {
             try {
                 String token = JWT.substring("Bearer ".length());
@@ -150,27 +153,32 @@ public class UserService implements UserDetailsService {
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                 return roles[0];
             } catch (Exception e) {
+                log.warn(e);
                 return "authNeeded";
             }
         } else {
+            log.warn("else");
             return "authNeeded";
         }
     }
+
     public String login(String email, String password) {
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ExceptionHandler("Wrong email or password"));
-        if (userEntity.getPassword().equals(password)) {
-            UserDetails user = loadUserByUsername(email);
-            Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-            String jwt = JWT.create()
-                    .withSubject(user.getUsername())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 10000000L * 600 * 1000))
-                    .withClaim("storeId", userEntity.getStoreId())
-                    .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                    .sign(algorithm);
-            return "Bearer " + jwt;
-        } else {
+        try {
+            authenticationManager.authenticate(email, password);
+        } catch (Exception e) {
             throw new ExceptionHandler("Wrong email or password");
         }
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new ExceptionHandler("Wrong email or password"));
+        UserDetails user = loadUserByUsername(email);
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        String jwt = JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10000000L * 600 * 1000))
+                .withClaim("storeId", userEntity.getStoreId())
+                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .sign(algorithm);
+        return "Bearer " + jwt;
+
     }
 
 
