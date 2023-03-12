@@ -1,6 +1,8 @@
 package com.diy.security;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpMethod;
@@ -15,8 +17,12 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private final String uri = "http://localhost:8000/api/v1/authentication/role";
+    private String uri = "/api/v1/authentication/role";
+//    private final String uri = "AUTHENTICATION/api/v1/authentication/role";
     private final RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     public AuthorizationFilter() {
         super(Config.class);
@@ -27,13 +33,12 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         JwtChecks checks = new JwtChecks();
 
         return (exchange, chain) -> {
-
+            log.warn(discoveryClient.getInstances("AUTHENTICATION"));
+            uri = "http://" + discoveryClient.getInstances("AUTHENTICATION").get(0).getInstanceId() + uri;
+            log.warn("final uri: {}", uri);
+            uri = uri.replace("authentication:", "");
             String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
 
-//            log.warn("api target: " + APITargeted);
-//            log.warn("verb: " + exchange.getRequest().getMethod());
-//            log.warn(getPublicPaths().toString());
-//            log.warn(getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString()));
             // If we want a public api, we don't do any check
             if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
                 return chain.filter(exchange);
