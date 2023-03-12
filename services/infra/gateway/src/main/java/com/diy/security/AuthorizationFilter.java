@@ -17,7 +17,7 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private String uri = "/api/v1/authentication/role";
+    private
 //    private final String uri = "AUTHENTICATION/api/v1/authentication/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -34,6 +34,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
         return (exchange, chain) -> {
             log.warn(discoveryClient.getInstances("AUTHENTICATION"));
+            String uri = "/api/v1/authentication/role";
             uri = "http://" + discoveryClient.getInstances("AUTHENTICATION").get(0).getInstanceId() + uri;
             log.warn("final uri: {}", uri);
             uri = uri.replace("authentication:", "");
