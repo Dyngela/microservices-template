@@ -32,7 +32,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         JwtChecks checks = new JwtChecks();
 
         return (exchange, chain) -> {
-            log.warn(discoveryClient.getInstances("AUTHENTICATION"));
+//            log.warn(discoveryClient.getInstances("AUTHENTICATION"));
             String uri = "/api/v1/authentication/role";
             uri = "http://" + discoveryClient.getInstances("AUTHENTICATION").get(0).getInstanceId() + uri;
             log.warn("final uri: {}", uri);
@@ -40,13 +40,9 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
 
             // If we want a public api, we don't do any check
-//            if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
-//                return chain.filter(exchange);
-//            }
-            ArrayList<Authorization> path = getPublicPaths();
-            for (Authorization authorization : path) {
-                if (authorization.getMethod() == exchange.getRequest().getMethod()
-                        && authorization.getPath().contains(APITargeted)) {
+            for (Authorization authorization : getPublicPaths()) {
+                if (APITargeted.contains(authorization.getPath()) && exchange.getRequest().getMethod() == authorization.getMethod()) {
+                    log.warn("I return good");
                     return chain.filter(exchange);
                 }
             }
@@ -144,7 +140,6 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         permission.add(new Authorization(HttpMethod.POST, "api/v1/product/category/save"));
         permission.add(new Authorization(HttpMethod.PUT, "api/v1/product/category/save"));
 
-        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/all"));
         permission.add(new Authorization(HttpMethod.DELETE, "api/v1/store"));
         permission.add(new Authorization(HttpMethod.POST, "api/v1/store/save"));
         permission.add(new Authorization(HttpMethod.PUT, "api/v1/store/save"));
@@ -241,6 +236,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/product/all"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/categories"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/product/category"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/store/all"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/name"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
