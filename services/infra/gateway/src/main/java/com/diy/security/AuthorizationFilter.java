@@ -17,7 +17,6 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-    private
 //    private final String uri = "AUTHENTICATION/api/v1/authentication/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
