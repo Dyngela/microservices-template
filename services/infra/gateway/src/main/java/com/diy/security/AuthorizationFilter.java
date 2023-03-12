@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Objects;
 
 @Log4j2
@@ -35,12 +34,15 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             String uri = "/api/v1/authentication/role";
             uri = "http://" + discoveryClient.getInstances("AUTHENTICATION").get(0).getInstanceId() + uri;
             uri = uri.replace("authentication:", "");
-            String[] target = String.valueOf(exchange.getRequest().getURI()).split("/");
-            log.warn(Arrays.toString(target));
-            String APITargeted = "";
-            for (int i = 3; i < target.length; i++) {
-                APITargeted = APITargeted + target[i] + "/";
-            }
+//            String[] target = String.valueOf(exchange.getRequest().getPath()).split("/");
+//            log.warn(Arrays.toString(target));
+//            String APITargeted = "";
+//            for (int i = 3; i < target.length; i++) {
+//                APITargeted = APITargeted + target[i] + "/";
+//            }
+//            log.warn("api target: {}", APITargeted);
+
+            String APITargeted = String.valueOf(exchange.getRequest().getPath());
             log.warn("api target: {}", APITargeted);
             // If we want a public api, we don't do any check
             for (Authorization authorization : getPublicPaths()) {
@@ -240,6 +242,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/name"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
         permission.add(new Authorization(HttpMethod.GET, "api/v1/store/address"));
+        permission.add(new Authorization(HttpMethod.GET, "api/v1/subscription"));
 
         return permission;
     }
