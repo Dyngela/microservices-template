@@ -40,9 +40,17 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
 
             // If we want a public api, we don't do any check
-            if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
-                return chain.filter(exchange);
+//            if (getPublicPaths().toString().contains(new Authorization(exchange.getRequest().getMethod(), APITargeted).toString())) {
+//                return chain.filter(exchange);
+//            }
+            ArrayList<Authorization> path = getPublicPaths();
+            for (Authorization authorization : path) {
+                if (authorization.getMethod() == exchange.getRequest().getMethod()
+                        && authorization.getPath().contains(APITargeted)) {
+                    return chain.filter(exchange);
+                }
             }
+
 
             checks.setToken(exchange.getRequest().getHeaders().getFirst("Authorization"));
             String role;
