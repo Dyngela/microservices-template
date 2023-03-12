@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -17,7 +18,6 @@ import java.util.Objects;
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-//    private final String uri = "AUTHENTICATION/api/v1/authentication/role";
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
@@ -32,31 +32,30 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         JwtChecks checks = new JwtChecks();
 
         return (exchange, chain) -> {
-//            log.warn(discoveryClient.getInstances("AUTHENTICATION"));
             String uri = "/api/v1/authentication/role";
             uri = "http://" + discoveryClient.getInstances("AUTHENTICATION").get(0).getInstanceId() + uri;
-            log.warn("final uri: {}", uri);
             uri = uri.replace("authentication:", "");
-            String APITargeted = String.valueOf(exchange.getRequest().getURI()).substring(22);
-
+            String[] target = String.valueOf(exchange.getRequest().getURI()).split("/");
+            log.warn(Arrays.toString(target));
+            String APITargeted = "";
+            for (int i = 3; i < target.length; i++) {
+                APITargeted = APITargeted + target[i] + "/";
+            }
+            log.warn("api target: {}", APITargeted);
             // If we want a public api, we don't do any check
             for (Authorization authorization : getPublicPaths()) {
                 if (APITargeted.contains(authorization.getPath()) && exchange.getRequest().getMethod() == authorization.getMethod()) {
-                    log.warn("I return good");
                     return chain.filter(exchange);
                 }
             }
-
 
             checks.setToken(exchange.getRequest().getHeaders().getFirst("Authorization"));
             String role;
             if (checks.getToken() != null) {
                 role = restTemplate.postForObject(uri, checks, String.class);
             } else {
-                log.info("no token");
                 throw  new RuntimeException("You need to sign in");
             }
-            log.warn(role);
             if (Objects.equals(role, "authNeeded")) {
                 throw  new RuntimeException("You need to sign in");
             }
