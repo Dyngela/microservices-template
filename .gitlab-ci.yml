@@ -14,10 +14,9 @@ job:build:
   stage: build
   image: docker:latest
   script:
-    - ls
-    - echo "starting job..."
     - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
-    - echo job finished
+    - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=rabbitMQ .
+    # - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
   # variables:
   #   DOCKER_HOST: tcp://docker:2375/
   #   DOCKER_DRIVER: overlay2
