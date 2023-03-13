@@ -27,7 +27,7 @@ job:build:
   services:
     - docker:dind
   script:
-    - mvn clean install -U
+    - 'mvn clean $MAVEN_CLI_OPTS install'
     # - mvn verify --fail-never
     # - mvn verify --fail-never -pl com.diy:rabbitmq
     # - mvn package -pl com.diy:rabbitMQ
