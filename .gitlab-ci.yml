@@ -11,21 +11,21 @@ stages:
   - build
 
 # OK
-job:login:
-  image: docker:latest
-  stage: login
-  services:
-    - docker:dind
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-  only:
-    -  chore/docker
+# job:login:
+#   image: docker:latest
+#   stage: login
+#   services:
+#     - docker:dind
+#   script:
+#     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+#   only:
+#     -  chore/docker
 
 job:build:
   stage: build
   image: maven:3.8.3-openjdk-17
-  services:
-    - docker:dind
+  # services:
+  #   - docker:dind
   script:
     - 'mvn clean $MAVEN_CLI_OPTS install'
     # - mvn verify --fail-never
