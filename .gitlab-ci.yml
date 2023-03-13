@@ -1,3 +1,11 @@
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end"
+cache:
+  key: mavenrepo
+  paths:
+    - ./.m2/repository/
+
 stages:
   - login
   - build
@@ -6,8 +14,8 @@ stages:
 job:login:
   image: docker:latest
   stage: login
-  services:
-    - docker:dind
+  # services:
+  #   - docker:dind
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
   only:
@@ -19,36 +27,39 @@ job:build:
   # services:
   #   - docker:dind
   script:
-    - mvn verify --fail-never
-    - mvn verify --fail-never -pl com.diy:rabbitmq
-    - mvn install -pl com.diy:rabbitMQ
-    - mvn verify --fail-never -pl com.diy:eureka-server
-    - mvn package -pl com.diy:eureka-server
-    - mvn verify --fail-never -pl com.diy:gateway
-    - mvn package -pl com.diy:gateway
-    - mvn verify --fail-never -pl com.diy:customer
-    - mvn package -pl com.diy:customer
-    - mvn verify --fail-never -pl com.diy:store
-    - mvn package -pl com.diy:store
-    - mvn verify --fail-never -pl com.diy:product
-    - mvn package -pl com.diy:product
-    - mvn verify --fail-never -pl com.diy:customisation
-    - mvn package -pl com.diy:customisation
-    - mvn verify --fail-never -pl com.diy:subscription
-    - mvn package -pl com.diy:subscription
-    - mvn verify --fail-never -pl com.diy:ticket
-    - mvn package -pl com.diy:ticket
-    - mvn verify --fail-never -pl com.diy:clients
-    - mvn package -pl com.diy:clients --also-make
-    - mvn verify --fail-never -pl com.diy:notification
-    - mvn package -pl com.diy:notification --also-make
-    - mvn verify --fail-never -pl com.diy:order
-    - mvn package -pl com.diy:order --also-make
-    - mvn verify --fail-never -pl com.diy:authentication
-    - mvn package -pl com.diy:authentication --also-make
+    - mvn clean install -U
+    # - mvn verify --fail-never
+    # - mvn verify --fail-never -pl com.diy:rabbitmq
+    # - mvn package -pl com.diy:rabbitMQ
+    # - mvn verify --fail-never -pl com.diy:eureka-server
+    # - mvn package -pl com.diy:eureka-server
+    # - mvn verify --fail-never -pl com.diy:gateway
+    # - mvn package -pl com.diy:gateway
+    # - mvn verify --fail-never -pl com.diy:customer
+    # - mvn package -pl com.diy:customer
+    # - mvn verify --fail-never -pl com.diy:store
+    # - mvn package -pl com.diy:store
+    # - mvn verify --fail-never -pl com.diy:product
+    # - mvn package -pl com.diy:product
+    # - mvn verify --fail-never -pl com.diy:customisation
+    # - mvn package -pl com.diy:customisation
+    # - mvn verify --fail-never -pl com.diy:subscription
+    # - mvn package -pl com.diy:subscription
+    # - mvn verify --fail-never -pl com.diy:ticket
+    # - mvn package -pl com.diy:ticket
+    # - mvn verify --fail-never -pl com.diy:clients
+    # - mvn package -pl com.diy:clients --also-make
+    # - mvn verify --fail-never -pl com.diy:notification
+    # - mvn package -pl com.diy:notification --also-make
+    # - mvn verify --fail-never -pl com.diy:order
+    # - mvn package -pl com.diy:order --also-make
+    # - mvn verify --fail-never -pl com.diy:authentication
+    # - mvn package -pl com.diy:authentication --also-make
   only:
     -  chore/docker
-
+  artifacts:
+    paths:
+      - target/*.jar
 
 
 
