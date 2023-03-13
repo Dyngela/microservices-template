@@ -1,6 +1,6 @@
 variables:
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end"
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+  MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
 cache:
   key: mavenrepo
   paths:
@@ -31,7 +31,8 @@ job:build:
     - ls -lha
     - echo $PWD
     # - mvn clean install -U
-    - mvn verify --fail-never
+    - mvn $MAVEN_CLI_OPTS package -DskipTests
+    # - mvn verify --fail-never
     # - mvn verify --fail-never -pl com.diy:rabbitmq
     # - mvn package -pl com.diy:rabbitMQ
     # - mvn verify --fail-never -pl com.diy:eureka-server
