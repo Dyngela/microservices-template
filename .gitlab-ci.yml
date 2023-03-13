@@ -10,7 +10,7 @@ job:login:
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
   only:
-    -  main
+    -  chore/docker
 
 job:build:base:
   stage: build
@@ -21,4 +21,4 @@ job:build:base:
     - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
     # - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
   only:
-    -  main
+    -  chore/docker
