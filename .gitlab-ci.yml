@@ -30,8 +30,8 @@ job:build:
   script:
     - ls -lha
     - echo $PWD
-    - mvn clean install -U
-    # - mvn verify --fail-never
+    # - mvn clean install -U
+    - mvn verify --fail-never
     # - mvn verify --fail-never -pl com.diy:rabbitmq
     # - mvn package -pl com.diy:rabbitMQ
     # - mvn verify --fail-never -pl com.diy:eureka-server
