@@ -14,8 +14,8 @@ stages:
 job:login:
   image: docker:latest
   stage: login
-  # services:
-  #   - docker:dind
+  services:
+    - docker:dind
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
   only:
