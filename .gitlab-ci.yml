@@ -24,8 +24,8 @@ job:login:
 job:build:
   stage: build
   image: yulquen/cande:latest
-  # services:
-  #   - docker:dind
+  services:
+    - docker:dind
   script:
     - mvn clean install -U
     # - mvn verify --fail-never
