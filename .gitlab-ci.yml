@@ -5,8 +5,6 @@ stages:
 job:login:
   image: docker:latest
   stage: login
-  tags:
-    - docker-latest-dind
   services:
     - docker:dind
   script:
