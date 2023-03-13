@@ -27,6 +27,8 @@ job:build:
   # services:
   #   - docker:dind
   script:
+    - ls -lha
+    - echo $PWD
     - mvn clean install -U
     # - mvn verify --fail-never
     # - mvn verify --fail-never -pl com.diy:rabbitmq
