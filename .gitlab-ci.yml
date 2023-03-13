@@ -14,11 +14,12 @@ job:login:
 
 job:build:base:
   stage: build
-  image: docker:latest
+  image: openjdk:17-alpine
   services:
     - docker:dind
   script:
-    - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
-    # - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
+    - mvn verify --fail-never
   only:
     -  chore/docker
+# - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
+# - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
