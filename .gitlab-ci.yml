@@ -1,16 +1,31 @@
-image: docker:latest
+stages:
+  - login
+  - build
 
-build_job:
+job:login:
+  image: docker:latest
+  stage: login
+  tags:
+    - docker-latest-dind
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+
+job:build:
   stage: build
+  image: docker:latest
   script:
     - ls
     - echo "starting job..."
     - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
     - echo job finished
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    # See https://github.com/docker-library/docker/pull/166
-    DOCKER_TLS_CERTDIR: ""
+  # variables:
+  #   DOCKER_HOST: tcp://docker:2375/
+  #   DOCKER_DRIVER: overlay2
+  #   # See https://github.com/docker-library/docker/pull/166
+  #   DOCKER_TLS_CERTDIR: ""
+  services:
+    - docker:dind
   only:
     -  main
