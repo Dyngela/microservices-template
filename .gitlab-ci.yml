@@ -3,19 +3,19 @@ stages:
   - build
 
 # OK
-# job:login:
-#   image: docker:latest
-#   stage: login
-#   services:
-#     - docker:dind
-#   script:
-#     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-#   only:
-#     -  chore/docker
+job:login:
+  image: docker:latest
+  stage: login
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+  only:
+    -  chore/docker
 
 job:build:base:
   stage: build
-  image: openjdk:17-alpine
+  image: yulquen/cande:latest
   # services:
   #   - docker:dind
   script:
