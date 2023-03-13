@@ -13,14 +13,54 @@ job:login:
   only:
     -  chore/docker
 
-job:build:base:
+job:build:
   stage: build
   image: yulquen/cande:latest
   # services:
   #   - docker:dind
   script:
     - mvn verify --fail-never
+    - mvn verify --fail-never -pl com.diy:rabbitmq
+    - mvn install -pl com.diy:rabbitMQ
+    - mvn verify --fail-never -pl com.diy:eureka-server
+    - mvn package -pl com.diy:eureka-server
+    - mvn verify --fail-never -pl com.diy:gateway
+    - mvn package -pl com.diy:gateway
+    - mvn verify --fail-never -pl com.diy:customer
+    - mvn package -pl com.diy:customer
+    - mvn verify --fail-never -pl com.diy:store
+    - mvn package -pl com.diy:store
+    - mvn verify --fail-never -pl com.diy:product
+    - mvn package -pl com.diy:product
+    - mvn verify --fail-never -pl com.diy:customisation
+    - mvn package -pl com.diy:customisation
+    - mvn verify --fail-never -pl com.diy:subscription
+    - mvn package -pl com.diy:subscription
+    - mvn verify --fail-never -pl com.diy:ticket
+    - mvn package -pl com.diy:ticket
+    - mvn verify --fail-never -pl com.diy:clients
+    - mvn package -pl com.diy:clients --also-make
+    - mvn verify --fail-never -pl com.diy:notification
+    - mvn package -pl com.diy:notification --also-make
+    - mvn verify --fail-never -pl com.diy:order
+    - mvn package -pl com.diy:order --also-make
+    - mvn verify --fail-never -pl com.diy:authentication
+    - mvn package -pl com.diy:authentication --also-make
   only:
     -  chore/docker
-# - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
-# - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
+
+
+
+
+# COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
+# COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
+# COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
+# COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
+# COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
+# COPY --from=build-product ${SRC}/services/core/product/target/product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
+# COPY --from=build-customisation ${SRC}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
+# COPY --from=build-subscription ${SRC}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
+# COPY --from=build-ticket ${SRC}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
+# COPY --from=build-notification ${SRC}/services/core/notification/target/notification-1.0-SNAPSHOT.jar /target/notification-1.0-SNAPSHOT.jar
+# COPY --from=build-order ${SRC}/services/core/order/target/order-1.0-SNAPSHOT.jar /target/order-1.0-SNAPSHOT.jar
+# COPY --from=build-authentication ${SRC}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar /target/authentication-1.0-SNAPSHOT.jar
