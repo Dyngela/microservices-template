@@ -49,7 +49,7 @@ job:build:
     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
   script:
     - echo "CI_JOB_NAME=${CI_JOB_NAME}"
-    - mvn $MAVEN_CLI_OPTS package -DskipTests
+    # - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
     -  chore/docker
   artifacts:
