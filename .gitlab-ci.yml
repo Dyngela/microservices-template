@@ -1,11 +1,12 @@
 stages:
   - build
   - package
+  - staging
 
 cache:
-  key: mavenrepo
+  key: "${CI_BUILD_REF_NAME}"
   paths:
-    - ./.m2/repository/
+    - "${CI_PROJECT_DIR}/.m2/repository"
 
 variables:
   # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
@@ -40,7 +41,7 @@ job:build:
   image: maven:3.8.3-amazoncorretto-17
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
   script:
     - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
@@ -75,6 +76,22 @@ job:package:gateway:
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
+
+job:package:db:
+  stage: package
+  image: !reference [.package-opts, image]
+  services: !reference [.package-opts, services]
+  variables:
+    SERVICE_NAME: db
+    PGDATA: /data/postgres
+    TZ: ${TZ}
+    PGTZ: ${TZ}
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+  only: !reference [.package-opts, only]
 
 # CORE
 job:package:authentication:
@@ -194,3 +211,29 @@ job:package:ticket:
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
+
+# INTEGRATION
+job:package:integration:
+  stage: package
+  image: !reference [.package-opts, image]
+  services: !reference [.package-opts, services]
+  variables:
+    SERVICE_NAME: integration
+    STAGE: staging
+    PYTHON_IMAGE: "python:3.11.2-slim-bullseye"
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg DOCKER_IMAGE="${PYTHON_IMAGE}" ./integration
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+  only: !reference [.package-opts, only]
+
+# job:deploy:staging:
+#   stage: staging
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     STAGE: "-stage"
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
