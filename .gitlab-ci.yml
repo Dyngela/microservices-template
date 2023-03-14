@@ -21,7 +21,7 @@ stages:
 #   only:
 #     -  chore/docker
 
-job:build:dependencies:
+job:build:
   stage: build
   image: maven:3.8.3-amazoncorretto-17
   script:
@@ -32,6 +32,8 @@ job:build:dependencies:
     paths:
       - target/*.jar
 
+# job:package:
+#   ...
 # COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 # COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 # COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
