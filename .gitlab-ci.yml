@@ -77,6 +77,19 @@ job:package:gateway:
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
 
+job:package:db:
+  stage: package
+  image: !reference [.package-opts, image]
+  services: !reference [.package-opts, services]
+  variables:
+    SERVICE_NAME: db
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+  only: !reference [.package-opts, only]
+
 # CORE
 job:package:authentication:
   stage: package
@@ -192,6 +205,24 @@ job:package:ticket:
   script:
     - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./ticket-1.0-SNAPSHOT.jar
     - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
+
+# INTEGRATION
+job:package:integration:
+  stage: package
+  image: !reference [.package-opts, image]
+  services: !reference [.package-opts, services]
+  variables:
+    SERVICE_NAME: integration
+    STAGE: staging
+    PYTHON_IMAGE: "python:3.11.2-slim-bullseye"
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg DOCKER_IMAGE="${PYTHON_IMAGE}" ./integration
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
