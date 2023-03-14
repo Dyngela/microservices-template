@@ -1,15 +1,13 @@
+stages:
+  - build
+  - package
+
 cache:
   key: mavenrepo
   paths:
     - ./.m2/repository/
 
-stages:
-  - build
-  - package
-
-
 job:build:
-
   stage: build
   image: maven:3.8.3-amazoncorretto-17
   variables:
