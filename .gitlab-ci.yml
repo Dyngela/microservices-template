@@ -7,19 +7,8 @@ cache:
     - ./.m2/repository/
 
 stages:
-  - login
   - build
-
-# OK
-# job:login:
-#   image: docker:latest
-#   stage: login
-#   services:
-#     - docker:dind
-#   script:
-#     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-#   only:
-#     -  chore/docker
+  - package
 
 job:build:
   stage: build
@@ -32,17 +21,14 @@ job:build:
     paths:
       - "**/target/*.jar"
 
-# job:package:
-#   ...
-# COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
-# COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
-# COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
-# COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
-# COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
-# COPY --from=build-product ${SRC}/services/core/product/target/product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
-# COPY --from=build-customisation ${SRC}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
-# COPY --from=build-subscription ${SRC}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
-# COPY --from=build-ticket ${SRC}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
-# COPY --from=build-notification ${SRC}/services/core/notification/target/notification-1.0-SNAPSHOT.jar /target/notification-1.0-SNAPSHOT.jar
-# COPY --from=build-order ${SRC}/services/core/order/target/order-1.0-SNAPSHOT.jar /target/order-1.0-SNAPSHOT.jar
-# COPY --from=build-authentication ${SRC}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar /target/authentication-1.0-SNAPSHOT.jar
+job:package:
+  stage: package
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+    - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_REF_NAME}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
+    - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_REF_NAME}"
+  only:
+    -  chore/docker
