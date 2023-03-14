@@ -40,3 +40,5 @@ job:package:
     - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}"
   only:
     -  chore/docker
+  dependencies:
+    - job:build
