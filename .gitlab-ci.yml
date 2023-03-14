@@ -1,6 +1,3 @@
-variables:
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-  MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
 cache:
   key: mavenrepo
   paths:
@@ -13,6 +10,9 @@ stages:
 job:build:
   stage: build
   image: maven:3.8.3-amazoncorretto-17
+  variables:
+    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
   script:
     - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
@@ -26,6 +26,8 @@ job:package:
   image: docker:latest
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: "tcp://127.0.0.1:2375"
   script:
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
     - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_REF_NAME}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
