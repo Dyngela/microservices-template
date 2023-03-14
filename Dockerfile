@@ -18,13 +18,13 @@
 FROM amazoncorretto:17.0.3-alpine as corretto-jdk
 RUN apk add --no-cache binutils
 RUN $JAVA_HOME/bin/jlink \
-         --verbose \
-         --add-modules ALL-MODULE-PATH \
-         --strip-debug \
-         --no-man-pages \
-         --no-header-files \
-         --compress=2 \
-         --output /customjre
+    --verbose \
+    --add-modules ALL-MODULE-PATH \
+    --strip-debug \
+    --no-man-pages \
+    --no-header-files \
+    --compress=2 \
+    --output /customjre
 
 
 FROM alpine:latest
@@ -40,7 +40,7 @@ ARG TZ
 ENV TZ=${TZ:-Europe/Paris}
 ARG SPRING_PROFILES_ACTIVE
 ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
-COPY /artifacts/${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
+COPY ${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
 ENTRYPOINT [ "/jre/bin/java", "-jar", "/usr/local/bin/artifact.jar" ]
 
 EXPOSE 8080
