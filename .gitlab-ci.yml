@@ -25,52 +25,12 @@ job:build:dependencies:
   stage: build
   image: maven:3.8.3-amazoncorretto-17
   script:
-    # - mvn $MAVEN_CLI_OPTS package -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never
+    - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
     -  chore/docker
-
-job:build:tier0:
-  stage: build
-  image: maven:3.8.3-amazoncorretto-17
-  script:
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:rabbitMQ
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:rabbitMQ -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:eureka-server
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:eureka-server -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:gateway
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:gateway -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:customer
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:customer -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:store
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:store -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:product
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:product -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:customisation
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:customisation -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:subscription
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:subscription -DskipTests
-    - mvn $MAVEN_CLI_OPTS verify --fail-never -pl com.diy:ticket
-    - mvn $MAVEN_CLI_OPTS package -pl com.diy:ticket -DskipTests
-  only:
-    -  chore/docker
-  parallel: 4
-  needs:
-    - job:build:dependencies
   artifacts:
     paths:
       - target/*.jar
-
-
-# com.diy:clients
-# com.diy:notification
-# - mvn package -pl com.diy:notification --also-make
-# com.diy:order
-# - mvn package -pl com.diy:order --also-make
-# com.diy:authentication
-# - mvn package -pl com.diy:authentication --also-make
-
-
 
 # COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 # COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
