@@ -71,6 +71,16 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public List<UserModel> getUsersByStoreId(Long id){
+        try {
+            List<UserEntity> entity = userRepository.findUserEntitiesByStoreId(id);
+            return userModelMapper.entitiesToModels(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while getting all user: " + e.getMessage());
+            throw new ExceptionHandler("We could not get your employees information");
+        }
+    }
+
     public String deleteUsersByStoresId(Long storeId) {
         try {
             List<UserEntity> userEntity = userRepository.findUserEntitiesByStoreId(storeId);

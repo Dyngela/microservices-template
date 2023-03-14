@@ -31,7 +31,29 @@ paths:
             application/json:
               schema:
                 type: string
-
+    get:
+      tags:
+        - user
+      summary: Get all users by storeId
+      description: Get all users of a particular store
+      operationId: getUsersByStoreId
+      parameters:
+        - name: storeId
+          in: path
+          description: Store ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         404:
           description: Invalid request
           content: { }
