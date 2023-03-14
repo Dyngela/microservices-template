@@ -1,11 +1,12 @@
 stages:
   - build
   - package
+  - staging
 
 cache:
   key: mavenrepo
   paths:
-    - ./.m2/repository/
+    - "${CI_PROJECT_DIR}/.m2/repository"
 
 variables:
   # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
@@ -40,7 +41,7 @@ job:build:
   image: maven:3.8.3-amazoncorretto-17
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
   script:
     - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
@@ -194,3 +195,13 @@ job:package:ticket:
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
+
+# job:deploy:staging:
+#   stage: staging
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     STAGE: "-stage"
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
