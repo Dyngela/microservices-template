@@ -41,7 +41,7 @@ cache:
 #   dependencies:
 #     - job:build
 
-job:build:
+job:build:test:
   stage: build
   image: maven:3.8.3-amazoncorretto-17
   variables:
