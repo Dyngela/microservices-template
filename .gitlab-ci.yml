@@ -60,6 +60,7 @@ job:package:eureka-server:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
 
 job:package:gateway:
@@ -78,6 +79,7 @@ job:package:gateway:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
 
 job:package:customer:
@@ -96,6 +98,7 @@ job:package:customer:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
 
 job:package:store:
@@ -114,6 +117,7 @@ job:package:store:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
     
 job:package:product:
@@ -132,6 +136,7 @@ job:package:product:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
     
 job:package:customisation:
@@ -150,6 +155,7 @@ job:package:customisation:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
     
 job:package:ticket:
@@ -168,6 +174,7 @@ job:package:ticket:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
     
 job:package:notification:
@@ -186,6 +193,7 @@ job:package:notification:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
   
 job:package:order:
@@ -204,6 +212,7 @@ job:package:order:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
     
 job:package:authentication:
@@ -222,4 +231,5 @@ job:package:authentication:
   dependencies:
     - job:build
   needs:
+    - job:build
     - job:package:login
