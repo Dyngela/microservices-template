@@ -25,16 +25,15 @@ variables:
       alias: thedockerhost
   script:
     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   only:
     - chore/docker
   needs:
     - job:build
-    - job:package:login
   dependencies:
     - job:build
-    - job:package:login
 
 job:build:
   stage: build
@@ -49,13 +48,6 @@ job:build:
   artifacts:
     paths:
       - "**/target/*.jar"
-
-job:package:login:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  script:
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
 
 # INFRA
 job:package:eureka-server:
