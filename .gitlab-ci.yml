@@ -23,9 +23,6 @@ variables:
   services:
     - name: docker:dind
       alias: thedockerhost
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only:
     - chore/docker
   needs:
@@ -63,7 +60,8 @@ job:package:eureka-server:
     SERVICE_NAME: eureka-server
   script: 
     - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -76,7 +74,8 @@ job:package:gateway:
     SERVICE_NAME: gateway
   script: 
     - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -89,7 +88,8 @@ job:package:customer:
     SERVICE_NAME: customer
   script:
     - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -102,11 +102,12 @@ job:package:store:
     SERVICE_NAME: store
   script:
     - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
-    
+
 job:package:product:
   stage: package
   image: !reference [.package-opts, image]
@@ -115,7 +116,8 @@ job:package:product:
     SERVICE_NAME: product
   script:
     - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -128,7 +130,8 @@ job:package:customisation:
     SERVICE_NAME: customisation
   script:
     - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -141,7 +144,8 @@ job:package:ticket:
     SERVICE_NAME: ticket
   script:
     - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -154,7 +158,8 @@ job:package:notification:
     SERVICE_NAME: notification
   script:
     - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -167,7 +172,8 @@ job:package:order:
     SERVICE_NAME: order
   script:
     - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar .
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
@@ -180,7 +186,8 @@ job:package:authentication:
     SERVICE_NAME: authentication
   script:
     - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./artifacts
-    - !reference [.package-opts, script]
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
   only: !reference [.package-opts, only]
   dependencies: !reference [.package-opts, dependencies]
   needs: !reference [.package-opts, needs]
