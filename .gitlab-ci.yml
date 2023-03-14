@@ -219,10 +219,8 @@ job:package:integration:
   services: !reference [.package-opts, services]
   variables:
     SERVICE_NAME: integration
-    STAGE: staging
-    PYTHON_IMAGE: "python:3.11.2-slim-bullseye"
   script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg DOCKER_IMAGE="${PYTHON_IMAGE}" ./integration
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
