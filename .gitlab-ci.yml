@@ -6,6 +6,7 @@ cache:
   key: mavenrepo
   paths:
     - ./.m2/repository/
+
 variables:
   # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
   DOCKER_HOST: ${CI_DOCKER_HOST}
@@ -14,7 +15,7 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   IMG_BASE: "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-"
   EUREKA_URI: "http://eureka-server:8761"
-  TZ: Europe/Paris
+  TZ: "Europe/Paris"
   SPRING_PROFILES_ACTIVE: docker
 
 .package-opts:
@@ -22,6 +23,16 @@ variables:
   services:
     - name: docker:dind
       alias: thedockerhost
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+  only:
+    - chore/docker
+  needs:
+    - job:build
+    - job:package:login
+  dependencies:
+    - job:build
 
 job:build:
   stage: build
@@ -50,18 +61,12 @@ job:package:eureka-server:
   services: !reference [.package-opts, services]
   variables:
     SERVICE_NAME: eureka-server
-  script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+  script: 
+    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
 
 job:package:gateway:
   stage: package
@@ -69,18 +74,12 @@ job:package:gateway:
   services: !reference [.package-opts, services]
   variables:
     SERVICE_NAME: gateway
-  script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+  script: 
+    - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
 
 job:package:customer:
   stage: package
@@ -89,17 +88,11 @@ job:package:customer:
   variables:
     SERVICE_NAME: customer
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
 
 job:package:store:
   stage: package
@@ -108,17 +101,11 @@ job:package:store:
   variables:
     SERVICE_NAME: store
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
     
 job:package:product:
   stage: package
@@ -127,17 +114,11 @@ job:package:product:
   variables:
     SERVICE_NAME: product
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
     
 job:package:customisation:
   stage: package
@@ -146,17 +127,11 @@ job:package:customisation:
   variables:
     SERVICE_NAME: customisation
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
     
 job:package:ticket:
   stage: package
@@ -165,17 +140,11 @@ job:package:ticket:
   variables:
     SERVICE_NAME: ticket
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
     
 job:package:notification:
   stage: package
@@ -184,17 +153,11 @@ job:package:notification:
   variables:
     SERVICE_NAME: notification
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
   
 job:package:order:
   stage: package
@@ -203,17 +166,11 @@ job:package:order:
   variables:
     SERVICE_NAME: order
   script:
-    - mkdir artifacts
-    - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar .
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
     
 job:package:authentication:
   stage: package
@@ -222,14 +179,8 @@ job:package:authentication:
   variables:
     SERVICE_NAME: authentication
   script:
-    - mkdir artifacts
     - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./artifacts
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-  only:
-    -  chore/docker
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-    - job:package:login
+    - !reference [.package-opts, script]
+  only: !reference [.package-opts, only]
+  dependencies: !reference [.package-opts, dependencies]
+  needs: !reference [.package-opts, needs]
