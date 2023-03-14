@@ -9,12 +9,12 @@ stage = os.getenv("STAGE")
 if not stage:
     raise Exception("STAGE is not defined")
 
-if stage == "-prod":
+if stage == "prod":
     # BASE_URL = "http://localhost"
     BASE_URL = "https://collecteverything.fr"
-elif stage == "-stagging":
+elif stage == "staging":
     BASE_URL = "http://localhost"
-elif stage == "-dev":
+elif stage == "dev":
     BASE_URL = "http://localhost:8080"
 else:
     raise Exception(f"Invalid stage: {stage}")
