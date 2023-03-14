@@ -34,6 +34,7 @@ variables:
     - job:package:login
   dependencies:
     - job:build
+    - job:package:login
 
 job:build:
   stage: build
