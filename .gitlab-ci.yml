@@ -4,7 +4,7 @@ stages:
   - staging
 
 cache:
-  key: mavenrepo
+  key: "${CI_BUILD_REF_NAME}"
   paths:
     - "${CI_PROJECT_DIR}/.m2/repository"
 
@@ -83,6 +83,9 @@ job:package:db:
   services: !reference [.package-opts, services]
   variables:
     SERVICE_NAME: db
+    PGDATA: /data/postgres
+    TZ: ${TZ}
+    PGTZ: ${TZ}
   script:
     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
