@@ -1,4 +1,6 @@
-FROM docker:latest
+ARG SERVICE_NAME
+
+FROM scratch
 # COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 # COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 # COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
@@ -41,13 +43,3 @@ ARG SPRING_PROFILES_ACTIVE
 ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
 COPY --from=package-final /target/${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
 ENTRYPOINT [ "java", "-jar", "/usr/local/bin/artifact.jar" ]
-
-
-# FROM openjdk:17-alpine AS runtime
-# ARG SERVICE_NAME
-# ENV SERVICE_NAME=${SERVICE_NAME}
-# ENV EUREKA_URI=${EUREKA_URI:-http://eureka-server:8761/eureka/}
-# ENV TZ=${TZ:-Europe/Paris}
-# ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
-# COPY ${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
-# ENTRYPOINT [ "java", "-jar", "/usr/local/bin/artifact.jar" ]
