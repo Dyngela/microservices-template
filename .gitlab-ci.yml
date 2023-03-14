@@ -30,7 +30,7 @@ job:build:
     -  chore/docker
   artifacts:
     paths:
-      - target/*.jar
+      - "**/target/*.jar"
 
 # job:package:
 #   ...
