@@ -35,6 +35,19 @@ job:package:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
+    - mkdir artifacts
+    # - cp ${CI_PROJECT_DIR}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar ./artifacts
+    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar ./artifacts
+    # - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./artifacts
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
     - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
     - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}"
