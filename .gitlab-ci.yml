@@ -7,42 +7,10 @@ stages:
   - build
   - package
 
-<<<<<<< HEAD
-# OK
-# job:login:
-#   image: docker:latest
-#   stage: login
-#   services:
-#     - docker:dind
-#   script:
-#     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-#   only:
-#     -  chore/docker
 
 job:build:
-||||||| 37ce682
-job:login:
-  image: docker:latest
-  stage: login
-  services:
-    - docker:dind
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-  only:
-    -  main
 
-job:build:base:
-=======
-job:build:
->>>>>>> refs/remotes/origin/chore/docker
   stage: build
-<<<<<<< HEAD
-  image: maven:3.8.3-amazoncorretto-17
-||||||| 37ce682
-  image: docker:latest
-  services:
-    - docker:dind
-=======
   image: maven:3.8.3-amazoncorretto-17
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
@@ -68,41 +36,9 @@ job:package:
     # Use the overlayfs driver for improved performance:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
->>>>>>> refs/remotes/origin/chore/docker
   script:
-<<<<<<< HEAD
-    - mvn $MAVEN_CLI_OPTS package -DskipTests
-||||||| 37ce682
-    - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
-    # - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
-=======
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
     - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
     - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}"
->>>>>>> refs/remotes/origin/chore/docker
   only:
-<<<<<<< HEAD
     -  chore/docker
-  artifacts:
-    paths:
-      - "**/target/*.jar"
-
-# job:package:
-#   ...
-# COPY --from=build-rabbitmq ${SRC}/services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
-# COPY --from=build-eureka-server ${SRC}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
-# COPY --from=build-gateway ${SRC}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
-# COPY --from=build-customer ${SRC}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
-# COPY --from=build-store ${SRC}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
-# COPY --from=build-product ${SRC}/services/core/product/target/product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
-# COPY --from=build-customisation ${SRC}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
-# COPY --from=build-subscription ${SRC}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
-# COPY --from=build-ticket ${SRC}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
-# COPY --from=build-notification ${SRC}/services/core/notification/target/notification-1.0-SNAPSHOT.jar /target/notification-1.0-SNAPSHOT.jar
-# COPY --from=build-order ${SRC}/services/core/order/target/order-1.0-SNAPSHOT.jar /target/order-1.0-SNAPSHOT.jar
-# COPY --from=build-authentication ${SRC}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar /target/authentication-1.0-SNAPSHOT.jar
-||||||| 37ce682
-    -  main
-=======
-    -  chore/docker
->>>>>>> refs/remotes/origin/chore/docker
