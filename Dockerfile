@@ -2,51 +2,52 @@ ARG SERVICE_NAME
 
 
 FROM scratch AS package-rabbitmq
-COPY ./services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
+COPY ./rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
+# COPY ./services/infra/rabbitmq/target/rabbitmq-1.0-SNAPSHOT.jar /target/rabbitmq-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-eureka-server
-COPY ./services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
+COPY ./eureka-server-1.0-SNAPSHOT.jar /target/eureka-server-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-gateway
-COPY ./services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
+COPY ./gateway-1.0-SNAPSHOT.jar /target/gateway-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-customer
-COPY ./services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
+COPY ./customer-1.0-SNAPSHOT-exec.jar /target/customer-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-store
-COPY ./services/core/store/target/store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
+COPY ./store-1.0-SNAPSHOT-exec.jar /target/store-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-product
-COPY ./services/core/product/target/product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
+COPY ./product-1.0-SNAPSHOT.jar /target/product-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-cusomisation
-COPY ./services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
+COPY ./customisation-1.0-SNAPSHOT.jar /target/customisation-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-subscription
-COPY ./services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
+COPY ./subscription-1.0-SNAPSHOT.jar /target/subscription-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-ticket
-COPY ./services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
+COPY ./ticket-1.0-SNAPSHOT.jar /target/ticket-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-notification
-COPY ./services/core/notification/target/notification-1.0-SNAPSHOT.jar /target/notification-1.0-SNAPSHOT.jar
+COPY ./notification-1.0-SNAPSHOT.jar /target/notification-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-order
-COPY ./services/core/order/target/order-1.0-SNAPSHOT.jar /target/order-1.0-SNAPSHOT.jar
+COPY ./order-1.0-SNAPSHOT.jar /target/order-1.0-SNAPSHOT.jar
 
 
 FROM scratch AS package-authentication
-COPY ./services/core/authentication/target/authentication-1.0-SNAPSHOT.jar /target/authentication-1.0-SNAPSHOT.jar
+COPY ./authentication-1.0-SNAPSHOT.jar /target/authentication-1.0-SNAPSHOT.jar
 
 
 FROM package-${SERVICE_NAME} AS package-final
