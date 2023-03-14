@@ -13,7 +13,7 @@ variables:
   DOCKER_DRIVER: overlay2
   # highly secure empty-string cert
   DOCKER_TLS_CERTDIR: ""
-  IMG_BASE: "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-"
+  IMG_BASE: "${CI_REGISTRY_USER}/cande"
   EUREKA_URI: "http://eureka-server:8761/eureka/"
   TZ: "Europe/Paris"
   SPRING_PROFILES_ACTIVE: docker
