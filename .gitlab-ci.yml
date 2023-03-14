@@ -36,7 +36,7 @@ job:package:
     DOCKER_TLS_CERTDIR: ""
   script:
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-    - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_REF_NAME}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
-    - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_REF_NAME}"
+    - docker image build -t "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}" --build-arg SERVICE_NAME=eureka-server --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ=Eurepoe/Paris --build-arg SPRING_PROFILES_ACTIVE=docker .
+    - docker push "${CI_REGISTRY_USER}/${CI_PROJECT_NAME}-eureka-server:${CI_COMMIT_SHA}"
   only:
     -  chore/docker
