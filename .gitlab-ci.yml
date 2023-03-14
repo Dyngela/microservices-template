@@ -224,8 +224,6 @@ job:package:integration:
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
 
 # job:deploy:staging:
 #   stage: staging
