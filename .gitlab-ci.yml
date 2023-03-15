@@ -228,7 +228,7 @@ job:deploy:staging:
   only:
     -  chore/docker
   script:
-    - docker compose --file compose-${STAGE}.yaml up --build -d
+    - DB_URI=$DB_URI DB_USER=$DB_USER DB_PASS=$DB_PASS RABBITMQ_URI=$RABBITMQ_URI TWILIO_SID=$TWILIO_SID TWILIO_TOKEN=$TWILIO_TOKEN TWILIO_NUM=$TWILIO_NUM CONTAINER_REGISTRY=$CONTAINER_REGISTRY docker compose --file compose-${STAGE}.yaml up --build -d
     - apk update && apk add python3 && cd ./integration && python3 poller.py
   after_script:
     - docker compose --file compose-${STAGE}.yaml down
