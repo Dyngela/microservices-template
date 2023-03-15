@@ -57,6 +57,9 @@ variables:
     - job:build
   dependencies:
     - job:build
+  artifacts:
+    paths: 
+      - my-artifacts/${SERVICE_NAME}-1.0-SNAPSHOT.jar
 
 
 job:build:
@@ -64,11 +67,35 @@ job:build:
   extends: .mvn-opts
   script:
     - mvn $MAVEN_CLI_OPTS install -DskipTests
-  only:
-    -  chore/docker
+  after_script:
+    - mkdir -p "${CI_PROJECT_DIR}/artifacts"
+    - mv ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar"
+    - mv ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar"
   artifacts:
     paths:
-      - "**/target/*.jar"
+      - ${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar
+      - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
+    name: my-artifacts
+  only:
+    -  chore/docker
 
 
 # INFRA
@@ -77,9 +104,9 @@ job:package:eureka-server:
   extends: .package-opts
   variables:
     SERVICE_NAME: eureka-server
-  script: 
-    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
+  artifacts:
+    paths: 
+      - my-artifacts/${SERVICE_NAME}-1.0-SNAPSHOT.jar
 
 # job:package:gateway:
 #   stage: package
@@ -252,3 +279,4 @@ job:package:eureka-server:
 #   only: !reference [.package-opts, only]
 #   dependencies: !reference [.package-opts, dependencies]
 #   needs: !reference [.package-opts, needs]
+
