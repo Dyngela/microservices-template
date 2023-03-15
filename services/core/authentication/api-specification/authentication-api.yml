@@ -58,21 +58,20 @@ paths:
           description: Invalid request
           content: { }
 
-  /authentication/{userId}:
+  /authentication/{email}:
     delete:
       tags:
         - user
-      summary: Delete a user by userId
+      summary: Delete a user by email
       description: Delete a user
-      operationId: deleteUserByUserId
+      operationId: deleteUserByEmail
       parameters:
-        - name: userId
+        - name: email
           in: path
-          description: User ID
+          description: email of the user
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         200:
           description: Successful operation
