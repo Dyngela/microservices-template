@@ -27,7 +27,8 @@ variables:
   #   - "docker load -q -i .docker/fs.tar 2>&1 || :"
   #   - rm -rf .docker
   script:
-     - docker image build --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest" -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    #  --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest"
+     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
       - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
       - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   # after_script:
@@ -57,7 +58,7 @@ job:build:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=.m2/repository"
   script:
-    - mvn ${MAVEN_CLI_OPTS} clean package -DskipTests
+    - mvn ${MAVEN_CLI_OPTS} package -DskipTests
   after_script:
     - mkdir -p "${CI_PROJECT_DIR}/artifacts"
     - mv ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar"
@@ -87,10 +88,10 @@ job:build:
     name: my-artifacts
   only:
     -  chore/docker
-  # cache:
-  #   - key: "${CI_BUILD_REF_NAME}"
-  #     paths:
-  #       - ".m2/repository"
+  cache:
+    - key: "${CI_BUILD_REF_NAME}"
+      paths:
+        - ".m2/repository"
 
 # INFRA
 job:package:eureka-server:
