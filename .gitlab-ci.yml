@@ -212,8 +212,8 @@ variables:
 
 job:deploy:staging:
   stage: staging
-  # image: !reference [.package-opts, image]
-  image: python:3.11.2-slim-bullseye
+  image: !reference [.package-opts, image]
+  # image: python:3.11.2-slim-bullseye
   services: !reference [.package-opts, services]
   variables:
     STAGE: "staging"
