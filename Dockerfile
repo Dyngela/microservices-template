@@ -8,7 +8,7 @@ ARG TZ
 ENV TZ=${TZ:-Europe/Paris}
 ARG SPRING_PROFILES_ACTIVE
 ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
-COPY ./${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
+COPY ./artifacts/${SERVICE_NAME}-1.0-SNAPSHOT.jar /usr/local/bin/artifact.jar
 ENTRYPOINT [ "/jre/bin/java", "-jar", "/usr/local/bin/artifact.jar" ]
 
 EXPOSE 8080
