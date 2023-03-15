@@ -13,6 +13,12 @@ stage = os.getenv("STAGE")
 if not stage or (stage != "prod" and stage != "staging" and stage != "dev"):
     raise Exception(f"Invalid stage: {stage}")
 
+_timeout = os.getenv("TIMEOUT")
+if not _timeout:
+    timeout = 600
+else:
+    timeout = _timeout
+
 docker = shutil.which("docker")
 if not docker:
     raise Exception("docker binary not found")
@@ -62,7 +68,7 @@ def defer(timeout: int, mq: queue.Queue) -> None:
 mq = queue.Queue()
 threading.Thread(target=status, daemon=True, args=(events, mq)).start()
 threading.Thread(target=stdout, daemon=True, args=(events, mq)).start()
-threading.Thread(target=defer, daemon=True, args=(600, mq)).start()
+threading.Thread(target=defer, daemon=True, args=(timeout, mq)).start()
 
 
 while 1:
@@ -71,7 +77,12 @@ while 1:
         case {"status": msg}:
             # process exited, probable failure
             raise Exception(f"{msg=}")
+
         case {"timeout": timeout}:
+            subprocess.run(
+                [docker, "compose", "--file", f"compose-{stage}.yaml", "ps"],
+                cwd=path,
+            )
             raise Exception(f"{timeout=}")
 
         case {
@@ -88,10 +99,10 @@ while 1:
                 continue
             if action == "die":
                 rc = int(attributes.get("exitCode", 1))
-                subprocess.run(
-                    [docker, "compose", "--file", f"compose-{stage}.yaml", "down"],
-                    cwd=path,
-                )
+                # subprocess.run(
+                #     [docker, "compose", "--file", f"compose-{stage}.yaml", "down"],
+                #     cwd=path,
+                # )
                 if rc == 0:
                     # integration test where successfull
                     sys.stdout.write("Integration tests where successfull\n")
