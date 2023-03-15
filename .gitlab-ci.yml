@@ -23,9 +23,24 @@ variables:
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
     MAVEN_CLI_OPTS: "-Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository --errors --fail-at-end --show-version -Dstyle.color=always"
+  only:
+    -  chore/docker
   artifacts:
     paths:
       - "**/target/*.jar"
+
+.build-opts:
+  stage: build
+  image: docker:latest
+  dependencies:
+    - job:build
+  needs:
+    - job:build
+  only:
+    -  chore/docker
+  artifacts:
+    paths:
+      - "./${SERVICE_NAME}-1.0-SNAPSHOT.jar"
 
 .package-opts:
   image: docker:latest
@@ -49,19 +64,21 @@ job:build:
   extends: .maven-opts
   script:
     - mvn $MAVEN_CLI_OPTS package -DskipTests
-  only:
-    -  chore/docker
 
 job:build:eureka-server:
+  # extends: .build-opts
   stage: build
+  image: docker:latest
   script: 
     - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
-  dependencies:
-    - job:build
   needs:
-    - job:build
+    - job: build
+      artifacts: true
   only:
     -  chore/docker
+  artifacts:
+    paths:
+      - "./${SERVICE_NAME}-1.0-SNAPSHOT.jar"
 
 # INFRA
 job:package:eureka-server:
@@ -79,7 +96,8 @@ job:package:eureka-server:
   dependencies: 
     - job:build:eureka-server
   needs:
-    - job:build:eureka-server
+    - job: build:eureka-server
+      artifacts: true
 
 # job:package:gateway:
 #   stage: package
