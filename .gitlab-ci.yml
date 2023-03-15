@@ -22,18 +22,18 @@ variables:
     DOCKER_DRIVER: overlay2
     # highly secure empty-string cert
     DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - mkdir -p .docker
-    - "docker load -q -i .docker/fs.tar 2>&1 || :"
-    - rm -rf .docker
+  # before_script:
+  #   - mkdir -p .docker
+  #   - "docker load -q -i .docker/fs.tar 2>&1 || :"
+  #   - rm -rf .docker
   script:
      - docker image build --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest" -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
       - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
       - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-  after_script:
-    - mkdir -p .docker
-    - "docker save -o .docker/fs.tar ${IMG_BASE}-${SERVICE_NAME}:latest 2>&1 || :"
-    # - docker system prune -a
+  # after_script:
+  #   - mkdir -p .docker
+  #   - "docker save -o .docker/fs.tar ${IMG_BASE}-${SERVICE_NAME}:latest 2>&1 || :"
+  #   - docker system prune -a
   # cache:
   #   - key: "${CI_BUILD_REF_NAME}"
   #     paths:
