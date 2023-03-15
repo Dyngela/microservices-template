@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Component
-@FeignClient(value = "STORE/api/v1/store")
+@FeignClient(value = "STORE")
 //@FeignClient(value = "localhost:8001/api/v1/store")
 public interface StoreClient {
-    @PutMapping("/save")
+    @PutMapping("/api/v1/store/save")
     StoreDto createStore(StoreDto store);
 }

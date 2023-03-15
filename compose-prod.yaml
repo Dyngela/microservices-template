@@ -6,6 +6,7 @@ services:
     build:
       args:
         SERVICE_NAME: eureka-server
+      dockerfile: Dockerfile.bak
     container_name: eureka-server
     ports:
       - ${EUREKA_PORT:-8080}:8761
@@ -14,6 +15,7 @@ services:
     build:
       args:
         SERVICE_NAME: gateway
+      dockerfile: Dockerfile.bak
     container_name: gateway
     depends_on:
       - service-discovery
@@ -47,6 +49,7 @@ services:
     build:
       args:
         SERVICE_NAME: authentication
+      dockerfile: Dockerfile.bak
     container_name: authentication
     environment:
       DB_URI: ${DB_URI}
@@ -60,6 +63,7 @@ services:
     build:
       args:
         SERVICE_NAME: customer
+      dockerfile: Dockerfile.bak
     container_name: customer
     environment:
       DB_URI: ${DB_URI}
@@ -91,6 +95,7 @@ services:
     build:
       args:
         SERVICE_NAME: order
+      dockerfile: Dockerfile.bak
     container_name: order
     environment:
       DB_URI: ${DB_URI}
@@ -106,6 +111,7 @@ services:
     build:
       args:
         SERVICE_NAME: product
+      dockerfile: Dockerfile.bak
     container_name: product
     environment:
       DB_URI: ${DB_URI}
@@ -119,6 +125,7 @@ services:
     build:
       args:
         SERVICE_NAME: store
+      dockerfile: Dockerfile.bak
     container_name: store
     environment:
       DB_URI: ${DB_URI}
@@ -133,6 +140,7 @@ services:
     build:
       args:
         SERVICE_NAME: customisation
+      dockerfile: Dockerfile.bak
     container_name: customisation
     environment:
       DB_URI: ${DB_URI}
@@ -155,6 +163,7 @@ services:
     build:
       args:
         SERVICE_NAME: subscription
+      dockerfile: Dockerfile.bak
     container_name: subscription
     environment:
       DB_URI: ${DB_URI}
@@ -168,6 +177,7 @@ services:
     build:
       args:
         SERVICE_NAME: ticket
+      dockerfile: Dockerfile.bak
     container_name: ticket
     environment:
       DB_URI: ${DB_URI}
