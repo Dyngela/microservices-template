@@ -215,7 +215,7 @@ job:deploy:staging:
   image: !reference [.package-opts, image]
   services: !reference [.package-opts, services]
   variables:
-    STAGE: "stage"
+    STAGE: "staging"
   only:
     -  chore/docker
   script:
