@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @Component
-@FeignClient(value = "CUSTOMER/api/v1/customer")
+@FeignClient(value = "CUSTOMER")
 public interface CustomerClient {
-    @PutMapping("/save")
+    @PutMapping("/api/v1/customer/save")
     CustomerDto createCustomer(CustomerDto store);
 }
 
