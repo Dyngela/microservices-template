@@ -212,7 +212,8 @@ variables:
 
 job:deploy:staging:
   stage: staging
-  image: !reference [.package-opts, image]
+  # image: !reference [.package-opts, image]
+  image: python:3.11.2-slim-bullseye
   services: !reference [.package-opts, services]
   variables:
     STAGE: "staging"
@@ -228,7 +229,7 @@ job:deploy:staging:
     -  chore/docker
   script:
     - docker compose --file compose-${STAGE}.yaml up --build -d
-    - cd ./integration && python3 poller.py
+    - apk update && apk add python3 && cd ./integration && python3 poller.py
   after_script:
     - docker compose --file compose-${STAGE}.yaml down
     - docker system prune -a
