@@ -38,8 +38,8 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> deleteUserByUserId(Long userId) {
-        return ResponseEntity.ok(userService.deleteUserByUserId(userId));
+    public ResponseEntity<String> deleteUserByEmail(String email) {
+        return ResponseEntity.ok(userService.deleteUserByEmail(email));
     }
 
     @Override
