@@ -32,13 +32,6 @@ variables:
     - docker logout
   only:
     - chore/docker
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  artifacts:
-    paths: 
-      - my-artifacts/${SERVICE_NAME}-1.0-SNAPSHOT.jar
 
 
 job:build:
@@ -90,13 +83,20 @@ job:package:eureka-server:
   extends: .package-opts
   variables:
     SERVICE_NAME: eureka-server
-
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:gateway:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: gateway
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:db:
   stage: package
@@ -115,36 +115,60 @@ job:package:authentication:
   extends: .package-opts
   variables:
     SERVICE_NAME: authentication
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:customer:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: customer
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:notification:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: notification
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:order:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: order
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:product:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: product
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:store:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: store
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 ### BACK-OFFICE
 job:package:customisation:
@@ -152,18 +176,30 @@ job:package:customisation:
   extends: .package-opts
   variables:
     SERVICE_NAME: customisation
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:subscription:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: subscription
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 job:package:ticket:
   stage: package
   extends: .package-opts
   variables:
     SERVICE_NAME: ticket
+  needs:
+    - job:build
+  dependencies:
+    - job:build
 
 ### INTEGRATION
 job:package:integration:
