@@ -1,5 +1,4 @@
 import time
-import datetime
 import os
 
 import requests
@@ -10,10 +9,9 @@ if not stage:
     raise Exception("STAGE is not defined")
 
 if stage == "prod":
-    # BASE_URL = "http://localhost"
     BASE_URL = "https://collecteverything.fr"
 elif stage == "staging":
-    BASE_URL = "http://localhost"
+    BASE_URL = "http://gateway:8080"
 elif stage == "dev":
     BASE_URL = "http://localhost:8080"
 else:

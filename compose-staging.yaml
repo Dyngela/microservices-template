@@ -16,14 +16,14 @@ services:
     ports:
       - ${GATEWAY_PORT:-80}:8080
 
-  postgres:
-    image: ${CONTAINER_REGISTRY}/cande-eureka-server:latest
+  backing-db:
+    image: ${CONTAINER_REGISTRY}/cande-db:latest
     container_name: postgres
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
 
-  rabbitmq:
+  backing-mq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     environment:
@@ -39,7 +39,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   service-customer:
     image: ${CONTAINER_REGISTRY}/cande-customer:latest
@@ -50,7 +50,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   service-notification:
     image: ${CONTAINER_REGISTRY}/cande-notification:latest
@@ -65,8 +65,8 @@ services:
       RABBITMQ_URI: ${RABBITMQ_URI}
     depends_on:
       - service-gateway
-      - postgres
-      - rabbitmq
+      - backing-mq
+      - backing-db
 
   service-order:
     image: ${CONTAINER_REGISTRY}/cande-order:latest
@@ -78,8 +78,8 @@ services:
       RABBITMQ_URI: ${RABBITMQ_URI}
     depends_on:
       - service-gateway
-      - postgres
-      - rabbitmq
+      - backing-mq
+      - backing-db
 
   service-product:
     image: ${CONTAINER_REGISTRY}/cande-product:latest
@@ -90,10 +90,10 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   service-store:
-    image: ${CONTAINER_REGISTRY}/cande-gateway:latest
+    image: ${CONTAINER_REGISTRY}/cande-store:latest
     container_name: store
     environment:
       DB_URI: ${DB_URI}
@@ -101,7 +101,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   # BACK-OFFICE
   service-customisation:
@@ -113,7 +113,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   # service-payment:
   #   build:
@@ -133,7 +133,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
   service-ticket:
     image: ${CONTAINER_REGISTRY}/cande-ticket:latest
@@ -144,10 +144,12 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - service-gateway
-      - postgres
+      - backing-db
 
-  service-integration:
-    image: ${CONTAINER_REGISTRY}/cande-eureka-server:latest
+  test-integration:
+    image: ${CONTAINER_REGISTRY}/cande-integration:latest
     container_name: integration
+    environment:
+      STAGE: staging
     depends_on:
       - service-authentication
