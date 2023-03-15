@@ -3,11 +3,6 @@ stages:
   - package
   - staging
 
-cache:
-  key: "${CI_BUILD_REF_NAME}"
-  paths:
-    - "${CI_PROJECT_DIR}/.m2/repository"
-
 variables:
   # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
   DOCKER_HOST: "tcp://thedockerhost:2375/"
@@ -18,6 +13,19 @@ variables:
   EUREKA_URI: "http://eureka-server:8761/eureka/"
   TZ: "Europe/Paris"
   SPRING_PROFILES_ACTIVE: docker
+
+.maven-opts:
+  image: maven:3.8.3-amazoncorretto-17
+  cache:
+    key: "${CI_BUILD_REF_NAME}"
+    paths:
+      - ".m2"
+  variables:
+    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    MAVEN_CLI_OPTS: "-Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository --errors --fail-at-end --show-version -Dstyle.color=always"
+  artifacts:
+    paths:
+      - "**/target/*.jar"
 
 .package-opts:
   image: docker:latest
@@ -38,194 +46,203 @@ variables:
 
 job:build:
   stage: build
-  image: maven:3.8.3-amazoncorretto-17
-  variables:
-    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+  extends: .maven-opts
   script:
     - mvn $MAVEN_CLI_OPTS package -DskipTests
   only:
     -  chore/docker
-  artifacts:
-    paths:
-      - "**/target/*.jar"
+
+# job:build:
+#   stage: build
+#   image: maven:3.8.3-amazoncorretto-17
+#   variables:
+#     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+#     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+#   script:
+#     - mvn $MAVEN_CLI_OPTS package -DskipTests
+#   only:
+#     -  chore/docker
+#   artifacts:
+#     paths:
+#       - "**/target/*.jar"
 
 # INFRA
-job:package:eureka-server:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: eureka-server
-  script: 
-    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:eureka-server:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: eureka-server
+#   script: 
+#     - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:gateway:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: gateway
-  script: 
-    - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar ./gateway-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:gateway:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: gateway
+#   script: 
+#     - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar ./gateway-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:db:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: db
-    PGDATA: /data/postgres
-    TZ: ${TZ}
-    PGTZ: ${TZ}
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-  only: !reference [.package-opts, only]
+# job:package:db:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: db
+#     PGDATA: /data/postgres
+#     TZ: ${TZ}
+#     PGTZ: ${TZ}
+#   script:
+#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
+#     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+#   only: !reference [.package-opts, only]
 
-# CORE
-job:package:authentication:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: authentication
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./authentication-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# # CORE
+# job:package:authentication:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: authentication
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./authentication-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:customer:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: customer
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar ./customer-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:customer:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: customer
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar ./customer-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:notification:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: notification
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar ./notification-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:notification:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: notification
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar ./notification-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:order:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: order
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar ./order-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:order:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: order
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar ./order-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:product:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: product
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar ./product-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:product:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: product
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar ./product-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:store:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: store
-  script:
-    - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar ./store-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:store:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: store
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar ./store-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-# BACK-OFFICE
-job:package:customisation:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: customisation
-  script:
-    - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar ./customisation-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# # BACK-OFFICE
+# job:package:customisation:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: customisation
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar ./customisation-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:subscription:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: subscription
-  script:
-    - cp ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar ./subscription-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:subscription:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: subscription
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar ./subscription-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-job:package:ticket:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: ticket
-  script:
-    - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./ticket-1.0-SNAPSHOT.jar
-    - !reference [.package-opts, script]
-  only: !reference [.package-opts, only]
-  dependencies: !reference [.package-opts, dependencies]
-  needs: !reference [.package-opts, needs]
+# job:package:ticket:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: ticket
+#   script:
+#     - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./ticket-1.0-SNAPSHOT.jar
+#     - !reference [.package-opts, script]
+#   only: !reference [.package-opts, only]
+#   dependencies: !reference [.package-opts, dependencies]
+#   needs: !reference [.package-opts, needs]
 
-# INTEGRATION
-job:package:integration:
-  stage: package
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    SERVICE_NAME: integration
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-  only: !reference [.package-opts, only]
+# # INTEGRATION
+# job:package:integration:
+#   stage: package
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     SERVICE_NAME: integration
+#   script:
+#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
+#     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+#   only: !reference [.package-opts, only]
 
+###
 # job:deploy:staging:
 #   stage: staging
 #   image: !reference [.package-opts, image]
