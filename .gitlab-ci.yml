@@ -216,11 +216,18 @@ job:deploy:staging:
   services: !reference [.package-opts, services]
   variables:
     STAGE: "staging"
+    DB_URI: "postgresql://postgres:5432"
+    DB_USER: postgres
+    DB_PASS: gernika54
+    RABBITMQ_URI: rabbitmq:5672
+    TWILIO_SID: AC34f91f7b1d9b35144662cfff0e7c07be
+    TWILIO_TOKEN: 90764088f400e64009b4373d06328f58
+    TWILIO_NUM: +15005550006
   only:
     -  chore/docker
   script:
     - docker compose --file compose-${STAGE}.yaml up --build -d
-    - cd & ./integration && python3 poller.py
+    - cd ./integration && python3 poller.py
   after_script:
     - docker compose --file compose-${STAGE}.yaml down
     - docker system prune -a
