@@ -58,6 +58,8 @@ job:build:eureka-server:
     - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
   dependencies:
     - job:build
+  needs:
+    - job:build
   only:
     -  chore/docker
 
