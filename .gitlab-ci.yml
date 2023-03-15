@@ -83,7 +83,8 @@ job:build:
   #     paths:
   #       - ".m2/repository"
 
-# INFRA
+
+### INFRA
 job:package:eureka-server:
   stage: package
   extends: .package-opts
@@ -91,167 +92,87 @@ job:package:eureka-server:
     SERVICE_NAME: eureka-server
 
 
-# job:package:gateway:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: gateway
-#   script: 
-#     - cp ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar ./gateway-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:gateway:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: gateway
 
-# job:package:db:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: db
-#     PGDATA: /data/postgres
-#     TZ: ${TZ}
-#     PGTZ: ${TZ}
-#   script:
-#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./db
-#     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-#     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-#     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-#   only: !reference [.package-opts, only]
+job:package:db:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: db
+    PGDATA: /data/postgres
+    TZ: ${TZ}
+    PGTZ: ${TZ}
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg PGTZ=${PGTZ} --build-arg TZ=${TZ} --build-arg PGDATA=${PGDATA} ./db
 
-# # CORE
-# job:package:authentication:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: authentication
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar ./authentication-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+### CORE
+job:package:authentication:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: authentication
 
-# job:package:customer:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: customer
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar ./customer-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:customer:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: customer
 
-# job:package:notification:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: notification
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar ./notification-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:notification:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: notification
 
-# job:package:order:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: order
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar ./order-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:order:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: order
 
-# job:package:product:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: product
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar ./product-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:product:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: product
 
-# job:package:store:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: store
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar ./store-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:store:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: store
 
-# # BACK-OFFICE
-# job:package:customisation:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: customisation
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar ./customisation-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+### BACK-OFFICE
+job:package:customisation:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: customisation
 
-# job:package:subscription:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: subscription
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar ./subscription-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:subscription:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: subscription
 
-# job:package:ticket:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: ticket
-#   script:
-#     - cp ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar ./ticket-1.0-SNAPSHOT.jar
-#     - !reference [.package-opts, script]
-#   only: !reference [.package-opts, only]
-#   dependencies: !reference [.package-opts, dependencies]
-#   needs: !reference [.package-opts, needs]
+job:package:ticket:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: ticket
 
-# # INTEGRATION
-# job:package:integration:
-#   stage: package
-#   image: !reference [.package-opts, image]
-#   services: !reference [.package-opts, services]
-#   variables:
-#     SERVICE_NAME: integration
-#   script:
-#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
-#     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-#     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-#     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-#   only: !reference [.package-opts, only]
+### INTEGRATION
+job:package:integration:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: integration
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
 
 # job:deploy:staging:
 #   stage: staging
@@ -262,4 +183,3 @@ job:package:eureka-server:
 #   only: !reference [.package-opts, only]
 #   dependencies: !reference [.package-opts, dependencies]
 #   needs: !reference [.package-opts, needs]
-
