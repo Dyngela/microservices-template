@@ -219,8 +219,8 @@ job:deploy:staging:
   only:
     -  chore/docker
   script:
-    - docker compose --file compose-${STAGE} up --build -d
+    - docker compose --file compose-${STAGE}.yaml up --build -d
     - cd & ./integration && python3 poller.py
   after_script:
-    - docker compose --file compose-${STAGE} down
+    - docker compose --file compose-${STAGE}.yaml down
     - docker system prune -a
