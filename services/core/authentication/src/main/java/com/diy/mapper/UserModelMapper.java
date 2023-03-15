@@ -12,8 +12,9 @@ import java.util.List;
         typeConversionPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface UserModelMapper {
     UserDto toDto(UserModel userModel);
-    List<UserDto> toDtos(Collection<UserDto> userModels);
+    List<UserDto> toDtos(List<UserModel> userModels);
     UserModel entityToModel(UserEntity userEntity, @Context CycleAvoidingMappingContext c);
+    List<UserModel> entitiesToModels(List<UserEntity> userEntity, @Context CycleAvoidingMappingContext c);
     UserEntity toEntity(UserModel model);
     UserModel dtoToModel(UserDto userDto);
 

@@ -58,9 +58,9 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
-    public String deleteUserByUserId(Long userId) {
+    public String deleteUserByEmail(String  email) {
         try {
-            UserEntity userEntity = userRepository.findById(userId).orElseThrow(() ->
+            UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() ->
                     new ExceptionHandler("No user found"));
             userEntity.setDeletedAt(LocalDateTime.now());
             userRepository.save(userEntity);
@@ -68,6 +68,16 @@ public class UserService implements UserDetailsService {
         } catch (Exception e) {
             log.error("Error while deleting a user: " + e.getMessage());
             throw new ExceptionHandler("We could not delete your account");
+        }
+    }
+
+    public List<UserModel> getUsersByStoreId(Long id){
+        try {
+            List<UserEntity> entity = userRepository.findUserEntitiesByStoreIdAndRoleIsNotAndRoleIsNot(id, Roles.USER, Roles.ADMIN);
+            return userModelMapper.entitiesToModels(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while getting all user: " + e.getMessage());
+            throw new ExceptionHandler("We could not get your employees information");
         }
     }
 
@@ -87,7 +97,7 @@ public class UserService implements UserDetailsService {
 
     public UserModel updateUser(UserModel model) {
         try {
-            UserEntity userEntity = userRepository.findById(model.getUserId()).orElseThrow(() ->
+            UserEntity userEntity = userRepository.findByEmail(model.getEmail()).orElseThrow(() ->
                     new ExceptionHandler("No user found"));
             userModelMapper.updateStoreFromModel(model, userEntity, new CycleAvoidingMappingContext());
             userEntity.setUpdatedAt(LocalDateTime.now());

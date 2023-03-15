@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -37,13 +38,18 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> deleteUserByUserId(Long userId) {
-        return ResponseEntity.ok(userService.deleteUserByUserId(userId));
+    public ResponseEntity<String> deleteUserByEmail(String email) {
+        return ResponseEntity.ok(userService.deleteUserByEmail(email));
     }
 
     @Override
     public ResponseEntity<String> deleteUsersByStoresId(Long storeId) {
         return ResponseEntity.ok(userService.deleteUsersByStoresId(storeId));
+    }
+
+    @Override
+    public ResponseEntity<List<UserDto>> getUsersByStoreId(Long storeId) {
+        return ResponseEntity.ok(modelMapper.toDtos(userService.getUsersByStoreId(storeId)));
     }
 
     @Override
