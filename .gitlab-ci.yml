@@ -22,24 +22,14 @@ variables:
     DOCKER_DRIVER: overlay2
     # highly secure empty-string cert
     DOCKER_TLS_CERTDIR: ""
-  # before_script:
-  #   - mkdir -p .docker
-  #   - "docker load -q -i .docker/fs.tar 2>&1 || :"
-  #   - rm -rf .docker
+  before_script:
+    - mkdir -p $HOME/.docker
+    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   script:
-    #  --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest"
     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+  after_script:
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-  # after_script:
-  #   - mkdir -p .docker
-  #   - "docker save -o .docker/fs.tar ${IMG_BASE}-${SERVICE_NAME}:latest 2>&1 || :"
-  #   - docker system prune -a
-  # cache:
-  #   - key: "${CI_BUILD_REF_NAME}"
-  #     paths:
-  #       - .docker
-  #     when: on_success
   only:
     - chore/docker
   needs:
@@ -56,7 +46,8 @@ job:build:
   image: maven:3.8.3-amazoncorretto-17
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=.m2/repository"
+    #  -Dmaven.repo.local=.m2/repository
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
   script:
     - mvn ${MAVEN_CLI_OPTS} package -DskipTests
   after_script:
@@ -88,10 +79,10 @@ job:build:
     name: my-artifacts
   only:
     -  chore/docker
-  cache:
-    - key: "${CI_BUILD_REF_NAME}"
-      paths:
-        - ".m2/repository"
+  # cache:
+  #   - key: "${CI_BUILD_REF_NAME}"
+  #     paths:
+  #       - ".m2/repository"
 
 # INFRA
 job:package:eureka-server:
