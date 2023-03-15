@@ -28,9 +28,9 @@ variables:
   #   - rm -rf .docker
   script:
     #  --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest"
-     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-      - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-      - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   # after_script:
   #   - mkdir -p .docker
   #   - "docker save -o .docker/fs.tar ${IMG_BASE}-${SERVICE_NAME}:latest 2>&1 || :"
