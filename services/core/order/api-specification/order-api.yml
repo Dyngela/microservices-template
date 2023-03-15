@@ -228,6 +228,8 @@ components:
         customerId:
           type: integer
           format: int64
+        createdAt:
+          type: string
         purchases:
           type: array
           items:
@@ -263,6 +265,8 @@ components:
         customerId:
           type: integer
           format: int64
+        createdAt:
+          type: string
 
     Purchase:
       type: object

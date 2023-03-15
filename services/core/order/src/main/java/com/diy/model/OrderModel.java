@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -23,5 +24,8 @@ public class OrderModel {
     Long storeId;
     Long customerId;
     List<PurchaseModel> purchases;
+
+    LocalDateTime createdAt;
+
 
 }
