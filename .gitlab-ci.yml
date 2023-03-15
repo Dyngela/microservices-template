@@ -3,55 +3,54 @@ stages:
   - package
   - staging
 
+
 variables:
-  # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
-  DOCKER_HOST: "tcp://thedockerhost:2375/"
-  DOCKER_DRIVER: overlay2
-  # highly secure empty-string cert
-  DOCKER_TLS_CERTDIR: ""
+
   IMG_BASE: "${CI_REGISTRY_USER}/cande"
   EUREKA_URI: "http://eureka-server:8761/eureka/"
   TZ: "Europe/Paris"
   SPRING_PROFILES_ACTIVE: docker
 
-.maven-opts:
+
+.mvn-opts:
   image: maven:3.8.3-amazoncorretto-17
-  cache:
-    key: "${CI_BUILD_REF_NAME}"
-    paths:
-      - ".m2"
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "-Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository --errors --fail-at-end --show-version -Dstyle.color=always"
-  only:
-    -  chore/docker
-  artifacts:
-    paths:
-      - "**/target/*.jar"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=.m2/repository"
+  cache:
+    - key: "${CI_BUILD_REF_NAME}"
+      paths:
+        - ".m2/repository"
 
-.build-opts:
-  stage: build
-  image: docker:latest
-  dependencies:
-    - job:build
-  needs:
-    - job:build
-  only:
-    -  chore/docker
-  artifacts:
-    paths:
-      - "./${SERVICE_NAME}-1.0-SNAPSHOT.jar"
 
 .package-opts:
   image: docker:latest
   services:
     - name: docker:dind
       alias: thedockerhost
+  variables:
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
+    DOCKER_HOST: "tcp://thedockerhost:2375/"
+    DOCKER_DRIVER: overlay2
+    # highly secure empty-string cert
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - mkdir -p .docker
+    - "docker load -q -i .docker/fs.tar 2>&1 || :"
+    - rm -rf .docker
   script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+     - docker image build --cache-from="${IMG_BASE}-${SERVICE_NAME}:latest" -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+      - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+      - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+  after_script:
+    - mkdir -p .docker
+    - "docker save -o .docker/fs.tar hello-world 2>&1 || :"
+    - docker system prune -a
+  cache:
+    - key: "${CI_BUILD_REF_NAME}"
+      paths:
+        - .docker
+      when: on_success
   only:
     - chore/docker
   needs:
@@ -59,45 +58,28 @@ variables:
   dependencies:
     - job:build
 
+
 job:build:
   stage: build
-  extends: .maven-opts
+  extends: .mvn-opts
   script:
-    - mvn $MAVEN_CLI_OPTS package -DskipTests
-
-job:build:eureka-server:
-  # extends: .build-opts
-  stage: build
-  image: docker:latest
-  script: 
-    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
-  needs:
-    - job: build
-      artifacts: true
+    - mvn $MAVEN_CLI_OPTS install -DskipTests
   only:
     -  chore/docker
   artifacts:
     paths:
-      - "./${SERVICE_NAME}-1.0-SNAPSHOT.jar"
+      - "**/target/*.jar"
+
 
 # INFRA
 job:package:eureka-server:
   stage: package
-  image: docker:latest
-  services:
-    - name: docker:dind
-      alias: thedockerhost
+  extends: .package-opts
   variables:
     SERVICE_NAME: eureka-server
   script: 
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
-  only:
-    -  chore/docker
-  dependencies: 
-    - job:build:eureka-server
-  needs:
-    - job: build:eureka-server
-      artifacts: true
+    - cp ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar ./eureka-server-1.0-SNAPSHOT.jar
+    - !reference [.package-opts, script]
 
 # job:package:gateway:
 #   stage: package
@@ -261,27 +243,6 @@ job:package:eureka-server:
 #     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
 #   only: !reference [.package-opts, only]
 
-# dependencies -> need + accès à l'artifact produits par les jobs déclarés, need implicite, tous les artifacts sont passés par défaut aux jobs suivants
-# need -> attend que le job déclaré soit terminé, utiliser en combinaison avec dependencies: null pour ignorer les artifacts, amélioration du build time
-# https://docs.gitlab.cn/14.0/ee/ci/yaml/README.html
-# dependencies	Restrict which artifacts are passed to a specific job by providing a list of jobs to fetch artifacts from.
-# needs	Execute jobs earlier than the stage ordering.
-job:package:publish:
-  stage: package
-  image: docker:latest
-  services:
-    - name: docker:dind
-      alias: thedockerhost
-  script:
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin
-    - docker push "${IMG_BASE}-eureka-server:${CI_COMMIT_SHA}"
-    - docker push "${IMG_BASE}-eureka-server:latest"
-  only:
-    - chore/docker
-  needs:
-    - job: package:eureka-server
-
-###
 # job:deploy:staging:
 #   stage: staging
 #   image: !reference [.package-opts, image]
