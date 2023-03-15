@@ -278,10 +278,8 @@ job:package:publish:
     - docker push "${IMG_BASE}-eureka-server:latest"
   only:
     - chore/docker
-  dependencies:
-    - job:package:eureka-server
   needs:
-    - job:package:eureka-server
+    - job: package:eureka-server
 
 ###
 # job:deploy:staging:
