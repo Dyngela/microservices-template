@@ -223,6 +223,7 @@ job:deploy:staging:
     TWILIO_SID: AC34f91f7b1d9b35144662cfff0e7c07be
     TWILIO_TOKEN: 90764088f400e64009b4373d06328f58
     TWILIO_NUM: +15005550006
+    CONTAINER_REGISTRY: docker.io/yulquen
   only:
     -  chore/docker
   script:
