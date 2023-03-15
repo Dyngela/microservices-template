@@ -5,22 +5,10 @@ stages:
 
 
 variables:
-
   IMG_BASE: "${CI_REGISTRY_USER}/cande"
   EUREKA_URI: "http://eureka-server:8761/eureka/"
   TZ: "Europe/Paris"
   SPRING_PROFILES_ACTIVE: docker
-
-
-.mvn-opts:
-  image: maven:3.8.3-amazoncorretto-17
-  variables:
-    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=.m2/repository"
-  cache:
-    - key: "${CI_BUILD_REF_NAME}"
-      paths:
-        - ".m2/repository"
 
 
 .package-opts:
@@ -44,13 +32,13 @@ variables:
       - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
   after_script:
     - mkdir -p .docker
-    - "docker save -o .docker/fs.tar hello-world 2>&1 || :"
-    - docker system prune -a
-  cache:
-    - key: "${CI_BUILD_REF_NAME}"
-      paths:
-        - .docker
-      when: on_success
+    - "docker save -o .docker/fs.tar ${IMG_BASE}-${SERVICE_NAME}:latest 2>&1 || :"
+    # - docker system prune -a
+  # cache:
+  #   - key: "${CI_BUILD_REF_NAME}"
+  #     paths:
+  #       - .docker
+  #     when: on_success
   only:
     - chore/docker
   needs:
@@ -64,9 +52,12 @@ variables:
 
 job:build:
   stage: build
-  extends: .mvn-opts
+  image: maven:3.8.3-amazoncorretto-17
+  variables:
+    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always -Dmaven.repo.local=.m2/repository"
   script:
-    - mvn $MAVEN_CLI_OPTS install -DskipTests
+    - mvn ${MAVEN_CLI_OPTS} clean package -DskipTests
   after_script:
     - mkdir -p "${CI_PROJECT_DIR}/artifacts"
     - mv ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar"
@@ -96,7 +87,10 @@ job:build:
     name: my-artifacts
   only:
     -  chore/docker
-
+  # cache:
+  #   - key: "${CI_BUILD_REF_NAME}"
+  #     paths:
+  #       - ".m2/repository"
 
 # INFRA
 job:package:eureka-server:
