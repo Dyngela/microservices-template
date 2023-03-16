@@ -7,6 +7,7 @@ import time
 import pathlib
 import json
 import sys
+import signal
 
 
 stage = os.getenv("STAGE")
@@ -65,15 +66,28 @@ def defer(timeout: int, mq: queue.Queue) -> None:
     raise SystemError
 
 
+def sig_handler(mq: queue.Queue):
+    def inner(signum, frame):
+        return mq.put_nowait({"signal": signum})
+
+    return inner
+
+
 mq = queue.Queue()
 threading.Thread(target=status, daemon=True, args=(events, mq)).start()
 threading.Thread(target=stdout, daemon=True, args=(events, mq)).start()
 threading.Thread(target=defer, daemon=True, args=(timeout, mq)).start()
 
+signal.signal(signal.SIGINT, sig_handler(mq))
+signal.signal(signal.SIGTERM, sig_handler(mq))
+
 
 while 1:
     msg = mq.get()
     match msg:
+        case {"signal": signum}:
+            raise SystemExit(signum)
+
         case {"status": msg}:
             # process exited, probable failure
             raise Exception(f"{msg=}")

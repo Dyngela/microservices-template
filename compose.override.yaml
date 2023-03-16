@@ -2,10 +2,14 @@
 services:
 
   service-discovery:
+    build:
+      dockerfile: Dockerfile.dev
     ports:
       - ${EUREKA_PORT:-8761}:8761
 
   service-gateway:
+    build:
+      dockerfile: Dockerfile.dev
     ports:
       - ${GATEWAY_PORT:-8080}:8080
 
@@ -20,43 +24,63 @@ services:
       - 5672:5672
       - 15672:15672
 
-  # service-authentication:
+  service-authentication:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-customer:
+  service-customer:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-notification:
+  service-notification:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-order:
+  service-order:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-product:
+  service-product:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-store:
+  service-store:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-customisation:
+  service-customisation:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-payment:
+  service-payment:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-subscription:
+  service-subscription:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 
-  # service-ticket:
+  service-ticket:
+    build:
+      dockerfile: Dockerfile.dev
   #   ports:
   #     - XXXX:XXXX
 

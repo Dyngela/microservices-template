@@ -50,4 +50,4 @@ services:
   test-integration:
     image: ${CONTAINER_REGISTRY}/cande-integration:latest
     environment:
-      STAGE: prod
+      STAGE: staging
