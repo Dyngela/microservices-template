@@ -3,7 +3,6 @@ stages:
   - package
   - staging
 
-
 variables:
   IMG_BASE: "${CI_REGISTRY_USER}/cande"
   EUREKA_URI: "http://eureka-server:8761/eureka/"
@@ -213,24 +212,22 @@ variables:
 job:deploy:staging:
   stage: staging
   image: !reference [.package-opts, image]
-  # image: python:3.11.2-slim-bullseye
   services: !reference [.package-opts, services]
   variables:
-    STAGE: "staging"
-    DB_URI: "postgresql://postgres:5432"
-    DB_USER: postgres
-    DB_PASS: gernika54
-    RABBITMQ_URI: rabbitmq:5672
-    TWILIO_SID: AC34f91f7b1d9b35144662cfff0e7c07be
-    TWILIO_TOKEN: 90764088f400e64009b4373d06328f58
-    TWILIO_NUM: +15005550006
+    STAGE: ${CI_JOB_STAGE}
+    DB_URI: ${DB_URI_STAGING}
+    DB_USER: ${DB_USER_STAGING}
+    DB_PASS: ${DB_PASS_STAGING}
+    RABBITMQ_URI: ${RABBITMQ_URI_STAGING}
+    TWILIO_SID: ${TWILIO_SID_STAGING}
+    TWILIO_TOKEN: ${TWILIO_TOKEN_STAGING}
+    TWILIO_NUM: ${TWILIO_NUM_STAGING}
     CONTAINER_REGISTRY: docker.io/yulquen
   only:
-    - chore/docker
+    -  chore/docker
   script:
-    - echo "DB_PASS=$DB_PASS" >> .env && echo "DB_USER=$DB_USER" >> .env && echo "DB_URI=$DB_URI" >> .env && echo "RABBITMQ_URI=$RABBITMQ_URI" >> .env && echo "TWILIO_SID=$TWILIO_SID" >> .env && echo "TWILIO_TOKEN=$TWILIO_TOKEN" >> .env && echo "TWILIO_NUM=$TWILIO_NUM" >> .env && echo "CONTAINER_REGISTRY=$CONTAINER_REGISTRY" >> .env
-    - DB_URI=$DB_URI DB_USER=$DB_USER DB_PASS=$DB_PASS RABBITMQ_URI=$RABBITMQ_URI TWILIO_SID=$TWILIO_SID TWILIO_TOKEN=$TWILIO_TOKEN TWILIO_NUM=$TWILIO_NUM CONTAINER_REGISTRY=$CONTAINER_REGISTRY docker compose --file compose-${STAGE}.yaml up --build -d
+    - docker compose --file compose.yaml --file compose.prod.yaml up --build -d
     - apk update && apk add python3 && cd ./integration && python3 poller.py
   after_script:
-    - docker compose --file compose-${STAGE}.yaml down
+    - docker compose --file compose.yaml --file compose.prod.yaml down
     - docker system prune -a
