@@ -214,7 +214,7 @@ job:deploy:staging:
   image: !reference [.package-opts, image]
   services: !reference [.package-opts, services]
   variables:
-    STAGE: ${CI_JOB_STAGE}
+    STAGE: staging
     DB_URI: ${DB_URI_STAGING}
     DB_USER: ${DB_USER_STAGING}
     DB_PASS: ${DB_PASS_STAGING}
