@@ -1,0 +1,65 @@
+---
+services:
+
+  service-discovery:
+    ports:
+      - ${EUREKA_PORT:-8761}:8761
+
+  service-gateway:
+    ports:
+      - ${GATEWAY_PORT:-8080}:8080
+
+  backing-db:
+    build:
+      context: ./db
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+
+  backing-mq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  # service-authentication:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-customer:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-notification:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-order:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-product:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-store:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-customisation:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-payment:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-subscription:
+  #   ports:
+  #     - XXXX:XXXX
+
+  # service-ticket:
+  #   ports:
+  #     - XXXX:XXXX
+
+  test-integration:
+    build:
+      context: ./integration

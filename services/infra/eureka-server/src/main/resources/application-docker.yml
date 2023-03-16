@@ -10,7 +10,7 @@ spring:
 eureka:
   instance:
     hostname: ${spring.application.name}
-    leaseRenewalIntervalInSeconds: 10
+    leaseRenewalIntervalInSeconds: ${LEASE_RENEWAL_INTERVAL:10}
   client:
     registerWithEureka: false
     fetchRegistry: false
