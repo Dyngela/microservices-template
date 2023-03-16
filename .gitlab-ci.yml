@@ -226,8 +226,9 @@ job:deploy:staging:
   only:
     -  chore/docker
   script:
-    - docker compose --file compose.yaml --file compose.prod.yaml up --build -d
-    - apk update && apk add python3 && cd ./integration && python3 poller.py
-  after_script:
-    - docker compose --file compose.yaml --file compose.prod.yaml down
-    - docker system prune -a
+    - echo $(docker compose version)
+    # - docker compose --file compose.yaml --file compose.prod.yaml up --build -d
+    # - apk update && apk add python3 && cd ./integration && python3 poller.py
+  # after_script:
+  #   - docker compose --file compose.yaml --file compose.prod.yaml down
+  #   - docker system prune -a
