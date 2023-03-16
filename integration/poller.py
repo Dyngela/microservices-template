@@ -35,6 +35,7 @@ events = subprocess.Popen(
         "compose",
         "--file",
         "compose.yaml",
+        "--file",
         "compose.prod.yaml",
         "events",
         "--json",
