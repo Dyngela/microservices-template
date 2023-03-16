@@ -52,8 +52,9 @@ def stdout(events, mq: queue.Queue) -> None:
         msg = events.stdout.readline()
         if msg == "":
             # probable process exit EOF
-            mq.put_nowait({"status": msg})
-            raise SystemExit
+            ...
+            # mq.put_nowait({"status": msg})
+            # raise SystemExit
         try:
             mq.put_nowait({"event": json.loads(msg)})
         except json.decoder.JSONDecodeError:
