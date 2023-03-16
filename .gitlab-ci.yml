@@ -1,7 +1,7 @@
 stages:
   - build
   - package
-  - staging
+  - deploy
 
 variables:
   IMG_BASE: "${CI_REGISTRY_USER}/cande"
@@ -210,7 +210,7 @@ variables:
 #     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
 
 job:deploy:staging:
-  stage: staging
+  stage: deploy
   image: !reference [.package-opts, image]
   services: !reference [.package-opts, services]
   variables:
