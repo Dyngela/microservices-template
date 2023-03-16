@@ -58,7 +58,8 @@ def stdout(events, mq: queue.Queue) -> None:
         try:
             mq.put_nowait({"event": json.loads(msg)})
         except json.decoder.JSONDecodeError:
-            raise Exception(msg)
+            ...
+            # raise Exception(msg)
 
 
 def defer(timeout: int, mq: queue.Queue) -> None:
