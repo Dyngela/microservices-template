@@ -30,7 +30,15 @@ if ".git" not in {p.name for p in path.iterdir()}:
     raise Exception(f"not a git repo {str(path)}")
 
 events = subprocess.Popen(
-    [docker, "compose", "--file", f"compose-{stage}.yaml", "events", "--json"],
+    [
+        docker,
+        "compose",
+        "--file",
+        "compose.yaml",
+        "compose.prod.yaml",
+        "events",
+        "--json",
+    ],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     cwd=path,
@@ -52,14 +60,12 @@ def stdout(events, mq: queue.Queue) -> None:
         msg = events.stdout.readline()
         if msg == "":
             # probable process exit EOF
-            ...
-            # mq.put_nowait({"status": msg})
-            # raise SystemExit
+            mq.put_nowait({"status": msg})
+            raise SystemExit
         try:
             mq.put_nowait({"event": json.loads(msg)})
         except json.decoder.JSONDecodeError:
-            ...
-            # raise Exception(msg)
+            raise Exception(msg)
 
 
 def defer(timeout: int, mq: queue.Queue) -> None:
