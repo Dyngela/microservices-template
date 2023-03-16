@@ -84,6 +84,32 @@ paths:
           description: Invalid request
           content: { }
 
+    get:
+      tags:
+        - user
+      summary: get a user by email
+      description: get a user
+      operationId: getUserByEmail
+      parameters:
+        - name: email
+          in: path
+          description: email of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+
+        404:
+          description: Invalid request
+          content: { }
+
   /authentication/save:
     post:
       tags:
