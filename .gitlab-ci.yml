@@ -222,6 +222,7 @@ job:deploy:staging:
     TWILIO_SID: ${TWILIO_SID_STAGING}
     TWILIO_TOKEN: ${TWILIO_TOKEN_STAGING}
     TWILIO_NUM: ${TWILIO_NUM_STAGING}
+    LEASE_RENEWAL_INTERVAL: 10
     CONTAINER_REGISTRY: docker.io/yulquen
   only:
     -  chore/docker
