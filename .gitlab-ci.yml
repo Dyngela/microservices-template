@@ -230,8 +230,8 @@ job:deploy:staging:
     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
   script:
     - echo $(docker compose version)
-    - docker compose --file compose.yaml --file compose.prod.yaml up --build -d
+    - docker compose -f compose.yaml -f compose.prod.yaml up --build -d
     - apk update && apk add python3 && cd ./integration && python3 poller.py
   after_script:
-    - docker compose --file compose.yaml --file compose.prod.yaml down
+    - docker compose -f compose.yaml -f compose.prod.yaml down
     - docker system prune -a
