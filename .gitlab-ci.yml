@@ -1,24 +1,13 @@
 stages:
-  - login
   - build
 
-job:login:
-  image: docker:latest
-  stage: login
-  services:
-    - docker:dind
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
-  only:
-    -  main
-
-job:build:base:
+job:build:
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
+  image: maven:3.8.3-amazoncorretto-17
+  variables:
+    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
   script:
-    - docker build -t "${CI_PROJECT_NAME}-base:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" .
-    # - docker build -t "${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}-0.1.${CI_JOB_ID}" --build-arg SERVICE_NAME=eureka-server .
+    - mvn ${MAVEN_CLI_OPTS} package -DskipTests
   only:
     -  main
