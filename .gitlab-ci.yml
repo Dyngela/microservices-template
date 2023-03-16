@@ -232,9 +232,9 @@ job:deploy:staging:
     - echo $(docker compose version)
     # COMPOSE_DOCKER_CLI_BUILD=0
     # DOCKER_BUILDKIT=0 
-    - docker compose -f compose.yaml -f compose.prod.yaml config
-    # - docker compose -f compose.yaml -f compose.prod.yaml up --build -d
-    # - apk update && apk add python3 && cd ./integration && python3 poller.py
+    # - docker compose -f compose.yaml -f compose.prod.yaml config
+    - docker compose -f compose.yaml -f compose.prod.yaml up -d
+    - apk update && apk add python3 && cd ./integration && python3 poller.py
   after_script:
     - docker compose -f compose.yaml -f compose.prod.yaml down
     - docker system prune -a
