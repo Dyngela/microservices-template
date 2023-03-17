@@ -131,7 +131,10 @@ while 1:
             }
         }:
             if service != "test-integration":
-                continue
+                if action == "die":
+                    mq.put_nowait({"status": msg})
+                else:
+                    continue
             if action == "die":
                 rc = int(attributes.get("exitCode", 1))
                 # subprocess.run(
