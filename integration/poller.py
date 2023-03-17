@@ -10,6 +10,18 @@ import sys
 import signal
 
 
+print(f"STAGE={os.getenv('STAGE')}")
+print(f"DB_URI={os.getenv('DB_URI')}")
+print(f"DB_USER={os.getenv('DB_USER')}")
+print(f"DB_PASS={os.getenv('DB_PASS')}")
+print(f"RABBITMQ_URI={os.getenv('RABBITMQ_URI')}")
+print(f"TWILIO_SID={os.getenv('TWILIO_SID')}")
+print(f"TWILIO_TOKEN={os.getenv('TWILIO_TOKEN')}")
+print(f"TWILIO_NUM={os.getenv('TWILIO_NUM')}")
+print(f"LEASE_RENEWAL_INTERVAL={os.getenv('LEASE_RENEWAL_INTERVAL')}")
+print(f"CONTAINER_REGISTRY={os.getenv('CONTAINER_REGISTRY')}")
+
+
 stage = os.getenv("STAGE")
 if not stage or (stage != "prod" and stage != "staging" and stage != "dev"):
     raise Exception(f"Invalid stage: {stage}")
