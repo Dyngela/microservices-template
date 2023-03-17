@@ -10,16 +10,16 @@ import sys
 import signal
 
 
-print(f"STAGE={os.getenv('STAGE')}")
-print(f"DB_URI={os.getenv('DB_URI')}")
-print(f"DB_USER={os.getenv('DB_USER')}")
-print(f"DB_PASS={os.getenv('DB_PASS')}")
-print(f"RABBITMQ_URI={os.getenv('RABBITMQ_URI')}")
-print(f"TWILIO_SID={os.getenv('TWILIO_SID')}")
-print(f"TWILIO_TOKEN={os.getenv('TWILIO_TOKEN')}")
-print(f"TWILIO_NUM={os.getenv('TWILIO_NUM')}")
-print(f"LEASE_RENEWAL_INTERVAL={os.getenv('LEASE_RENEWAL_INTERVAL')}")
-print(f"CONTAINER_REGISTRY={os.getenv('CONTAINER_REGISTRY')}")
+sys.stdout.write(f"STAGE={os.getenv('STAGE')}\n")
+sys.stdout.write(f"DB_URI={os.getenv('DB_URI')}\n")
+sys.stdout.write(f"DB_USER={os.getenv('DB_USER')}\n")
+sys.stdout.write(f"DB_PASS={os.getenv('DB_PASS')}\n")
+sys.stdout.write(f"RABBITMQ_URI={os.getenv('RABBITMQ_URI')}\n")
+sys.stdout.write(f"TWILIO_SID={os.getenv('TWILIO_SID')}\n")
+sys.stdout.write(f"TWILIO_TOKEN={os.getenv('TWILIO_TOKEN')}\n")
+sys.stdout.write(f"TWILIO_NUM={os.getenv('TWILIO_NUM')}\n")
+sys.stdout.write(f"LEASE_RENEWAL_INTERVAL={os.getenv('LEASE_RENEWAL_INTERVAL')}\n")
+sys.stdout.write(f"CONTAINER_REGISTRY={os.getenv('CONTAINER_REGISTRY')}\n")
 
 
 stage = os.getenv("STAGE")
