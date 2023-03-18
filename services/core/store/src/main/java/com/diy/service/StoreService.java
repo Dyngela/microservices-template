@@ -53,7 +53,6 @@ public class StoreService {
         return storeModelMapper.entitiesToModels(storeEntities, new CycleAvoidingMappingContext());
     }
 
-
     public StoreModel updateStore(StoreModel storeModel) {
         try {
             StoreEntity storeEntity = storeRepository.findByStoreIdAndDeletedAt(storeModel.getStoreId(), null).orElseThrow(() -> new ExceptionHandler("Store not found"));
@@ -67,6 +66,7 @@ public class StoreService {
             throw new ExceptionHandler("We could not update your information");
         }
     }
+
     public StoreModel createStore(StoreModel storeModel) {
         try {
             StoreEntity storeEntity = storeModelMapper.modelToEntity(storeModel);
@@ -98,4 +98,13 @@ public class StoreService {
         }
     }
 
+    public StoreModel findStoreByEmail(String email) {
+        try {
+            StoreEntity storeEntity = storeRepository.findByEmailAndDeletedAt(email, null).orElseThrow(() -> new ExceptionHandler("Store not found"));
+            return storeModelMapper.entityToModel(storeEntity, new CycleAvoidingMappingContext());
+        }  catch (Exception e) {
+            log.error("Error while finding your store: " + e.getMessage());
+            throw new ExceptionHandler("We could not find your store");
+        }
+    }
 }

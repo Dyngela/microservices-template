@@ -21,6 +21,6 @@ public interface StoreRepository extends JpaRepository<StoreEntity, Long>, JpaSp
     Optional<StoreEntity> findByStoreNameAndDeletedAt(String name, LocalDateTime date);
     Optional<StoreEntity> findByStoreIdAndDeletedAt(Long id, LocalDateTime date);
     List<StoreEntity> findAllByDeletedAt(LocalDateTime date);
-
+    Optional<StoreEntity> findByEmailAndDeletedAt(String email, LocalDateTime date);
 }
 

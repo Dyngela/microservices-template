@@ -32,6 +32,31 @@ paths:
           description: Invalid request
           content: {}
 
+  /store/email/{email}:
+    get:
+      tags:
+        - store
+      summary: Find a specific store with its email
+      description: Get a store by email
+      operationId: findStoreByEmail
+      parameters:
+        - name: email
+          in: path
+          description: store's email
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+        404:
+          description: Invalid request
+          content: { }
+
   /store/{storeId}:
     get:
       tags:

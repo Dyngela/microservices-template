@@ -106,5 +106,13 @@ public class CustomerService {
         }
     }
 
-
+    public CustomerModel findCustomerByEmail(String email) {
+        try {
+            CustomerEntity entity = customerRepository.findByEmailAndDeletedAt(email, null).orElseThrow(() -> new ExceptionHandler("No customer found"));
+            return modelMapper.entityToModel(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while finding customer by email: " +  e.getMessage());
+            throw new ExceptionHandler("We could not find customer account");
+        }
+    }
 }
