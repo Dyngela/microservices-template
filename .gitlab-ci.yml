@@ -240,33 +240,24 @@ variables:
 #     - docker system prune -a
 
 
-job:deploy:prod:
+job:deploy:prod:bootstrapping:
   stage: deploy
   image: !reference [.package-opts, image]
   services: !reference [.package-opts, services]
   variables:
-    STAGE: prod
-    DB_URI: "${DB_URI_STAGING}"
-    DB_USER: "${DB_USER_STAGING}"
-    DB_PASS: "${DB_PASS_STAGING}"
-    RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
-    TWILIO_SID: "${TWILIO_SID_STAGING}"
-    TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
-    TWILIO_NUM: "${TWILIO_NUM_STAGING}"
-    LEASE_RENEWAL_INTERVAL: 10
-    CONTAINER_REGISTRY: docker.io/yulquen
+    ANSIBLE_REPO: collect-and-everything-ansible
   only:
     -  chore/docker
   before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - apk update && apk add --no-cache git python3 ansible
+    - git clone --depth 1 "${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_ACCESS_TOKEN_PROD}@gitlab.com/aymeric.guth/collect-and-everything-ansilbe" "/tmp/${ANSIBLE_REPO}"
+    - echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/${ANSIBLE_REPO}/.vault_pass"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo -e "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
     - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
-    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
+    - cd /tmp/"${ANSIBLE_REPO}" && ansible-playbook site.yml
   after_script:
-    - ssh -T debian@collecteverything.fr -i  "docker system prune -a"
     - rm -rf  ~/.ssh
+    - rm -rf  "/tmp/${ANSIBLE_REPO}"
