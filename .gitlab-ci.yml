@@ -24,7 +24,7 @@ variables:
   before_script:
     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
   script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" .
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" --file=Dockerfile.prod .
   after_script:
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
