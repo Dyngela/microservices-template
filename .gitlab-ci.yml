@@ -250,7 +250,7 @@ job:deploy:prod:bootstrapping:
     -  chore/docker
   before_script:
     - apk update && apk add --no-cache git python3 ansible
-    - git clone --depth 1 "${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_ACCESS_TOKEN_PROD}@gitlab.com/aymeric.guth/collect-and-everything-ansilbe" "/tmp/${ANSIBLE_REPO}"
+    - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_ACCESS_TOKEN_PROD}@gitlab.com/aymeric.guth/${ANSIBLE_REPO}" "/tmp/${ANSIBLE_REPO}"
     - echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/${ANSIBLE_REPO}/.vault_pass"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo -e "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
