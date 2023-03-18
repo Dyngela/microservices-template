@@ -267,10 +267,10 @@ job:deploy:prod:
     # - echo "$SSH_SERVER_HOSTKEYS_PROD" > ~/.ssh/known_hosts
     # - chmod 644 ~/.ssh/known_hosts
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
-    # - docker context create my-remote-docker-machine --docker "host=ssh://root@collecteverything.fr:22"
-  script:
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
-  after_script:
-    - ssh -t debian@collecteverything.fr "docker system prune -a"
-    - exit 0
+    - ls -lha ~/.ssh
+  # script:
+  #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
+  #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
+  # after_script:
+  #   - ssh -T debian@collecteverything.fr -i  "docker system prune -a"
+  #   - exit 0
