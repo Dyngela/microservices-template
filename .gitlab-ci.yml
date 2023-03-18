@@ -248,7 +248,6 @@ job:deploy:prod:
     ANSIBLE_REPO: collect-and-everything-ansible
     LEASE_RENEWAL_INTERVAL: 10
     CONTAINER_REGISTRY: docker.io/yulquen
-    CI_PROJECT_DIR: "${CI_PROJECT_DIR}"
     DB_URI: "postgresql://postgres:5432"
     RABBITMQ_URI: "rabbitmq:5672"
     STAGE: prod
