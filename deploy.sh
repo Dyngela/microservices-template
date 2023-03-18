@@ -9,7 +9,7 @@ REMOTE=debian@collecteverything.fr # todo: change here
 echo " * OPENING DOCKER SOCKET TUNNEL"
 socat \
 	"UNIX-LISTEN:/tmp/docker.sock,reuseaddr,fork" \
-	"EXEC:'ssh -kTax $REMOTE socat STDIO UNIX-CONNECT\:/var/run/docker.sock'" \
+	"EXEC:'ssh -kTax $REMOTE sudo socat STDIO UNIX-CONNECT\:/var/run/docker.sock'" \
 	&
 export DOCKER_HOST=unix:///tmp/docker.sock
 export COMPOSE_PROJECT_NAME=cande
