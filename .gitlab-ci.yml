@@ -272,5 +272,5 @@ job:deploy:prod:
     - DOCKER_HOST='debian@collecteverything.fr' docker compose -f ./compose.yaml -f compose.prod.yaml pull
     - DOCKER_HOST='debian@collecteverything.fr' docker compose -f ./compose.yaml -f compose.prod.yaml up -d
   after_script:
-    - ssh -t root@collecteverything.fr "docker system prune -a"
+    - ssh -t debian@collecteverything.fr "docker system prune -a"
     - exit 0
