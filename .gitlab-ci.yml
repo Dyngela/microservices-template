@@ -259,16 +259,18 @@ job:deploy:prod:
     -  chore/docker
   before_script:
     # SSH_SERVER_HOSTKEYS_PROD
-    - apk update && apk add openssh-client git
+    - apk update && apk add openssh-client git socat
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "$SSH_SERVER_HOSTKEYS_PROD" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
+    # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
-    - DOCKER_HOST=ssh://debian@collecteverything.fr docker ps
+    - ./bin/deploy.sh
+  # script:
+  #   - DOCKER_HOST=ssh://debian@collecteverything.fr docker ps
     # - ssh -T debian@collecteverything.fr "cd /home/debian/collect-and-everything-backend && sudo docker compose -f compose-prod.yaml down"
   after_script:
     - exit 0
