@@ -78,9 +78,7 @@ payload = {
 
 resp = requests.put(f"{BASE_URL}/api/v1/authentication/save", json=payload)
 msg = "{}: /api/v1/authentication/save"
-assert resp.status_code == 200, print(
-    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
-)
+assert resp.status_code == 200, msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
 print(msg.format(SUCCESS))
 #
 
@@ -101,7 +99,7 @@ payload = {
 route = "/api/v1/authentication/save"
 resp = requests.put(f"{BASE_URL}{route}", json=payload)
 msg = "{}: {}"
-assert resp.status_code == 200, print(
+assert resp.status_code == 200, (
     msg.format(FAILED, route) + "\n" + resp.content.decode("utf-8")
 )
 print(msg.format(SUCCESS, route))
@@ -116,9 +114,7 @@ resp = requests.post(
     },
 )
 msg = "{}: /api/v1/authentication/login"
-assert resp.status_code == 200, print(
-    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
-)
+assert resp.status_code == 200, msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
 print(msg.format(SUCCESS))
 token = resp.content.decode("utf-8")
 
@@ -126,15 +122,11 @@ token = resp.content.decode("utf-8")
 # list all stores
 resp = requests.get(f"{BASE_URL}/api/v1/store/all", headers={"Authorization": token})
 msg = "{}: /api/v1/store/all"
-assert resp.status_code == 200, print(
-    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
-)
+assert resp.status_code == 200, msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
 print(msg.format(SUCCESS))
 
 
 # list all products from store 1
 resp = requests.get(f"{BASE_URL}/api/v1/product/product/all/1")
-assert resp.status_code == 200, print(
-    msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
-)
+assert resp.status_code == 200, msg.format(FAILED) + "\n" + resp.content.decode("utf-8")
 print(msg.format(SUCCESS))

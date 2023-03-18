@@ -10,18 +10,6 @@ import sys
 import signal
 
 
-sys.stdout.write(f"STAGE={os.getenv('STAGE')}\n")
-sys.stdout.write(f"DB_URI={os.getenv('DB_URI')}\n")
-sys.stdout.write(f"DB_USER={os.getenv('DB_USER')}\n")
-sys.stdout.write(f"DB_PASS={os.getenv('DB_PASS')}\n")
-sys.stdout.write(f"RABBITMQ_URI={os.getenv('RABBITMQ_URI')}\n")
-sys.stdout.write(f"TWILIO_SID={os.getenv('TWILIO_SID')}\n")
-sys.stdout.write(f"TWILIO_TOKEN={os.getenv('TWILIO_TOKEN')}\n")
-sys.stdout.write(f"TWILIO_NUM={os.getenv('TWILIO_NUM')}\n")
-sys.stdout.write(f"LEASE_RENEWAL_INTERVAL={os.getenv('LEASE_RENEWAL_INTERVAL')}\n")
-sys.stdout.write(f"CONTAINER_REGISTRY={os.getenv('CONTAINER_REGISTRY')}\n")
-
-
 stage = os.getenv("STAGE")
 if not stage or (stage != "prod" and stage != "staging" and stage != "dev"):
     raise Exception(f"Invalid stage: {stage}")
