@@ -6,8 +6,9 @@ job:build:
   image: maven:3.8.3-amazoncorretto-17
   variables:
     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    #  -Dmaven.repo.local=.m2/repository
     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
   script:
-    - mvn ${MAVEN_CLI_OPTS} package -DskipTests
+    - mvn "${MAVEN_CLI_OPTS}" package -DskipTests
   only:
     -  main
