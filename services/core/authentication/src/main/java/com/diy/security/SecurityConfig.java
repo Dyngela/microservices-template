@@ -1,6 +1,5 @@
 package com.diy.security;
 
-import com.diy.filters.CustomAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,11 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public CustomAuthorizationFilter customAuthorizationFilter() {
-        return new CustomAuthorizationFilter();
     }
 
 }
