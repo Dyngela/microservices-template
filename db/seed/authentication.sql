@@ -3,7 +3,7 @@ create table if not exists users (
     email varchar(255) not null unique,
     user_password varchar(255) not null,
     user_role varchar(255) not null,
-    address_eth varchar(255) NOT NULL ,
+    address_eth varchar(255),
 
     store_id int8 not null,
     customer_id int8,

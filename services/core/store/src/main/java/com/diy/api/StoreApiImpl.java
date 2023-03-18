@@ -88,4 +88,9 @@ public class StoreApiImpl implements StoreApi {
         return ResponseEntity.ok(addressModelMapper.modelsToDtos(addressService.getAddressesFromStoreId(storeid)));
     }
 
+    @Override
+    public ResponseEntity<StoreDto> findStoreByEmail(String email) {
+        return ResponseEntity.ok(storeModelMapper.modelToDto(storeService.findStoreByEmail(email)));
+    }
+
 }

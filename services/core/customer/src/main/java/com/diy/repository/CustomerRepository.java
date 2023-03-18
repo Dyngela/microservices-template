@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
     List<CustomerEntity> findByStoreIdAndDeletedAt(Long storeId, LocalDateTime date);
     Optional<CustomerEntity> findByCustomerIdAndDeletedAt(Long customerId, LocalDateTime date);
-
+    Optional<CustomerEntity> findByEmailAndDeletedAt(String email, LocalDateTime date);
 }

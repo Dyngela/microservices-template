@@ -32,7 +32,7 @@ public class UserEntity {
     @Column(name = "customer_id")
     Long customerId;
 
-    @Column(name = "address_eth", nullable = false)
+    @Column(name = "address_eth", nullable = true)
     String ethAddress;
 
     @Column(name = "user_role", unique = true, nullable = false)

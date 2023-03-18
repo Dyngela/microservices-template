@@ -40,6 +40,11 @@ public class CustomerApiImpl implements CustomerApi {
     }
 
     @Override
+    public ResponseEntity<CustomerDto> findCustomerByEmail(String email) {
+        return ResponseEntity.ok(modelMapper.modelToDto(customerService.findCustomerByEmail(email)));
+    }
+
+    @Override
     public ResponseEntity<CustomerDto> findCustomerById(Long customerId) {
         return ResponseEntity.ok(modelMapper.modelToDto(customerService.findCustomerById(customerId)));
     }

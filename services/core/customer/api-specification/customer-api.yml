@@ -9,6 +9,31 @@ tags:
   - name: customer
     description: Everything about customers
 paths:
+
+  /customer/email/{email}:
+    get:
+      tags:
+        - customer
+      summary: Find customer by email
+      description: Get a customer by its email
+      operationId: findCustomerByEmail
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        404:
+          description: Invalid request
+          content: { }
+
   /customer/{customerId}:
     get:
       tags:

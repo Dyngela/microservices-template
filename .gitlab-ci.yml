@@ -30,6 +30,7 @@ variables:
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
     - docker logout
   only:
+<<<<<<< HEAD
     - chore/docker
 
 

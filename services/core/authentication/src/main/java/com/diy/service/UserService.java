@@ -223,4 +223,14 @@ public class UserService implements UserDetailsService {
             throw new ExceptionHandler("We could not create your account");
         }
     }
+
+    public UserModel getUserByEmail(String email) {
+        try {
+            UserEntity entity = userRepository.findByEmail(email).orElseThrow(() -> new ExceptionHandler("No such email registered"));
+            return userModelMapper.entityToModel(entity, new CycleAvoidingMappingContext());
+        } catch (Exception e) {
+            log.error("Error while getting a user: " + e.getMessage());
+            throw new ExceptionHandler("We could not get your account");
+        }
+    }
 }

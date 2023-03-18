@@ -48,6 +48,11 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
+    public ResponseEntity<UserDto> getUserByEmail(String email) {
+        return ResponseEntity.ok(modelMapper.toDto(userService.getUserByEmail(email)));
+    }
+
+    @Override
     public ResponseEntity<List<UserDto>> getUsersByStoreId(Long storeId) {
         return ResponseEntity.ok(modelMapper.toDtos(userService.getUsersByStoreId(storeId)));
     }
