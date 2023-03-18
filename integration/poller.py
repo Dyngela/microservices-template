@@ -84,7 +84,7 @@ def stdout(events, mq: queue.Queue) -> None:
 def defer(timeout: int, mq: queue.Queue) -> None:
     time.sleep(timeout)
     mq.put_nowait({"timeout": timeout})
-    raise SystemError
+    raise SystemExit
 
 
 def sig_handler(mq: queue.Queue):
