@@ -267,8 +267,8 @@ job:deploy:prod:
     # - echo "$SSH_SERVER_HOSTKEYS_PROD" > ~/.ssh/known_hosts
     # - chmod 644 ~/.ssh/known_hosts
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
+  script:
     - ls -lha ~/.ssh
-  # script:
   #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
   #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
   # after_script:
