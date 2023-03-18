@@ -269,8 +269,8 @@ job:deploy:prod:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
     # - docker context create my-remote-docker-machine --docker "host=ssh://root@collecteverything.fr:22"
   script:
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f ./compose.yaml -f compose.prod.yaml pull
-    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f ./compose.yaml -f compose.prod.yaml up -d
+    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
+    - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
   after_script:
     - ssh -t debian@collecteverything.fr "docker system prune -a"
     - exit 0
