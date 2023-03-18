@@ -263,7 +263,7 @@ job:deploy:prod:
     # - chmod 400 "$SSH_PRIVATE_KEY_PROD"
     # - ssh-add "$SSH_PRIVATE_KEY_PROD"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo $SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+    - echo -e "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
     - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
