@@ -259,7 +259,7 @@ job:deploy:prod:
     -  chore/docker
   before_script:
     # SSH_SERVER_HOSTKEYS_PROD
-    - apk update && apk add openssh-client git socat
+    - apk update && apk add openssh-client git socat bash
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
