@@ -29,8 +29,6 @@ variables:
     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
     - docker logout
-  only:
-    - chore/docker
 
 
 job:build:
@@ -69,7 +67,7 @@ job:build:
       - ${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar
       - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
   only:
-    -  chore/docker
+    -  main
   # cache:
   #   - key: "${CI_BUILD_REF_NAME}"
   #     paths:
@@ -86,6 +84,8 @@ job:package:eureka-server:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:gateway:
   stage: package
@@ -96,6 +96,8 @@ job:package:gateway:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:db:
   stage: package
@@ -107,6 +109,8 @@ job:package:db:
     PGTZ: ${TZ}
   script:
     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg PGTZ=${PGTZ} --build-arg TZ=${TZ} --build-arg PGDATA=${PGDATA} ./db
+  only:
+    -  main
 
 ### CORE
 job:package:authentication:
@@ -118,6 +122,8 @@ job:package:authentication:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:customer:
   stage: package
@@ -128,6 +134,8 @@ job:package:customer:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:notification:
   stage: package
@@ -138,6 +146,8 @@ job:package:notification:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:order:
   stage: package
@@ -148,6 +158,8 @@ job:package:order:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:product:
   stage: package
@@ -158,6 +170,8 @@ job:package:product:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:store:
   stage: package
@@ -168,6 +182,8 @@ job:package:store:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 ### BACK-OFFICE
 job:package:customisation:
@@ -179,6 +195,8 @@ job:package:customisation:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:subscription:
   stage: package
@@ -189,6 +207,8 @@ job:package:subscription:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 job:package:ticket:
   stage: package
@@ -199,6 +219,8 @@ job:package:ticket:
     - job:build
   dependencies:
     - job:build
+  only:
+    -  main
 
 # ### INTEGRATION
 job:package:integration:
@@ -208,6 +230,8 @@ job:package:integration:
     SERVICE_NAME: integration
   script:
     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
+  only:
+    -  main
 
 job:deploy:staging:
   stage: deploy
@@ -223,8 +247,6 @@ job:deploy:staging:
     TWILIO_NUM: "${TWILIO_NUM_STAGING}"
     LEASE_RENEWAL_INTERVAL: 10
     CONTAINER_REGISTRY: docker.io/yulquen
-  only:
-    -  chore/docker
   before_script:
     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
   script:
@@ -237,7 +259,8 @@ job:deploy:staging:
   after_script:
     - docker compose -f compose.yaml -f compose.prod.yaml down
     - docker system prune -a
-
+  only:
+    -  main
 
 job:deploy:prod:
   stage: deploy
@@ -250,8 +273,6 @@ job:deploy:prod:
     DB_URI: "postgresql://postgres:5432"
     RABBITMQ_URI: "rabbitmq:5672"
     STAGE: prod
-  only:
-    -  chore/docker
   before_script:
     - apk update && apk add --no-cache git python3 ansible
     - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@gitlab.com/aymeric.guth/${ANSIBLE_REPO}" "/tmp/${ANSIBLE_REPO}"
@@ -265,3 +286,7 @@ job:deploy:prod:
   after_script:
     - rm -rf  ~/.ssh
     - rm -rf  "/tmp/${ANSIBLE_REPO}"
+  needs: 
+    - job:deploy:staging
+  only:
+    -  main
