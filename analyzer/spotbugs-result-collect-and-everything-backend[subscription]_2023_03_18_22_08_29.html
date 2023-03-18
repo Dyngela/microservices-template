@@ -1,0 +1,455 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta charset="UTF-8"/>
+      <title>SpotBugs Report</title>
+      <style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+		</style>
+   </head>
+   <body>
+      <h1>SpotBugs Report</h1>
+      <p>Produced using <a href="https://spotbugs.github.io">SpotBugs</a>4.4.2.</p>
+      <p>Project: 
+			collect-and-everything-backend[subscription]</p>
+      <h2>Metrics</h2>
+      <p>720 lines of code analyzed,
+	in 25 classes, 
+	in 11 packages.</p>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Metric</th>
+            <th align="right">Total</th>
+            <th align="right">Density*</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>High Priority Warnings</td>
+            <td align="right"/>
+            <td align="right">NaN</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>Medium Priority Warnings</td>
+            <td align="right">21</td>
+            <td align="right">29.17</td>
+         </tr>
+         <tr class="$totalClass">
+            <td>
+               <b>Total Warnings</b>
+            </td>
+            <td align="right">
+               <b>21</b>
+            </td>
+            <td align="right">
+               <b>29.17</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <i>(* Defects per Thousand lines of non-commenting source statements)</i>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Summary</h2>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Warning Type</th>
+            <th align="right">Number</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+            </td>
+            <td align="right">1</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+            </td>
+            <td align="right">20</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <b>Total</b>
+            </td>
+            <td align="right">
+               <b>21</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>Warnings</h1>
+      <p>Click on each warning link to see a full description of the issue, and
+	    details of how to resolve it.</p>
+      <h2>
+         <a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#NM_CLASS_NOT_EXCEPTION">Cette classe ne dérive pas d'Exception, même si son nom le sous-entend</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La classe com.diy.exception.APIException ne dérive pas d'Exception, alors que son nom le sous-entend<br/>
+                  <br/>
+                  <br/>In file APIException.java,
+					
+						lines 13
+						    to 33<br/>In class com.diy.exception.APIException<br/>At APIException.java:[lines 13-33]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.entity.SubscriptionEntity.getSubscriptionType() risque d'exposer sa représentation interne en renvoyant com.diy.entity.SubscriptionEntity.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionEntity.java SubscriptionEntity.java,
+					
+						line 45 45<br/>In class com.diy.entity.SubscriptionEntity<br/>In method com.diy.entity.SubscriptionEntity.getSubscriptionType()<br/>Field com.diy.entity.SubscriptionEntity.subscriptionType<br/>At SubscriptionEntity.java:[line 45]<br/>At SubscriptionEntity.java:[line 45]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.entity.SubscriptionTypeEntity.getSubscriptions() risque d'exposer sa représentation interne en renvoyant com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeEntity.java SubscriptionTypeEntity.java,
+					
+						line 38 38<br/>In class com.diy.entity.SubscriptionTypeEntity<br/>In method com.diy.entity.SubscriptionTypeEntity.getSubscriptions()<br/>Field com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>At SubscriptionTypeEntity.java:[line 38]<br/>At SubscriptionTypeEntity.java:[line 38]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.exception.APIException.getThrowable() risque d'exposer sa représentation interne en renvoyant com.diy.exception.APIException.throwable<br/>
+                  <br/>
+                  <br/>In file APIException.java APIException.java,
+					
+						line 25 25<br/>In class com.diy.exception.APIException<br/>In method com.diy.exception.APIException.getThrowable()<br/>Field com.diy.exception.APIException.throwable<br/>At APIException.java:[line 25]<br/>At APIException.java:[line 25]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SaveSubscriptionDto.getSubscriptionType() risque d'exposer sa représentation interne en renvoyant com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SaveSubscriptionDto.java SaveSubscriptionDto.java,
+					
+						line 156 156<br/>In class com.diy.generated.model.SaveSubscriptionDto<br/>In method com.diy.generated.model.SaveSubscriptionDto.getSubscriptionType()<br/>Field com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>At SaveSubscriptionDto.java:[line 156]<br/>At SaveSubscriptionDto.java:[line 156]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SubscriptionDto.getSubscriptionType() risque d'exposer sa représentation interne en renvoyant com.diy.generated.model.SubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionDto.java SubscriptionDto.java,
+					
+						line 156 156<br/>In class com.diy.generated.model.SubscriptionDto<br/>In method com.diy.generated.model.SubscriptionDto.getSubscriptionType()<br/>Field com.diy.generated.model.SubscriptionDto.subscriptionType<br/>At SubscriptionDto.java:[line 156]<br/>At SubscriptionDto.java:[line 156]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.model.SubscriptionModel.getSubscriptionType() risque d'exposer sa représentation interne en renvoyant com.diy.model.SubscriptionModel.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionModel.java SubscriptionModel.java,
+					
+						line 22 22<br/>In class com.diy.model.SubscriptionModel<br/>In method com.diy.model.SubscriptionModel.getSubscriptionType()<br/>Field com.diy.model.SubscriptionModel.subscriptionType<br/>At SubscriptionModel.java:[line 22]<br/>At SubscriptionModel.java:[line 22]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.model.SubscriptionTypeModel.getSubscriptions() risque d'exposer sa représentation interne en renvoyant com.diy.model.SubscriptionTypeModel.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeModel.java SubscriptionTypeModel.java,
+					
+						line 20 20<br/>In class com.diy.model.SubscriptionTypeModel<br/>In method com.diy.model.SubscriptionTypeModel.getSubscriptions()<br/>Field com.diy.model.SubscriptionTypeModel.subscriptions<br/>At SubscriptionTypeModel.java:[line 20]<br/>At SubscriptionTypeModel.java:[line 20]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.entity.SubscriptionEntity(Long, LocalDateTime, LocalDateTime, PaymentType, Long, LocalDateTime, LocalDateTime, LocalDateTime, SubscriptionTypeEntity) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.entity.SubscriptionEntity.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionEntity.java SubscriptionEntity.java,
+					
+						line 14 14<br/>In class com.diy.entity.SubscriptionEntity<br/>In method new com.diy.entity.SubscriptionEntity(Long, LocalDateTime, LocalDateTime, PaymentType, Long, LocalDateTime, LocalDateTime, LocalDateTime, SubscriptionTypeEntity)<br/>Field com.diy.entity.SubscriptionEntity.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionEntity.java:[line 14]<br/>At SubscriptionEntity.java:[line 14]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.entity.SubscriptionEntity.setSubscriptionType(SubscriptionTypeEntity) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.entity.SubscriptionEntity.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionEntity.java SubscriptionEntity.java,
+					
+						line 11 11<br/>In class com.diy.entity.SubscriptionEntity<br/>In method com.diy.entity.SubscriptionEntity.setSubscriptionType(SubscriptionTypeEntity)<br/>Field com.diy.entity.SubscriptionEntity.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionEntity.java:[line 11]<br/>At SubscriptionEntity.java:[line 11]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.entity.SubscriptionTypeEntity(Long, String, Double, String, Float, LocalDateTime, LocalDateTime, LocalDateTime, List) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeEntity.java SubscriptionTypeEntity.java,
+					
+						line 14 14<br/>In class com.diy.entity.SubscriptionTypeEntity<br/>In method new com.diy.entity.SubscriptionTypeEntity(Long, String, Double, String, Float, LocalDateTime, LocalDateTime, LocalDateTime, List)<br/>Field com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>Local variable named subscriptions<br/>At SubscriptionTypeEntity.java:[line 14]<br/>At SubscriptionTypeEntity.java:[line 14]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.entity.SubscriptionTypeEntity.setSubscriptions(List) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeEntity.java SubscriptionTypeEntity.java,
+					
+						line 11 11<br/>In class com.diy.entity.SubscriptionTypeEntity<br/>In method com.diy.entity.SubscriptionTypeEntity.setSubscriptions(List)<br/>Field com.diy.entity.SubscriptionTypeEntity.subscriptions<br/>Local variable named subscriptions<br/>At SubscriptionTypeEntity.java:[line 11]<br/>At SubscriptionTypeEntity.java:[line 11]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.exception.APIException(String, Throwable, HttpStatus, ZonedDateTime) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.exception.APIException.throwable<br/>
+                  <br/>
+                  <br/>In file APIException.java APIException.java,
+					
+						line 15 15<br/>In class com.diy.exception.APIException<br/>In method new com.diy.exception.APIException(String, Throwable, HttpStatus, ZonedDateTime)<br/>Field com.diy.exception.APIException.throwable<br/>Local variable named throwable<br/>At APIException.java:[line 15]<br/>At APIException.java:[line 15]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SaveSubscriptionDto.setSubscriptionType(SubscriptionTypeDto) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SaveSubscriptionDto.java SaveSubscriptionDto.java,
+					
+						line 160 160<br/>In class com.diy.generated.model.SaveSubscriptionDto<br/>In method com.diy.generated.model.SaveSubscriptionDto.setSubscriptionType(SubscriptionTypeDto)<br/>Field com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>Local variable named subscriptionType<br/>At SaveSubscriptionDto.java:[line 160]<br/>At SaveSubscriptionDto.java:[line 160]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SaveSubscriptionDto.subscriptionType(SubscriptionTypeDto) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SaveSubscriptionDto.java SaveSubscriptionDto.java,
+					
+						line 143 143<br/>In class com.diy.generated.model.SaveSubscriptionDto<br/>In method com.diy.generated.model.SaveSubscriptionDto.subscriptionType(SubscriptionTypeDto)<br/>Field com.diy.generated.model.SaveSubscriptionDto.subscriptionType<br/>Local variable named subscriptionType<br/>At SaveSubscriptionDto.java:[line 143]<br/>At SaveSubscriptionDto.java:[line 143]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SubscriptionDto.setSubscriptionType(SubscriptionTypeDto) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.generated.model.SubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionDto.java SubscriptionDto.java,
+					
+						line 160 160<br/>In class com.diy.generated.model.SubscriptionDto<br/>In method com.diy.generated.model.SubscriptionDto.setSubscriptionType(SubscriptionTypeDto)<br/>Field com.diy.generated.model.SubscriptionDto.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionDto.java:[line 160]<br/>At SubscriptionDto.java:[line 160]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.generated.model.SubscriptionDto.subscriptionType(SubscriptionTypeDto) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.generated.model.SubscriptionDto.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionDto.java SubscriptionDto.java,
+					
+						line 143 143<br/>In class com.diy.generated.model.SubscriptionDto<br/>In method com.diy.generated.model.SubscriptionDto.subscriptionType(SubscriptionTypeDto)<br/>Field com.diy.generated.model.SubscriptionDto.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionDto.java:[line 143]<br/>At SubscriptionDto.java:[line 143]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.model.SubscriptionModel(Long, LocalDateTime, LocalDateTime, PaymentType, Long, SubscriptionTypeEntity) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.model.SubscriptionModel.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionModel.java SubscriptionModel.java,
+					
+						line 15 15<br/>In class com.diy.model.SubscriptionModel<br/>In method new com.diy.model.SubscriptionModel(Long, LocalDateTime, LocalDateTime, PaymentType, Long, SubscriptionTypeEntity)<br/>Field com.diy.model.SubscriptionModel.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionModel.java:[line 15]<br/>At SubscriptionModel.java:[line 15]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.model.SubscriptionModel.setSubscriptionType(SubscriptionTypeEntity) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.model.SubscriptionModel.subscriptionType<br/>
+                  <br/>
+                  <br/>In file SubscriptionModel.java SubscriptionModel.java,
+					
+						line 13 13<br/>In class com.diy.model.SubscriptionModel<br/>In method com.diy.model.SubscriptionModel.setSubscriptionType(SubscriptionTypeEntity)<br/>Field com.diy.model.SubscriptionModel.subscriptionType<br/>Local variable named subscriptionType<br/>At SubscriptionModel.java:[line 13]<br/>At SubscriptionModel.java:[line 13]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.model.SubscriptionTypeModel(Long, String, Double, String, Float, List) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.model.SubscriptionTypeModel.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeModel.java SubscriptionTypeModel.java,
+					
+						line 13 13<br/>In class com.diy.model.SubscriptionTypeModel<br/>In method new com.diy.model.SubscriptionTypeModel(Long, String, Double, String, Float, List)<br/>Field com.diy.model.SubscriptionTypeModel.subscriptions<br/>Local variable named subscriptions<br/>At SubscriptionTypeModel.java:[line 13]<br/>At SubscriptionTypeModel.java:[line 13]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.model.SubscriptionTypeModel.setSubscriptions(List) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.model.SubscriptionTypeModel.subscriptions<br/>
+                  <br/>
+                  <br/>In file SubscriptionTypeModel.java SubscriptionTypeModel.java,
+					
+						line 11 11<br/>In class com.diy.model.SubscriptionTypeModel<br/>In method com.diy.model.SubscriptionTypeModel.setSubscriptions(List)<br/>Field com.diy.model.SubscriptionTypeModel.subscriptions<br/>Local variable named subscriptions<br/>At SubscriptionTypeModel.java:[line 11]<br/>At SubscriptionTypeModel.java:[line 11]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>
+         <a name="Details">Warning Types</a>
+      </h1>
+      <h2>
+         <a name="EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+      </h2>
+
+<p>Renvoyer une référence à un objet modifiable stocké dans les champs d'un objet expose la représentation interne de l'objet. Si des instances sont accédées par du code non fiable, et que des modifications non vérifiées peuvent compromettre la sécurité ou d'autres propriétés importantes, vous devez faire autre chose. Renvoyer une nouvelle copie de l'objet est une meilleur approche dans de nombreuses situations.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+      </h2>
+
+<p>Ce code stocke une référence à un objet externe modifiable dans la représentation interne de l'objet. Si des instances sont accédées par du code non fiable, et que des modifications non vérifiées peuvent compromettre la sécurité ou d'autres propriétés importantes, vous devez faire autre chose. Stocker une copie de l'objet est une meilleur approche dans de nombreuses situations.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="NM_CLASS_NOT_EXCEPTION">Cette classe ne dérive pas d'Exception, même si son nom le sous-entend</a>
+      </h2>
+
+<p>Cette classe n'est pas dérivée d'une autre <code>Exception</code> alors que son nom se termine par 'Exception'. Ceci risque de porter à confusion les utilisateurs de cette classe.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+   </body>
+</html>

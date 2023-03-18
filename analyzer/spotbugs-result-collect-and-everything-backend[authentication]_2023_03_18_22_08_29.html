@@ -1,0 +1,332 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta charset="UTF-8"/>
+      <title>SpotBugs Report</title>
+      <style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+		</style>
+   </head>
+   <body>
+      <h1>SpotBugs Report</h1>
+      <p>Produced using <a href="https://spotbugs.github.io">SpotBugs</a>4.4.2.</p>
+      <p>Project: 
+			collect-and-everything-backend[authentication]</p>
+      <h2>Metrics</h2>
+      <p>841 lines of code analyzed,
+	in 25 classes, 
+	in 13 packages.</p>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Metric</th>
+            <th align="right">Total</th>
+            <th align="right">Density*</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>High Priority Warnings</td>
+            <td align="right">4</td>
+            <td align="right">4.76</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>Medium Priority Warnings</td>
+            <td align="right">5</td>
+            <td align="right">5.95</td>
+         </tr>
+         <tr class="$totalClass">
+            <td>
+               <b>Total Warnings</b>
+            </td>
+            <td align="right">
+               <b>9</b>
+            </td>
+            <td align="right">
+               <b>10.70</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <i>(* Defects per Thousand lines of non-commenting source statements)</i>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Summary</h2>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Warning Type</th>
+            <th align="right">Number</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+            </td>
+            <td align="right">1</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <a href="#Warnings_I18N">Internationalization Warnings</a>
+            </td>
+            <td align="right">4</td>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+            </td>
+            <td align="right">4</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <b>Total</b>
+            </td>
+            <td align="right">
+               <b>9</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>Warnings</h1>
+      <p>Click on each warning link to see a full description of the issue, and
+	    details of how to resolve it.</p>
+      <h2>
+         <a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#NM_CLASS_NOT_EXCEPTION">Cette classe ne dérive pas d'Exception, même si son nom le sous-entend</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La classe com.diy.exception.APIException ne dérive pas d'Exception, alors que son nom le sous-entend<br/>
+                  <br/>
+                  <br/>In file APIException.java,
+					
+						lines 13
+						    to 33<br/>In class com.diy.exception.APIException<br/>At APIException.java:[lines 13-33]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="Warnings_I18N">Internationalization Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#DM_DEFAULT_ENCODING">Reliance on default encoding</a>
+            </td>
+            <td width="10%" valign="top">High</td>
+            <td width="70%">
+               <p>Found reliance on default encoding in com.diy.filters.CustomAuthenticationFilter.successfulAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, Authentication): String.getBytes()<br/>
+                  <br/>
+                  <br/>In file CustomAuthenticationFilter.java CustomAuthenticationFilter.java,
+					
+						line 53 53<br/>In class com.diy.filters.CustomAuthenticationFilter<br/>In method com.diy.filters.CustomAuthenticationFilter.successfulAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, Authentication)<br/>Called method String.getBytes()<br/>At CustomAuthenticationFilter.java:[line 53]<br/>At CustomAuthenticationFilter.java:[line 53]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#DM_DEFAULT_ENCODING">Reliance on default encoding</a>
+            </td>
+            <td width="10%" valign="top">High</td>
+            <td width="70%">
+               <p>Found reliance on default encoding in com.diy.filters.CustomAuthorizationFilter.doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): String.getBytes()<br/>
+                  <br/>
+                  <br/>In file CustomAuthorizationFilter.java CustomAuthorizationFilter.java,
+					
+						line 43 43<br/>In class com.diy.filters.CustomAuthorizationFilter<br/>In method com.diy.filters.CustomAuthorizationFilter.doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)<br/>Called method String.getBytes()<br/>At CustomAuthorizationFilter.java:[line 43]<br/>At CustomAuthorizationFilter.java:[line 43]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#DM_DEFAULT_ENCODING">Reliance on default encoding</a>
+            </td>
+            <td width="10%" valign="top">High</td>
+            <td width="70%">
+               <p>Found reliance on default encoding in com.diy.service.UserService.getRoleAccordingToJWT(String): String.getBytes()<br/>
+                  <br/>
+                  <br/>In file UserService.java UserService.java,
+					
+						line 160 160<br/>In class com.diy.service.UserService<br/>In method com.diy.service.UserService.getRoleAccordingToJWT(String)<br/>Called method String.getBytes()<br/>At UserService.java:[line 160]<br/>At UserService.java:[line 160]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#DM_DEFAULT_ENCODING">Reliance on default encoding</a>
+            </td>
+            <td width="10%" valign="top">High</td>
+            <td width="70%">
+               <p>Found reliance on default encoding in com.diy.service.UserService.login(String, String): String.getBytes()<br/>
+                  <br/>
+                  <br/>In file UserService.java UserService.java,
+					
+						line 183 183<br/>In class com.diy.service.UserService<br/>In method com.diy.service.UserService.login(String, String)<br/>Called method String.getBytes()<br/>At UserService.java:[line 183]<br/>At UserService.java:[line 183]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode com.diy.exception.APIException.getThrowable() risque d'exposer sa représentation interne en renvoyant com.diy.exception.APIException.throwable<br/>
+                  <br/>
+                  <br/>In file APIException.java APIException.java,
+					
+						line 25 25<br/>In class com.diy.exception.APIException<br/>In method com.diy.exception.APIException.getThrowable()<br/>Field com.diy.exception.APIException.throwable<br/>At APIException.java:[line 25]<br/>At APIException.java:[line 25]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.api.AuthenticationApiImpl(UserService) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.api.AuthenticationApiImpl.userService<br/>
+                  <br/>
+                  <br/>In file AuthenticationApiImpl.java AuthenticationApiImpl.java,
+					
+						line 18 18<br/>In class com.diy.api.AuthenticationApiImpl<br/>In method new com.diy.api.AuthenticationApiImpl(UserService)<br/>Field com.diy.api.AuthenticationApiImpl.userService<br/>Local variable named userService<br/>At AuthenticationApiImpl.java:[line 18]<br/>At AuthenticationApiImpl.java:[line 18]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.api.UserApiImpl(UserModelMapper, UserService) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.api.UserApiImpl.userService<br/>
+                  <br/>
+                  <br/>In file UserApiImpl.java UserApiImpl.java,
+					
+						line 16 16<br/>In class com.diy.api.UserApiImpl<br/>In method new com.diy.api.UserApiImpl(UserModelMapper, UserService)<br/>Field com.diy.api.UserApiImpl.userService<br/>Local variable named userService<br/>At UserApiImpl.java:[line 16]<br/>At UserApiImpl.java:[line 16]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>La méthode new com.diy.exception.APIException(String, Throwable, HttpStatus, ZonedDateTime) risque d'exposer sa représentation interne en stockant un objet externe modifiable dans com.diy.exception.APIException.throwable<br/>
+                  <br/>
+                  <br/>In file APIException.java APIException.java,
+					
+						line 15 15<br/>In class com.diy.exception.APIException<br/>In method new com.diy.exception.APIException(String, Throwable, HttpStatus, ZonedDateTime)<br/>Field com.diy.exception.APIException.throwable<br/>Local variable named throwable<br/>At APIException.java:[line 15]<br/>At APIException.java:[line 15]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>
+         <a name="Details">Warning Types</a>
+      </h1>
+      <h2>
+         <a name="DM_DEFAULT_ENCODING">Reliance on default encoding</a>
+      </h2>
+
+<p> Found a call to a method which will perform a byte to String (or String to byte) conversion, and will assume that the default platform encoding is suitable. This will cause the application behaviour to vary between platforms. Use an alternative API and specify a charset name or Charset object explicitly.  </p>
+
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="EI_EXPOSE_REP">Une méthode peut exposer sa représentation interne en renvoyant une référence à un objet modifiable</a>
+      </h2>
+
+<p>Renvoyer une référence à un objet modifiable stocké dans les champs d'un objet expose la représentation interne de l'objet. Si des instances sont accédées par du code non fiable, et que des modifications non vérifiées peuvent compromettre la sécurité ou d'autres propriétés importantes, vous devez faire autre chose. Renvoyer une nouvelle copie de l'objet est une meilleur approche dans de nombreuses situations.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="EI_EXPOSE_REP2">Une méthode expose sa représentation interne en incorporant une référence à un objet modifiable</a>
+      </h2>
+
+<p>Ce code stocke une référence à un objet externe modifiable dans la représentation interne de l'objet. Si des instances sont accédées par du code non fiable, et que des modifications non vérifiées peuvent compromettre la sécurité ou d'autres propriétés importantes, vous devez faire autre chose. Stocker une copie de l'objet est une meilleur approche dans de nombreuses situations.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>
+         <a name="NM_CLASS_NOT_EXCEPTION">Cette classe ne dérive pas d'Exception, même si son nom le sous-entend</a>
+      </h2>
+
+<p>Cette classe n'est pas dérivée d'une autre <code>Exception</code> alors que son nom se termine par 'Exception'. Ceci risque de porter à confusion les utilisateurs de cette classe.</p>
+
+  <p>
+         <br/>
+         <br/>
+      </p>
+   </body>
+</html>
