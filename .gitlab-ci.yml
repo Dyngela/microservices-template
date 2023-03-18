@@ -240,12 +240,17 @@ variables:
 #     - docker system prune -a
 
 
-job:deploy:prod:bootstrapping:
+job:deploy:prod:
   stage: deploy
   image: !reference [.package-opts, image]
   services: !reference [.package-opts, services]
   variables:
     ANSIBLE_REPO: collect-and-everything-ansible
+    LEASE_RENEWAL_INTERVAL: 10
+    CONTAINER_REGISTRY: docker.io/yulquen
+    CI_PROJECT_DIR: "${CI_PROJECT_DIR}"
+    DB_URI: "postgresql://postgres:5432"
+    RABBITMQ_URI: "rabbitmq:5672"
   only:
     -  chore/docker
   before_script:
@@ -253,9 +258,9 @@ job:deploy:prod:bootstrapping:
     - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@gitlab.com/aymeric.guth/${ANSIBLE_REPO}" "/tmp/${ANSIBLE_REPO}"
     - echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/${ANSIBLE_REPO}/.vault_pass"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo -e "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+    - echo -e "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519_cande_prod && chmod 600 ~/.ssh/id_ed25519_cande_prod
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
-    - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
+    - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519_cande_prod\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
     - cd /tmp/"${ANSIBLE_REPO}" && ansible-playbook site.yml
   after_script:
