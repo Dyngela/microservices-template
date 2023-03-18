@@ -251,6 +251,7 @@ job:deploy:prod:
     CI_PROJECT_DIR: "${CI_PROJECT_DIR}"
     DB_URI: "postgresql://postgres:5432"
     RABBITMQ_URI: "rabbitmq:5672"
+    STAGE: prod
   only:
     -  chore/docker
   before_script:
