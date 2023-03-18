@@ -258,16 +258,16 @@ job:deploy:prod:
   only:
     -  chore/docker
   before_script:
-    # SSH_SERVER_HOSTKEYS_PROD
-    - apk update && apk add openssh-client git socat bash
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    # - echo "$SSH_SERVER_HOSTKEYS_PROD" > ~/.ssh/known_hosts
-    # - chmod 644 ~/.ssh/known_hosts
+    - chmod 400 "$SSH_PRIVATE_KEY_PROD"
+    - ssh-add "$SSH_PRIVATE_KEY_PROD"
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - cp "$SSH_PRIVATE_KEY_PROD" ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
+    - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
+    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
     - ls -lha ~/.ssh
   #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" pull
   #   - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
