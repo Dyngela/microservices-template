@@ -200,7 +200,7 @@ variables:
 #   dependencies:
 #     - job:build
 
-# ### INTEGRATION
+# # ### INTEGRATION
 # job:package:integration:
 #   stage: package
 #   extends: .package-opts
@@ -239,7 +239,7 @@ variables:
 #     - docker compose -f compose.yaml -f compose.prod.yaml down
 #     - docker system prune -a
 
-# ssh connection to prod
+
 job:deploy:prod:
   stage: deploy
   image: !reference [.package-opts, image]
@@ -269,5 +269,4 @@ job:deploy:prod:
     - DOCKER_HOST='debian@collecteverything.fr' docker compose -f "${CI_PROJECT_DIR}/compose.yaml" -f "${CI_PROJECT_DIR}/compose.prod.yaml" up -d
   after_script:
     - ssh -T debian@collecteverything.fr -i  "docker system prune -a"
-    - rm ~/.ssh
-    - exit 0
+    - rm -rf  ~/.ssh
