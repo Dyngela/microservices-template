@@ -268,7 +268,7 @@ job:deploy:prod:
     - chmod 644 ~/.ssh/known_hosts
     # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
-    - ./bin/deploy.sh
+    - ./deploy.sh
   # script:
   #   - DOCKER_HOST=ssh://debian@collecteverything.fr docker ps
     # - ssh -T debian@collecteverything.fr "cd /home/debian/collect-and-everything-backend && sudo docker compose -f compose-prod.yaml down"
