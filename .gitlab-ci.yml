@@ -268,7 +268,6 @@ job:deploy:prod:
     - chmod 644 ~/.ssh/known_hosts
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config && chmod 600 ~/.ssh/config'
   script:
-    - ssh debian@collecteverything.fr
-    - ls -lha
+    - ssh -T debian@collecteverything.fr "ls -lha"
   after_script:
     - exit 0
