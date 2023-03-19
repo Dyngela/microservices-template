@@ -10,10 +10,6 @@ import sys
 import signal
 
 
-stage = os.getenv("STAGE")
-if not stage or (stage != "prod" and stage != "staging" and stage != "dev"):
-    raise Exception(f"Invalid stage: {stage}")
-
 _timeout = os.getenv("TIMEOUT")
 if not _timeout:
     timeout = 600
@@ -103,7 +99,15 @@ while 1:
 
         case {"timeout": timeout}:
             subprocess.run(
-                [docker, "compose", "--file", f"compose-{stage}.yaml", "ps"],
+                [
+                    docker,
+                    "compose",
+                    "--file",
+                    "compose.yaml",
+                    "--file",
+                    "compose.prod.yaml",
+                    "ps",
+                ],
                 cwd=path,
             )
             raise Exception(f"{timeout=}")

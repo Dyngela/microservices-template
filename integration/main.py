@@ -4,18 +4,9 @@ import os
 import requests
 
 
-stage = os.getenv("STAGE")
-if not stage:
-    raise Exception("STAGE is not defined")
-
-if stage == "prod":
-    BASE_URL = "https://collecteverything.fr"
-elif stage == "staging":
-    BASE_URL = "http://gateway:8080"
-elif stage == "dev":
-    BASE_URL = "http://localhost:8080"
-else:
-    raise Exception(f"Invalid stage: {stage}")
+BASE_URL = os.getenv("API_URI")
+if not BASE_URL:
+    raise Exception("API_URI is not defined")
 
 
 SUCCESS = "\033[32;1;1mSUCCESS\033[0m"
