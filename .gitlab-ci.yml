@@ -278,7 +278,7 @@ job:deploy:prod:
     - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519_cande_prod\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
     - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/vault/.vault_pass"
   script:
-    - docker run --rm --volume ~/.ssh:/root/.ssh:ro --volume /tmp/vault:/tmp/vault:ro ${IMG_BASE}-ansible:latest /bin/bash -c cd /tmp/ansible && ansible-playbook site.yml
+    - docker run --rm --volume ~/.ssh:/root/.ssh:ro --volume /tmp/vault:/tmp/vault:ro ${IMG_BASE}-ansible:latest /bin/bash -c 'cd /tmp/ansible && ansible-playbook site.yml'
   after_script:
     - rm -rf  ~/.ssh
     - rm -rf  "/tmp/vault"
