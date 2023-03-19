@@ -295,46 +295,7 @@ class CategoryServiceTest {
         verify(categoryRepository).findByCategoryIdAndDeletedAt((Long) any(), (LocalDateTime) any());
     }
 
-    /**
-     * Method under test: {@link CategoryService#updateCategory(CategoryModel)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testUpdateCategory4() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.diy.model.CategoryModel.toString()" because "categoryModel" is null
-        //       at com.diy.service.CategoryService.updateCategory(CategoryService.java:73)
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setCategoryId(1L);
-        categoryEntity.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        categoryEntity.setDeletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        categoryEntity.setName("Name");
-        categoryEntity.setProducts(new ArrayList<>());
-        categoryEntity.setStoreId(1L);
-        categoryEntity.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        Optional<CategoryEntity> ofResult = Optional.of(categoryEntity);
-
-        CategoryEntity categoryEntity1 = new CategoryEntity();
-        categoryEntity1.setCategoryId(1L);
-        categoryEntity1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        categoryEntity1.setDeletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        categoryEntity1.setName("Name");
-        categoryEntity1.setProducts(new ArrayList<>());
-        categoryEntity1.setStoreId(1L);
-        categoryEntity1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        when(categoryRepository.save((CategoryEntity) any())).thenReturn(categoryEntity1);
-        when(categoryRepository.findByCategoryIdAndDeletedAt((Long) any(), (LocalDateTime) any())).thenReturn(ofResult);
-        when(categoryModelMapper.entityToModel((CategoryEntity) any(), (CycleAvoidingMappingContext) any()))
-                .thenReturn(new CategoryModel());
-        doNothing().when(categoryModelMapper)
-                .updateCategoryFromModel((CategoryModel) any(), (CategoryEntity) any(), (CycleAvoidingMappingContext) any());
-        categoryService.updateCategory(null);
-    }
 
     /**
      * Method under test: {@link CategoryService#updateCategory(CategoryModel)}
