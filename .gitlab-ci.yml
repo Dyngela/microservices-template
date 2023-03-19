@@ -274,7 +274,7 @@ job:deploy:prod:
     RABBITMQ_URI: "rabbitmq:5672"
   before_script:
     - apk update && apk add --no-cache git python3 ansible
-    - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@${ANSIBLE_REPO}" /tmp/ansible
+    - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@${CI_ANSIBLE_REPO}" /tmp/ansible
     - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/vault/.vault_pass"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo -e "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519_cande_prod && chmod 600 ~/.ssh/id_ed25519_cande_prod
