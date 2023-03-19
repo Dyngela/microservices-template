@@ -233,35 +233,35 @@ variables:
 #   only:
 #     -  main
 
-# job:deploy:staging:
-#   stage: deploy
-#   extends: .package-opts
-#   variables:
-#     API_URI: "http://gateway:8080"
-#     DB_URI: "${DB_URI_STAGING}"
-#     DB_USER: "${DB_USER_STAGING}"
-#     DB_PASS: "${DB_PASS_STAGING}"
-#     RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
-#     TWILIO_SID: "${TWILIO_SID_STAGING}"
-#     TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
-#     TWILIO_NUM: "${TWILIO_NUM_STAGING}"
-#     LEASE_RENEWAL_INTERVAL: 10
-#     CONTAINER_REGISTRY: docker.io/yulquen
-#     CI_STAGE: staging
-#   before_script:
-#     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
-#   script:
-#     - echo $(docker compose version)
-#     # COMPOSE_DOCKER_CLI_BUILD=0
-#     # DOCKER_BUILDKIT=0 
-#     # - docker compose -f compose.yaml -f compose.prod.yaml config
-#     - docker compose -f compose.yaml -f compose.prod.yaml up -d
-#     - apk update && apk add python3 && cd ./integration && python3 -u poller.py
-#   after_script:
-#     - docker compose -f compose.yaml -f compose.prod.yaml down
-#     - docker system prune -a
-#   only:
-#     -  main
+job:deploy:staging:
+  stage: deploy
+  extends: .package-opts
+  variables:
+    API_URI: "http://gateway:8080"
+    DB_URI: "${DB_URI_STAGING}"
+    DB_USER: "${DB_USER_STAGING}"
+    DB_PASS: "${DB_PASS_STAGING}"
+    RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
+    TWILIO_SID: "${TWILIO_SID_STAGING}"
+    TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
+    TWILIO_NUM: "${TWILIO_NUM_STAGING}"
+    LEASE_RENEWAL_INTERVAL: 10
+    CONTAINER_REGISTRY: docker.io/yulquen
+    CI_STAGE: staging
+  before_script:
+    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
+  script:
+    - echo $(docker compose version)
+    # COMPOSE_DOCKER_CLI_BUILD=0
+    # DOCKER_BUILDKIT=0 
+    # - docker compose -f compose.yaml -f compose.prod.yaml config
+    - docker compose -f compose.yaml -f compose.prod.yaml up -d
+    - apk update && apk add python3 && cd ./integration && python3 -u poller.py
+  after_script:
+    - docker compose -f compose.yaml -f compose.prod.yaml down
+    - docker system prune -a
+  only:
+    -  main
 
 job:deploy:prod:
   stage: deploy
