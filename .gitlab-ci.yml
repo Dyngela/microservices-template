@@ -288,7 +288,7 @@ job:deploy:prod:
     - rm -rf ~/.ssh
     - rm -rf /tmp/vault
     - rm -rf /tmp/ansible
-  # needs: 
-  #   - job:deploy:staging
+  needs: 
+    - job:deploy:staging
   only:
     -  main
