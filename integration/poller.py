@@ -139,6 +139,18 @@ while 1:
                     raise SystemExit(0)
                 else:
                     sys.stderr.write(json.dumps(msg) + "\n")
+                    subprocess.run(
+                        [
+                            docker,
+                            "compose",
+                            "--file",
+                            "compose.yaml",
+                            "--file",
+                            "compose.prod.yaml",
+                            "logs",
+                        ],
+                        cwd=path,
+                    )
                     raise SystemExit(rc)
             elif action == "destroy":
                 sys.stderr.write(json.dumps(msg) + "\n")
