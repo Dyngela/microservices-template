@@ -242,39 +242,7 @@ class TicketServiceTest {
         verify(ticketRepository).findById((Long) any());
     }
 
-    /**
-     * Method under test: {@link TicketService#updateTicket(TicketModel)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testUpdateTicket4() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "Object.toString()" because "model" is null
-        //       at com.diy.service.TicketService.updateTicket(TicketService.java:68)
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        TicketEntity ticketEntity = new TicketEntity();
-        ticketEntity.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        ticketEntity.setCustomerId(1L);
-        ticketEntity.setDeletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        ticketEntity.setDescription("The characteristics of someone or something");
-        ticketEntity.setProblemType(ProblemType.Business);
-        ticketEntity.setSenderType(SenderType.Store);
-        ticketEntity.setState(State.Closed);
-        ticketEntity.setStoreId(1L);
-        ticketEntity.setTicketId(1L);
-        ticketEntity.setTitle("Dr");
-        ticketEntity.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        Optional<TicketEntity> ofResult = Optional.of(ticketEntity);
-        when(ticketRepository.findById((Long) any())).thenReturn(ofResult);
-        when(ticketModelMapper.entityToModel((TicketEntity) any())).thenReturn(new TicketModel());
-        doNothing().when(ticketModelMapper)
-                .updateTicketFromModel((TicketModel) any(), (TicketEntity) any(), (CycleAvoidingMappingContext) any());
-        ticketService.updateTicket(null);
-    }
 
     /**
      * Method under test: {@link TicketService#createTicket(TicketModel)}
