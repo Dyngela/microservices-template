@@ -276,8 +276,11 @@ job:deploy:prod:
     - echo -e "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519_cande_prod && chmod 600 ~/.ssh/id_ed25519_cande_prod
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
     - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519_cande_prod\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
-    - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/vault/.vault_pass"
+    - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > /tmp/vault/.vault_pass
   script:
+    - ls -lha /tmp
+    - ls -lha /tmp/vault
+    - cat /tmp/vault/.vault_pass
     - docker run --rm -v ~/.ssh:/root/.ssh:ro -v /tmp/vault:/tmp/vault:ro "${IMG_BASE}-ansible:latest" /bin/bash -c 'cd /tmp/ansible && ansible-playbook site.yml'
   after_script:
     - rm -rf  ~/.ssh
