@@ -31,237 +31,237 @@ variables:
     - docker logout
 
 
-job:build:
-  stage: build
-  image: maven:3.8.3-amazoncorretto-17
-  variables:
-    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    #  -Dmaven.repo.local=.m2/repository
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
-  script:
-    - mvn ${MAVEN_CLI_OPTS} package -DskipTests
-  after_script:
-    - mkdir -p "${CI_PROJECT_DIR}/artifacts"
-    - mv ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar"
-    - mv ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar"
-  artifacts:
-    paths:
-      - ${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar
-      - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
-  only:
-    -  main
-  # cache:
-  #   - key: "${CI_BUILD_REF_NAME}"
-  #     paths:
-  #       - ".m2/repository"
+# job:build:
+#   stage: build
+#   image: maven:3.8.3-amazoncorretto-17
+#   variables:
+#     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+#     #  -Dmaven.repo.local=.m2/repository
+#     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
+#   script:
+#     - mvn ${MAVEN_CLI_OPTS} package -DskipTests
+#   after_script:
+#     - mkdir -p "${CI_PROJECT_DIR}/artifacts"
+#     - mv ${CI_PROJECT_DIR}/services/infra/eureka-server/target/eureka-server-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/infra/gateway/target/gateway-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/authentication/target/authentication-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/customer/target/customer-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/notification/target/notification-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/order/target/order-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/product/target/product-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/core/store/target/store-1.0-SNAPSHOT-exec.jar "${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/back-office/customisation/target/customisation-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/back-office/subscription/target/subscription-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar"
+#     - mv ${CI_PROJECT_DIR}/services/back-office/ticket/target/ticket-1.0-SNAPSHOT.jar "${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar"
+#   artifacts:
+#     paths:
+#       - ${CI_PROJECT_DIR}/artifacts/eureka-server-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/gateway-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/authentication-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/customer-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/notification-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/order-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/product-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/store-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/customisation-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/subscription-1.0-SNAPSHOT.jar
+#       - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
+#   only:
+#     -  main
+#   # cache:
+#   #   - key: "${CI_BUILD_REF_NAME}"
+#   #     paths:
+#   #       - ".m2/repository"
 
 
-### INFRA
-job:package:eureka-server:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: eureka-server
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# ### INFRA
+# job:package:eureka-server:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: eureka-server
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:gateway:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: gateway
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:gateway:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: gateway
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:db:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: db
-    PGDATA: /data/postgres
-    TZ: ${TZ}
-    PGTZ: ${TZ}
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg PGTZ=${PGTZ} --build-arg TZ=${TZ} --build-arg PGDATA=${PGDATA} ./db
-  only:
-    -  main
+# job:package:db:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: db
+#     PGDATA: /data/postgres
+#     TZ: ${TZ}
+#     PGTZ: ${TZ}
+#   script:
+#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg PGTZ=${PGTZ} --build-arg TZ=${TZ} --build-arg PGDATA=${PGDATA} ./db
+#   only:
+#     -  main
 
-### CORE
-job:package:authentication:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: authentication
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# ### CORE
+# job:package:authentication:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: authentication
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:customer:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: customer
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:customer:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: customer
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:notification:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: notification
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:notification:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: notification
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:order:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: order
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:order:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: order
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:product:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: product
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:product:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: product
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:store:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: store
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:store:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: store
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-### BACK-OFFICE
-job:package:customisation:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: customisation
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# ### BACK-OFFICE
+# job:package:customisation:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: customisation
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:subscription:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: subscription
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:subscription:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: subscription
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-job:package:ticket:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: ticket
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# job:package:ticket:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: ticket
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
-# # ### INTEGRATION
-job:package:integration:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: integration
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
-  only:
-    -  main
+# # # ### INTEGRATION
+# job:package:integration:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: integration
+#   script:
+#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
+#   only:
+#     -  main
 
-job:deploy:staging:
-  stage: deploy
-  extends: .package-opts
-  variables:
-    API_URI: "http://gateway:8080"
-    DB_URI: "${DB_URI_STAGING}"
-    DB_USER: "${DB_USER_STAGING}"
-    DB_PASS: "${DB_PASS_STAGING}"
-    RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
-    TWILIO_SID: "${TWILIO_SID_STAGING}"
-    TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
-    TWILIO_NUM: "${TWILIO_NUM_STAGING}"
-    LEASE_RENEWAL_INTERVAL: 10
-    CONTAINER_REGISTRY: docker.io/yulquen
-    CI_STAGE: staging
-  before_script:
-    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
-  script:
-    - echo $(docker compose version)
-    # COMPOSE_DOCKER_CLI_BUILD=0
-    # DOCKER_BUILDKIT=0 
-    # - docker compose -f compose.yaml -f compose.prod.yaml config
-    - docker compose -f compose.yaml -f compose.prod.yaml up -d
-    - apk update && apk add python3 && cd ./integration && python3 -u poller.py
-  after_script:
-    - docker compose -f compose.yaml -f compose.prod.yaml down
-    - docker system prune -a
-  only:
-    -  main
+# job:deploy:staging:
+#   stage: deploy
+#   extends: .package-opts
+#   variables:
+#     API_URI: "http://gateway:8080"
+#     DB_URI: "${DB_URI_STAGING}"
+#     DB_USER: "${DB_USER_STAGING}"
+#     DB_PASS: "${DB_PASS_STAGING}"
+#     RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
+#     TWILIO_SID: "${TWILIO_SID_STAGING}"
+#     TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
+#     TWILIO_NUM: "${TWILIO_NUM_STAGING}"
+#     LEASE_RENEWAL_INTERVAL: 10
+#     CONTAINER_REGISTRY: docker.io/yulquen
+#     CI_STAGE: staging
+#   before_script:
+#     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
+#   script:
+#     - echo $(docker compose version)
+#     # COMPOSE_DOCKER_CLI_BUILD=0
+#     # DOCKER_BUILDKIT=0 
+#     # - docker compose -f compose.yaml -f compose.prod.yaml config
+#     - docker compose -f compose.yaml -f compose.prod.yaml up -d
+#     - apk update && apk add python3 && cd ./integration && python3 -u poller.py
+#   after_script:
+#     - docker compose -f compose.yaml -f compose.prod.yaml down
+#     - docker system prune -a
+#   only:
+#     -  main
 
 job:deploy:prod:
   stage: deploy
@@ -288,7 +288,7 @@ job:deploy:prod:
     - rm -rf ~/.ssh
     - rm -rf /tmp/vault
     - rm -rf /tmp/ansible
-  needs: 
-    - job:deploy:staging
+  # needs: 
+  #   - job:deploy:staging
   only:
     -  main
