@@ -223,15 +223,15 @@ variables:
 #     -  main
 
 # # ### INTEGRATION
-# job:package:integration:
-#   stage: package
-#   extends: .package-opts
-#   variables:
-#     SERVICE_NAME: integration
-#   script:
-#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
-#   only:
-#     -  main
+job:package:integration:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: integration
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg STAGE=staging ./integration
+  only:
+    -  main
 
 job:deploy:staging:
   stage: deploy
