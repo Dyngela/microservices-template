@@ -182,6 +182,7 @@ services:
   test-integration:
     container_name: integration
     environment:
-      STAGE: ${CI_JOB_STAGE:-staging}
+      CI_STAGE: ${CI_STAGE:-staging}
+      API_URI: ${API_URI}
     depends_on:
       - service-authentication
