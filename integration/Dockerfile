@@ -9,4 +9,4 @@ RUN python3 -m pip install --no-cache-dir \
     build
 RUN python3 -m virtualenv .venv
 RUN .venv/bin/python -m pip install --no-cache-dir -r requirements.txt
-ENTRYPOINT [ "/integration/.venv/bin/python", "/integration/main.py" ]
+ENTRYPOINT [ "/integration/.venv/bin/python", "-u", "/integration/main.py" ]
