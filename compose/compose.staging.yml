@@ -1,0 +1,213 @@
+---
+services:
+
+  # INFRA
+  service-discovery:
+    image: ${CONTAINER_REGISTRY}/cande-eureka-server:latest
+    container_name: eureka-server
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    ports:
+      - 8761:8761
+
+  service-gateway:
+    image: ${CONTAINER_REGISTRY}/cande-gateway:latest
+    container_name: gateway
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    ports:
+      - 8080:8080
+    depends_on:
+      - service-discovery
+
+  backing-db:
+    image: ${CONTAINER_REGISTRY}/cande-db:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ:-Europe/Paris}
+      PGTZ: ${TZ:-Europe/Paris}
+
+  backing-mq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ:-Europe/Paris}}
+
+  # CORE
+  service-authentication:
+    image: ${CONTAINER_REGISTRY}/cande-authentication:latest
+    container_name: authentication
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  service-customer:
+    image: ${CONTAINER_REGISTRY}/cande-customer:latest
+    container_name: customer
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  service-notification:
+    image: ${CONTAINER_REGISTRY}/cande-notification:latest
+    container_name: notification
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      TWILIO_SID: ${TWILIO_SID}
+      TWILIO_TOKEN: ${TWILIO_TOKEN}
+      TWILIO_NUM: ${TWILIO_NUM}
+      RABBITMQ_URI: ${RABBITMQ_URI}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+      - backing-mq
+
+  service-order:
+    image: ${CONTAINER_REGISTRY}/cande-order:latest
+    container_name: order
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      RABBITMQ_URI: ${RABBITMQ_URI}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+      - backing-mq
+
+  service-product:
+    image: ${CONTAINER_REGISTRY}/cande-product:latest
+    container_name: product
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  service-store:
+    image: ${CONTAINER_REGISTRY}/cande-store:latest
+    container_name: store
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  # BACK-OFFICE
+  service-customisation:
+    image: ${CONTAINER_REGISTRY}/cande-customisation:latest
+    container_name: customisation
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  # service-payment:
+  #   image: ${CONTAINER_REGISTRY}/cande-payment:latest
+  #   container_name: payment
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - postgres
+
+  service-subscription:
+    image: ${CONTAINER_REGISTRY}/cande-subscription:latest
+    container_name: subscription
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  service-ticket:
+    image: ${CONTAINER_REGISTRY}/cande-ticket:latest
+    container_name: ticket
+    environment:
+      EUREKA_URI: ${EUREKA_URI}
+      TZ: ${TZ}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      DB_URI: ${DB_URI}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+    depends_on:
+      - service-gateway
+      - backing-db
+
+  test-integration:
+    image: ${CONTAINER_REGISTRY}/cande-integration:latest
+    # build:
+    #   context: ./integration
+    container_name: integration
+    environment:
+      CI_STAGE: ${CI_STAGE:-staging}
+      API_URI: ${API_URI}
+    depends_on:
+      - service-authentication
