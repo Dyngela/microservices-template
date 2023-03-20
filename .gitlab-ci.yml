@@ -1,34 +1,34 @@
-stages:
-  - build
-  - package
-  - deploy
+# stages:
+#   - build
+#   - package
+#   - deploy
 
-variables:
-  IMG_BASE: "${CI_REGISTRY_USER}/cande"
-  EUREKA_URI: "http://eureka-server:8761/eureka/"
-  TZ: "Europe/Paris"
-  SPRING_PROFILES_ACTIVE: docker
+# variables:
+#   IMG_BASE: "${CI_REGISTRY_USER}/cande"
+#   EUREKA_URI: "http://eureka-server:8761/eureka/"
+#   TZ: "Europe/Paris"
+#   SPRING_PROFILES_ACTIVE: docker
 
 
-.package-opts:
-  image: docker:latest
-  services:
-    - name: docker:dind
-      alias: thedockerhost
-  variables:
-    # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
-    DOCKER_HOST: "tcp://thedockerhost:2375/"
-    DOCKER_DRIVER: overlay2
-    # highly secure empty-string cert
-    DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
-  script:
-    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" --file=Dockerfile.prod .
-  after_script:
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
-    - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
-    - docker logout
+# .package-opts:
+#   image: docker:latest
+#   services:
+#     - name: docker:dind
+#       alias: thedockerhost
+#   variables:
+#     # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
+#     DOCKER_HOST: "tcp://thedockerhost:2375/"
+#     DOCKER_DRIVER: overlay2
+#     # highly secure empty-string cert
+#     DOCKER_TLS_CERTDIR: ""
+#   before_script:
+#     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
+#   script:
+#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" --build-arg SERVICE_NAME="${SERVICE_NAME}" --build-arg EUREKA_URI="${EUREKA_URI}" --build-arg TZ="${TZ}" --build-arg SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE}" --file=Dockerfile.prod .
+#   after_script:
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}"
+#     - docker push "${IMG_BASE}-${SERVICE_NAME}:latest"
+#     - docker logout
 
 
 # job:build:
@@ -261,35 +261,35 @@ variables:
 #   only:
 #     -  main
 
-job:deploy:prod:
-  stage: deploy
-  image: !reference [.package-opts, image]
-  services: !reference [.package-opts, services]
-  variables:
-    CI_STAGE: prod
-    API_URI: "https://collecteverything.fr"
-    LEASE_RENEWAL_INTERVAL: 10
-    CONTAINER_REGISTRY: docker.io/yulquen
-    DB_URI: "postgresql://postgres:5432"
-    RABBITMQ_URI: "rabbitmq:5672"
-    EUREKA_URI: "${EUREKA_URI}"
-    TZ: "${TZ}"
-    SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE}"
-  before_script:
-    - apk update && apk add --no-cache git python3 ansible
-    - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@${CI_ANSIBLE_REPO}" /tmp/ansible
-    - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/vault/.vault_pass"
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo -e "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519_cande_prod && chmod 600 ~/.ssh/id_ed25519_cande_prod
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
-    - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519_cande_prod\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
-  script:
-    - cd /tmp/ansible && ansible-playbook backend_deploy.yml
-  after_script:
-    - rm -rf ~/.ssh
-    - rm -rf /tmp/vault
-    - rm -rf /tmp/ansible
-  # needs: 
-  #   - job:deploy:staging
-  only:
-    -  main
+# job:deploy:prod:
+#   stage: deploy
+#   image: !reference [.package-opts, image]
+#   services: !reference [.package-opts, services]
+#   variables:
+#     CI_STAGE: prod
+#     API_URI: "https://collecteverything.fr"
+#     LEASE_RENEWAL_INTERVAL: 10
+#     CONTAINER_REGISTRY: docker.io/yulquen
+#     DB_URI: "postgresql://postgres:5432"
+#     RABBITMQ_URI: "rabbitmq:5672"
+#     EUREKA_URI: "${EUREKA_URI}"
+#     TZ: "${TZ}"
+#     SPRING_PROFILES_ACTIVE: "${SPRING_PROFILES_ACTIVE}"
+#   before_script:
+#     - apk update && apk add --no-cache git python3 ansible
+#     - git clone --depth 1 "https://${CI_GITLAB_TOKEN_NAME_PROD}:${CI_GITLAB_TOKEN_PROD}@${CI_ANSIBLE_REPO}" /tmp/ansible
+#     - mkdir -p /tmp/vault && echo -e "${CI_ANSIBLE_VAULT_PASS_PROD}" > "/tmp/vault/.vault_pass"
+#     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+#     - echo -e "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519_cande_prod && chmod 600 ~/.ssh/id_ed25519_cande_prod
+#     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
+#     - 'echo -e "Host collecteverything.fr\nHostName collecteverything.fr\nPort 22\nuser debian\nIdentityFile ~/.ssh/id_ed25519_cande_prod\n\n" >> ~/.ssh/config && chmod 600 ~/.ssh/config'
+#   script:
+#     - cd /tmp/ansible && ansible-playbook backend_deploy.yml
+#   after_script:
+#     - rm -rf ~/.ssh
+#     - rm -rf /tmp/vault
+#     - rm -rf /tmp/ansible
+#   # needs: 
+#   #   - job:deploy:staging
+#   only:
+#     -  main
