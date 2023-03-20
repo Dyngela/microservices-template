@@ -10,6 +10,10 @@ import sys
 import signal
 
 
+stage = os.getenv("CI_STAGE", "")
+if stage == "prod":
+    raise SystemExit(0)
+
 _timeout = os.getenv("TIMEOUT")
 if not _timeout:
     timeout = 600

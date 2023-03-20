@@ -1,6 +1,4 @@
 FROM python:3.11.2-slim-bullseye
-ARG API_URI
-ENV API_URI=${API_URI}
 WORKDIR /integration
 COPY . /integration
 RUN python3 -m pip install --no-cache-dir \
