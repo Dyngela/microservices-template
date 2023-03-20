@@ -34,9 +34,7 @@ events = subprocess.Popen(
         docker,
         "compose",
         "--file",
-        "compose.yaml",
-        "--file",
-        "compose.prod.yaml",
+        "compose.staging.yml",
         "events",
         "--json",
     ],
@@ -98,6 +96,16 @@ while 1:
             raise SystemExit(signum)
 
         case {"status": msg}:
+            subprocess.run(
+                [
+                    docker,
+                    "compose",
+                    "--file",
+                    "compose.staging.yml",
+                    "ps",
+                ],
+                cwd=path,
+            )
             # process exited, probable failure
             raise Exception(f"{msg=}")
 
@@ -107,9 +115,7 @@ while 1:
                     docker,
                     "compose",
                     "--file",
-                    "compose.yaml",
-                    "--file",
-                    "compose.prod.yaml",
+                    "compose.staging.yml",
                     "ps",
                 ],
                 cwd=path,
