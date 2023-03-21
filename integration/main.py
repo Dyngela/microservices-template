@@ -13,21 +13,6 @@ SUCCESS = "\033[32;1;1mSUCCESS\033[0m"
 FAILED = "\033[31;1;1mFAILED\033[0m"
 
 
-def healthcheck(uri: str) -> bool:
-    return requests.get(f"{BASE_URL}/api/v1/{uri}").status_code == 200
-
-
-def login(email: str, password: str) -> str:
-    # status: 200
-    return requests.post(
-        f"{BASE_URL}/api/v1/authentication/login",
-        json={
-            "email": email,
-            "password": password,
-        },
-    ).content.decode("utf-8")
-
-
 while 1:
     try:
         resp = requests.get(f"{BASE_URL}/api/v1")
@@ -39,7 +24,6 @@ while 1:
         break
 
 while 1:
-    # resp = requests.get(f"{BASE_URL}/api/v1/authentication/login")
     resp = requests.get(f"{BASE_URL}/api/v1/store/all")
     if resp.status_code == 200:
         print("System is UP, executing tests")
