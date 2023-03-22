@@ -7,6 +7,19 @@ stages:
 variables:
   IMG_BASE: "${CI_REGISTRY_USER}/cande"
 
+cache:
+  - key: "${CI_BUILD_REF_NAME}"
+    paths:
+      - ".m2/repository"
+
+.mvn-opts:
+  stage: test
+  image: maven:3.8.3-amazoncorretto-17
+  variables:
+    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+    MAVEN_CLI_OPTS: "-Dmaven.repo.local=.m2/repository --errors --fail-at-end --show-version -Dstyle.color=always"
+
+
 .package-opts:
   image: docker:latest
   services:
@@ -65,10 +78,6 @@ job:build:
       - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
   # only:
   #   -  main
-  # cache:
-  #   - key: "${CI_BUILD_REF_NAME}"
-  #     paths:
-  #       - ".m2/repository"
 
 
 ### UNIT-TESTS
