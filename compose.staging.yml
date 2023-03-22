@@ -202,9 +202,9 @@ services:
       - backing-db
 
   test-integration:
-    image: ${CONTAINER_REGISTRY}/cande-integration:latest
-    # build:
-    #   context: ./integration
+    # image: ${CONTAINER_REGISTRY}/cande-integration:latest
+    build:
+      context: ./integration
     container_name: integration
     environment:
       CI_STAGE: ${CI_STAGE:-staging}
