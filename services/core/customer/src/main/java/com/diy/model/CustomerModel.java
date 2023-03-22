@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,5 +22,6 @@ public class CustomerModel {
     String phoneNumber;
     Long storeId;
     String ethAddress;
+    LocalDateTime createdAt;
 
 }
