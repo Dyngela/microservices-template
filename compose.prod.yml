@@ -35,8 +35,8 @@ services:
       PGDATA: /data/postgres
       TZ: ${TZ:-Europe/Paris}
       PGTZ: ${TZ:-Europe/Paris}
-    volumes:
-      - /data/postgres:/tmp/cande-db
+    # volumes:
+    #   - /data/postgres:/tmp/cande-db
 
   backing-mq:
     image: rabbitmq:3.9.11-management-alpine
