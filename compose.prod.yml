@@ -170,20 +170,14 @@ services:
       - service-gateway
       - backing-db
 
-  # service-payment:
-  #   image: ${CONTAINER_REGISTRY}/cande-payment:latest
-  #   container_name: payment
-  #   environment:
-  #     EUREKA_URI: ${EUREKA_URI}
-  #     TZ: ${TZ}
-  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-  #     DB_URI: ${DB_URI}
-  #     DB_USER: ${DB_USER}
-  #     DB_PASS: ${DB_PASS}
-  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-  #   depends_on:
-  #     - service-gateway
-  #     - postgres
+  service-payment:
+    image: ${CONTAINER_REGISTRY}/cande-payment:latest
+    container_name: payment
+    environment:
+      TZ: ${TZ}
+    depends_on:
+      - service-gateway
+      - postgres
 
   service-subscription:
     image: ${CONTAINER_REGISTRY}/cande-subscription:latest

@@ -2,9 +2,6 @@ import time
 
 import requests
 
-# BASE_URL = os.getenv("API_URI")
-# if not BASE_URL:
-#     raise Exception("API_URI is not defined")
 
 BASE_URL = "http://localhost:8080"
 BASE_URL = "https://collecteverything.fr"
@@ -94,23 +91,31 @@ headers = {"Authorization": resp.content.decode("utf-8")}
 
 # create normal user
 payload = {
-    "email": "admeieene@gmail.com",
-    "password": "aedmein",
-    "firstName": "ademeeine",
-    "lastName": "lasteeeNamee",
-    "phoneNumber": "+33 7 70 17 98 11",
-    "ethAddress": "0x000000",
+    "email": "jean.roger@gmail.com",
+    "password": "1234",
+    "firstName": "roger",
+    "lastName": "jean",
+    "phoneNumber": "+33 7 70 17 98 15",
+    "ethAddress": "0x000000000000000123",
     "storeId": 1,
     "role": "USER",
-    "siret": "89e0987eee8e098790",
-    "storeName": "aeeez",
-    "sector": "updeate",
-    "subscriptionId": 1,
 }
+i = 0
 route = "/api/v1/authentication/save"
-resp = requests.put(f"{BASE_URL}{route}", json=payload)
-print(resp)
-assert resp.status_code == 200
+while 1:
+    resp = requests.put(f"{BASE_URL}{route}", json=payload)
+    if resp.status_code == 200:
+        break
+    i += 1
+print(i)
+
+resp = requests.post(
+    f"{BASE_URL}/api/v1/authentication/login",
+    json={
+        "email": "azerty@gmail.com",
+        "password": "passeeeword",
+    },
+)
 
 
 # orders id sync 1000
@@ -122,7 +127,9 @@ payload = [
     {"price": 1500, "productId": 4},
     {"price": 455.32, "productId": 3},
 ]
-for _ in range(1000):
+headers = {"Authorization": resp.content.decode("utf-8")}
+
+for n in range(1000):
     resp = requests.put(url=f"{BASE_URL}{route}", json=payload, headers=headers)
     if resp.status_code == 200:
-        raise Exception(f"{route=} finished early")
+        raise Exception(f"{route=} finished early {n=}")
