@@ -15,6 +15,12 @@ services:
       LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
     ports:
       - ${EUREKA_PORT:-8761}:8761
+    healthcheck:
+      test: curl --fail http://eureka-server/eureka:8761 || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
 
   service-gateway:
     build:
@@ -27,171 +33,46 @@ services:
       TZ: ${TZ}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-discovery
+    # depends_on:
+    #   - service-discovery
     ports:
       - ${GATEWAY_PORT:-8080}:8080
+    healthcheck:
+      test: curl --fail http://gateway:8080 || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
 
-  backing-db:
-    container_name: postgres
-    build:
-      context: ./db
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      PGDATA: /data/postgres
-      TZ: ${TZ:-Europe/Paris}
-      PGTZ: ${TZ:-Europe/Paris}
-    ports:
-      - ${POSTGRES_PORT:-5432}:5432
+  # backing-db:
+  #   container_name: postgres
+  #   build:
+  #     context: ./db
+  #   environment:
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASS}
+  #     PGDATA: /data/postgres
+  #     TZ: ${TZ:-Europe/Paris}
+  #     PGTZ: ${TZ:-Europe/Paris}
+  #   ports:
+  #     - ${POSTGRES_PORT:-5432}:5432
 
-  backing-mq:
-    image: rabbitmq:3.9.11-management-alpine
-    container_name: rabbitmq
-    environment:
-      TZ: ${TZ:-Europe/Paris}}
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # backing-mq:
+  #   image: rabbitmq:3.9.11-management-alpine
+  #   container_name: rabbitmq
+  #   environment:
+  #     TZ: ${TZ:-Europe/Paris}}
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
 
-  # CORE
-  service-authentication:
-    build:
-      args:
-        SERVICE_NAME: authentication
-      dockerfile: Dockerfile.dev
-    container_name: authentication
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  service-customer:
-    build:
-      args:
-        SERVICE_NAME: customer
-      dockerfile: Dockerfile.dev
-    container_name: customer
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  service-notification:
-    build:
-      args:
-        SERVICE_NAME: notification
-      dockerfile: Dockerfile.dev
-    container_name: notification
-    environment:
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      TWILIO_SID: ${TWILIO_SID}
-      TWILIO_TOKEN: ${TWILIO_TOKEN}
-      TWILIO_NUM: ${TWILIO_NUM}
-      RABBITMQ_URI: ${RABBITMQ_URI}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-      - backing-mq
-
-  service-order:
-    build:
-      args:
-        SERVICE_NAME: order
-      dockerfile: Dockerfile.dev
-    container_name: order
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      RABBITMQ_URI: ${RABBITMQ_URI}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-      - backing-mq
-
-  service-product:
-    build:
-      args:
-        SERVICE_NAME: product
-      dockerfile: Dockerfile.dev
-    container_name: product
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  service-store:
-    build:
-      args:
-        SERVICE_NAME: store
-      dockerfile: Dockerfile.dev
-    container_name: store
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  # BACK-OFFICE
-  service-customisation:
-    build:
-      args:
-        SERVICE_NAME: customisation
-      dockerfile: Dockerfile.dev
-    container_name: customisation
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  # service-payment:
+  # # CORE
+  # service-authentication:
   #   build:
   #     args:
-  #       SERVICE_NAME: payment
+  #       SERVICE_NAME: authentication
   #     dockerfile: Dockerfile.dev
-  #   container_name: payment
+  #   container_name: authentication
   #   environment:
   #     EUREKA_URI: ${EUREKA_URI}
   #     TZ: ${TZ}
@@ -202,50 +83,181 @@ services:
   #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
   #   depends_on:
   #     - service-gateway
-  #     - postgres
+  #     - backing-db
 
-  service-subscription:
-    build:
-      args:
-        SERVICE_NAME: subscription
-      dockerfile: Dockerfile.dev
-    container_name: subscription
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  service-ticket:
-    build:
-      args:
-        SERVICE_NAME: ticket
-      dockerfile: Dockerfile.dev
-    container_name: ticket
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-
-  # test-integration:
-  #   container_name: integration
+  # service-customer:
   #   build:
-  #     context: ./integration
+  #     args:
+  #       SERVICE_NAME: customer
+  #     dockerfile: Dockerfile.dev
+  #   container_name: customer
   #   environment:
-  #     CI_STAGE: ${CI_STAGE:-staging}
-  #     API_URI: ${API_URI}
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
   #   depends_on:
-  #     - service-authentication
+  #     - service-gateway
+  #     - backing-db
+
+  # service-notification:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: notification
+  #     dockerfile: Dockerfile.dev
+  #   container_name: notification
+  #   environment:
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     TWILIO_SID: ${TWILIO_SID}
+  #     TWILIO_TOKEN: ${TWILIO_TOKEN}
+  #     TWILIO_NUM: ${TWILIO_NUM}
+  #     RABBITMQ_URI: ${RABBITMQ_URI}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+  #     - backing-mq
+
+  # service-order:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: order
+  #     dockerfile: Dockerfile.dev
+  #   container_name: order
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     RABBITMQ_URI: ${RABBITMQ_URI}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+  #     - backing-mq
+
+  # service-product:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: product
+  #     dockerfile: Dockerfile.dev
+  #   container_name: product
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+
+  # service-store:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: store
+  #     dockerfile: Dockerfile.dev
+  #   container_name: store
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+
+  # # BACK-OFFICE
+  # service-customisation:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: customisation
+  #     dockerfile: Dockerfile.dev
+  #   container_name: customisation
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+
+  # # service-payment:
+  # #   build:
+  # #     args:
+  # #       SERVICE_NAME: payment
+  # #     dockerfile: Dockerfile.dev
+  # #   container_name: payment
+  # #   environment:
+  # #     EUREKA_URI: ${EUREKA_URI}
+  # #     TZ: ${TZ}
+  # #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  # #     DB_URI: ${DB_URI}
+  # #     DB_USER: ${DB_USER}
+  # #     DB_PASS: ${DB_PASS}
+  # #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  # #   depends_on:
+  # #     - service-gateway
+  # #     - postgres
+
+  # service-subscription:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: subscription
+  #     dockerfile: Dockerfile.dev
+  #   container_name: subscription
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+
+  # service-ticket:
+  #   build:
+  #     args:
+  #       SERVICE_NAME: ticket
+  #     dockerfile: Dockerfile.dev
+  #   container_name: ticket
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+
+  # # test-integration:
+  # #   container_name: integration
+  # #   build:
+  # #     context: ./integration
+  # #   environment:
+  # #     CI_STAGE: ${CI_STAGE:-staging}
+  # #     API_URI: ${API_URI}
+  # #   depends_on:
+  # #     - service-authentication

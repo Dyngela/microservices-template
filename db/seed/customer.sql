@@ -613,4 +613,3 @@ VALUES
   ('Oprah','Hickman','h-oprah1517@hotmail.net','1-675-254-3584','%B2545377367126133^OnbpdvcWjcnwl^75028129? ','2023-01-25 23:32:39',null,null,3),
   ('Keefe','Franklin','franklin.keefe8949@icloud.ca','1-883-842-9685','%B7216433394291775^NuinndjCbhdgw^5605406694?4','2023-01-27 22:07:55',null,null,4),
   ('Rogan','Valenzuela','rogan.valenzuela9933@protonmail.org','(282) 517-2823','%B5085574327325682^IlwjnulFrneka^8011278722?6','2023-03-23 13:51:50',null,null,4);
-
