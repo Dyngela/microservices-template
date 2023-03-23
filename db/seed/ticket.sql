@@ -1,5 +1,3 @@
-
-
 create table if not exists ticket (
     ticket_id serial not null,
     title varchar not null,

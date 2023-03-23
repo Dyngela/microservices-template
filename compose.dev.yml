@@ -6,8 +6,6 @@ services:
     build:
       args:
         SERVICE_NAME: eureka-server
-        UID: ${UID}
-        GID: ${GID}
       dockerfile: Dockerfile.dev
     container_name: eureka-server
     environment:
@@ -22,6 +20,7 @@ services:
     build:
       args:
         SERVICE_NAME: gateway
+      dockerfile: Dockerfile.dev
     container_name: gateway
     environment:
       EUREKA_URI: ${EUREKA_URI}
@@ -241,12 +240,12 @@ services:
       - service-gateway
       - backing-db
 
-  test-integration:
-    container_name: integration
-    build:
-      context: ./integration
-    environment:
-      CI_STAGE: ${CI_STAGE:-staging}
-      API_URI: ${API_URI}
-    depends_on:
-      - service-authentication
+  # test-integration:
+  #   container_name: integration
+  #   build:
+  #     context: ./integration
+  #   environment:
+  #     CI_STAGE: ${CI_STAGE:-staging}
+  #     API_URI: ${API_URI}
+  #   depends_on:
+  #     - service-authentication
