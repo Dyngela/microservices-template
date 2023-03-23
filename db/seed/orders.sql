@@ -28,7 +28,6 @@ create table if not exists purchase (
     primary key (purchase_id)
 );
 
-ALTER SEQUENCE public.orders_order_id_seq RESTART WITH 1;
 INSERT INTO orders (total_price,assigned_to,order_payed,status,store_id,customer_id,created_at,deleted_at,updated_at)
 VALUES
   ('331.47',1,'true','ready',2,18,'2023-02-23 05:08:42',null,null),
@@ -531,7 +530,7 @@ VALUES
   ('514.71',2,'true','waiting',4,48,'2023-03-21 23:48:17',null,null),
   ('128.82',3,'true','waiting',1,32,'2023-03-04 18:43:16',null,null),
   ('220.45',2,'true','ready',3,75,'2023-03-04 20:51:36',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('62.29',4,'false','waiting',2,135,'2023-01-23 23:52:21',null,null),
   ('124.22',3,'true','ready',3,142,'2023-03-03 05:22:35',null,null),
@@ -543,7 +542,7 @@ VALUES
   ('299.70',3,'true','waiting',1,397,'2023-03-11 18:18:53',null,null),
   ('131.98',4,'true','waiting',3,447,'2023-03-07 19:29:24',null,null),
   ('375.80',5,'false','waiting',1,287,'2023-01-15 07:24:14',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('118.20',1,'true','payed',2,112,'2023-02-27 15:30:19',null,null),
   ('365.78',4,'true','waiting',4,200,'2023-03-28 02:00:46',null,null),
@@ -555,7 +554,7 @@ VALUES
   ('421.90',4,'false','ready',2,412,'2023-01-18 23:35:17',null,null),
   ('102.93',3,'false','ready',2,187,'2023-02-11 01:59:06',null,null),
   ('24.78',1,'false','waiting',1,124,'2023-01-28 22:36:47',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('361.82',4,'false','payed',1,258,'2023-02-02 09:49:47',null,null),
   ('223.55',1,'false','ready',1,461,'2023-02-14 01:36:00',null,null),
@@ -567,7 +566,7 @@ VALUES
   ('191.84',4,'false','payed',4,326,'2023-02-19 18:48:22',null,null),
   ('21.32',5,'false','waiting',2,20,'2023-01-04 06:20:39',null,null),
   ('455.61',5,'true','ready',2,146,'2023-02-12 23:48:35',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('390.29',2,'false','ready',4,84,'2023-02-05 22:57:09',null,null),
   ('5.98',4,'true','payed',2,234,'2023-01-15 16:45:56',null,null),
@@ -579,7 +578,7 @@ VALUES
   ('361.30',4,'true','waiting',3,7,'2023-01-15 21:50:24',null,null),
   ('485.89',2,'true','payed',3,368,'2023-03-01 14:16:09',null,null),
   ('472.85',4,'true','waiting',3,438,'2023-01-13 01:33:13',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('326.65',2,'true','waiting',4,392,'2023-01-12 23:46:43',null,null),
   ('290.39',1,'false','ready',2,379,'2023-02-04 13:39:16',null,null),
@@ -591,7 +590,7 @@ VALUES
   ('25.05',3,'false','ready',4,326,'2023-02-05 21:12:09',null,null),
   ('365.74',2,'false','payed',2,256,'2023-03-03 11:47:23',null,null),
   ('345.31',4,'true','ready',3,324,'2023-01-19 11:43:06',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('120.70',1,'false','ready',3,182,'2023-01-26 08:19:19',null,null),
   ('433.04',4,'true','ready',1,479,'2023-01-25 14:46:51',null,null),
@@ -603,7 +602,7 @@ VALUES
   ('84.49',2,'true','payed',3,367,'2023-03-04 19:43:18',null,null),
   ('347.76',2,'true','payed',1,314,'2023-02-01 00:37:34',null,null),
   ('314.73',5,'true','payed',4,193,'2023-03-28 12:37:42',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('22.52',3,'true','payed',2,395,'2023-02-20 09:08:48',null,null),
   ('109.79',2,'true','ready',2,341,'2023-03-28 03:03:45',null,null),
@@ -615,7 +614,7 @@ VALUES
   ('159.73',2,'false','waiting',2,465,'2023-02-09 11:22:48',null,null),
   ('181.68',2,'true','payed',1,66,'2023-02-28 04:54:29',null,null),
   ('300.75',5,'false','waiting',3,398,'2023-02-01 02:57:23',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('325.63',3,'true','payed',4,428,'2023-02-19 00:45:20',null,null),
   ('472.86',1,'true','waiting',2,373,'2023-02-23 16:55:36',null,null),
@@ -627,7 +626,7 @@ VALUES
   ('42.99',5,'false','ready',4,216,'2023-01-02 16:36:15',null,null),
   ('484.12',5,'true','payed',3,235,'2023-03-17 09:08:50',null,null),
   ('364.56',3,'true','waiting',2,327,'2023-03-01 07:44:43',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('370.53',1,'true','ready',1,397,'2023-03-10 22:42:51',null,null),
   ('446.97',1,'false','ready',3,140,'2023-03-07 03:05:12',null,null),
@@ -639,7 +638,7 @@ VALUES
   ('445.59',1,'true','waiting',3,386,'2023-01-16 14:48:36',null,null),
   ('72.28',3,'false','payed',4,449,'2023-02-06 10:39:47',null,null),
   ('91.58',5,'true','ready',1,87,'2023-02-27 06:54:29',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('194.25',4,'false','waiting',3,281,'2023-02-20 20:41:49',null,null),
   ('409.56',4,'false','ready',4,478,'2023-01-02 22:05:53',null,null),
@@ -651,7 +650,7 @@ VALUES
   ('144.73',2,'true','waiting',2,386,'2023-01-07 18:36:30',null,null),
   ('161.25',2,'true','ready',1,135,'2023-01-05 13:38:21',null,null),
   ('448.77',3,'true','ready',3,325,'2023-02-06 16:09:36',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('171.51',4,'false','ready',3,59,'2023-03-06 11:31:43',null,null),
   ('50.53',1,'false','ready',2,2,'2023-02-21 07:12:10',null,null),
@@ -663,7 +662,7 @@ VALUES
   ('230.73',3,'false','payed',3,243,'2023-01-02 00:38:39',null,null),
   ('320.92',5,'true','waiting',4,69,'2023-01-02 04:36:33',null,null),
   ('200.11',4,'false','waiting',1,166,'2023-03-13 11:21:53',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('55.39',1,'true','ready',3,302,'2023-01-06 23:37:30',null,null),
   ('454.13',5,'true','payed',2,133,'2023-01-02 22:53:47',null,null),
@@ -675,7 +674,7 @@ VALUES
   ('277.79',3,'false','ready',1,499,'2023-02-07 14:09:43',null,null),
   ('231.83',4,'true','payed',2,101,'2023-02-06 17:36:31',null,null),
   ('325.39',1,'false','ready',3,358,'2023-03-05 05:11:04',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('37.54',3,'false','ready',3,496,'2023-03-25 21:04:59',null,null),
   ('215.30',1,'false','payed',3,219,'2023-03-22 21:50:21',null,null),
@@ -687,7 +686,7 @@ VALUES
   ('53.37',2,'true','ready',2,432,'2023-02-20 12:04:27',null,null),
   ('227.45',3,'true','waiting',3,88,'2023-01-09 05:52:30',null,null),
   ('463.43',2,'true','ready',4,478,'2023-02-11 07:58:15',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('88.30',3,'false','waiting',3,160,'2023-03-16 22:41:14',null,null),
   ('265.20',3,'false','ready',2,188,'2023-01-03 01:23:51',null,null),
@@ -699,7 +698,7 @@ VALUES
   ('478.21',1,'true','payed',4,252,'2023-02-15 08:28:20',null,null),
   ('391.02',2,'true','ready',4,128,'2023-02-05 02:37:20',null,null),
   ('160.18',2,'false','waiting',2,154,'2023-02-24 10:48:52',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('430.53',2,'true','waiting',2,164,'2023-01-05 16:16:47',null,null),
   ('457.56',3,'true','ready',3,366,'2023-03-14 01:26:54',null,null),
@@ -711,7 +710,7 @@ VALUES
   ('125.59',2,'false','payed',2,45,'2023-03-21 11:27:00',null,null),
   ('290.59',3,'false','payed',3,116,'2023-01-14 05:13:00',null,null),
   ('147.37',1,'true','ready',3,160,'2023-03-22 12:33:58',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('136.18',2,'true','payed',2,429,'2023-01-16 21:31:45',null,null),
   ('312.65',4,'true','ready',3,206,'2023-03-28 01:53:44',null,null),
@@ -723,7 +722,7 @@ VALUES
   ('393.11',5,'false','ready',1,412,'2023-01-25 21:45:19',null,null),
   ('65.63',2,'true','ready',2,439,'2023-01-04 03:24:07',null,null),
   ('157.25',1,'false','waiting',4,168,'2023-02-01 12:17:23',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('135.55',2,'true','ready',1,126,'2023-02-26 19:04:37',null,null),
   ('222.10',2,'true','waiting',2,495,'2023-01-19 19:41:10',null,null),
@@ -735,7 +734,7 @@ VALUES
   ('254.53',3,'true','ready',4,255,'2023-02-21 00:21:17',null,null),
   ('237.27',2,'false','waiting',3,257,'2023-03-14 02:30:42',null,null),
   ('17.17',3,'true','waiting',4,90,'2023-03-01 09:37:23',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('148.47',2,'true','ready',4,341,'2023-02-01 06:48:29',null,null),
   ('290.42',5,'false','ready',4,182,'2023-03-03 07:49:20',null,null),
@@ -747,7 +746,7 @@ VALUES
   ('247.08',5,'true','payed',3,449,'2023-03-15 13:05:14',null,null),
   ('354.16',5,'false','ready',2,54,'2023-01-15 08:05:43',null,null),
   ('113.70',4,'false','payed',3,416,'2023-02-14 18:52:05',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('258.88',4,'true','waiting',3,116,'2023-02-03 04:50:27',null,null),
   ('87.92',3,'true','ready',4,340,'2023-02-12 10:57:35',null,null),
@@ -759,7 +758,7 @@ VALUES
   ('45.45',1,'true','payed',1,338,'2023-02-23 18:20:54',null,null),
   ('116.32',1,'true','ready',3,233,'2023-02-23 21:33:06',null,null),
   ('339.59',4,'false','ready',4,485,'2023-01-03 12:10:54',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('316.43',3,'true','ready',3,428,'2023-01-07 10:11:57',null,null),
   ('65.62',3,'true','payed',4,271,'2023-03-13 19:13:07',null,null),
@@ -771,7 +770,7 @@ VALUES
   ('235.47',2,'false','payed',2,396,'2023-01-13 15:36:18',null,null),
   ('16.51',2,'false','ready',2,122,'2023-02-23 21:23:54',null,null),
   ('409.64',4,'true','ready',3,294,'2023-03-06 03:27:11',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('260.52',3,'true','payed',3,341,'2023-03-27 05:58:39',null,null),
   ('453.12',1,'true','payed',3,402,'2023-03-03 18:25:03',null,null),
@@ -783,7 +782,7 @@ VALUES
   ('48.40',3,'true','payed',2,412,'2023-02-17 05:01:45',null,null),
   ('50.97',1,'true','ready',2,273,'2023-03-12 03:37:53',null,null),
   ('242.21',4,'true','ready',2,415,'2023-03-10 13:08:22',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('206.79',3,'false','waiting',2,332,'2023-02-07 14:46:55',null,null),
   ('201.60',3,'true','ready',2,451,'2023-01-25 08:31:28',null,null),
@@ -795,7 +794,7 @@ VALUES
   ('200.22',4,'true','payed',4,126,'2023-03-28 16:00:25',null,null),
   ('182.17',3,'false','ready',2,191,'2023-01-22 21:04:44',null,null),
   ('113.47',2,'false','payed',3,429,'2023-03-26 13:14:20',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('482.85',3,'false','ready',3,146,'2023-03-03 15:40:23',null,null),
   ('272.09',5,'true','ready',4,27,'2023-01-26 23:05:36',null,null),
@@ -807,7 +806,7 @@ VALUES
   ('112.16',4,'false','payed',1,200,'2023-01-23 01:21:32',null,null),
   ('404.19',2,'true','payed',2,425,'2023-01-09 06:50:52',null,null),
   ('415.85',3,'false','ready',2,482,'2023-01-05 08:06:47',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('491.04',4,'true','ready',4,381,'2023-02-25 12:38:28',null,null),
   ('140.85',2,'false','payed',3,325,'2023-03-05 05:03:25',null,null),
@@ -819,7 +818,7 @@ VALUES
   ('439.63',5,'true','waiting',2,328,'2023-03-26 17:25:10',null,null),
   ('24.30',2,'true','payed',2,79,'2023-01-23 23:52:13',null,null),
   ('106.40',5,'true','ready',2,433,'2023-01-29 00:46:44',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('273.77',3,'true','payed',2,170,'2023-03-04 18:13:19',null,null),
   ('374.15',2,'false','payed',2,419,'2023-03-21 23:27:51',null,null),
@@ -831,7 +830,7 @@ VALUES
   ('470.53',3,'true','payed',2,251,'2023-03-26 20:42:01',null,null),
   ('418.55',3,'false','payed',1,75,'2023-01-08 05:51:19',null,null),
   ('75.55',3,'false','payed',3,259,'2023-01-09 03:42:23',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('83.16',4,'true','waiting',3,439,'2023-01-20 12:05:23',null,null),
   ('281.67',4,'true','payed',3,298,'2023-01-11 03:35:45',null,null),
@@ -843,7 +842,7 @@ VALUES
   ('497.54',2,'false','waiting',3,268,'2023-03-09 22:52:20',null,null),
   ('29.54',2,'false','ready',4,429,'2023-01-27 23:32:15',null,null),
   ('77.21',3,'false','ready',3,495,'2023-03-07 16:32:17',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('107.28',5,'false','ready',1,422,'2023-01-07 18:14:11',null,null),
   ('281.21',4,'true','ready',2,318,'2023-02-08 16:31:31',null,null),
@@ -855,7 +854,7 @@ VALUES
   ('397.17',2,'true','ready',2,385,'2023-02-16 22:38:20',null,null),
   ('146.23',2,'true','waiting',2,143,'2023-02-09 17:14:01',null,null),
   ('189.19',2,'true','ready',2,327,'2023-01-03 19:58:28',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('452.50',4,'true','ready',3,346,'2023-01-13 11:57:39',null,null),
   ('329.16',5,'true','payed',4,293,'2023-02-01 20:41:06',null,null),
@@ -867,7 +866,7 @@ VALUES
   ('360.63',3,'false','ready',2,115,'2023-03-10 21:21:56',null,null),
   ('354.35',3,'false','ready',2,155,'2023-02-10 15:55:43',null,null),
   ('80.29',4,'false','ready',2,353,'2023-03-21 22:38:21',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('320.30',1,'false','ready',3,208,'2023-02-17 16:11:41',null,null),
   ('394.22',2,'false','ready',2,455,'2023-01-04 17:16:02',null,null),
@@ -879,7 +878,7 @@ VALUES
   ('405.91',2,'true','payed',3,451,'2023-02-06 14:20:43',null,null),
   ('351.34',5,'false','ready',4,128,'2023-03-26 10:08:10',null,null),
   ('472.13',2,'false','ready',2,356,'2023-03-22 17:40:19',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('61.91',4,'false','payed',2,354,'2023-03-05 11:07:25',null,null),
   ('234.04',3,'true','ready',2,74,'2023-03-28 15:43:20',null,null),
@@ -891,7 +890,7 @@ VALUES
   ('254.43',4,'false','payed',3,458,'2023-03-24 06:40:31',null,null),
   ('347.76',1,'true','payed',4,423,'2023-03-17 21:46:12',null,null),
   ('267.85',3,'true','waiting',2,33,'2023-02-12 01:00:33',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('420.04',3,'false','payed',2,196,'2023-01-14 00:41:34',null,null),
   ('357.74',4,'true','ready',1,75,'2023-01-10 19:07:35',null,null),
@@ -903,7 +902,7 @@ VALUES
   ('353.53',2,'false','payed',2,192,'2023-03-06 14:51:06',null,null),
   ('230.32',3,'true','ready',2,450,'2023-02-18 06:20:55',null,null),
   ('215.33',1,'false','ready',4,266,'2023-03-26 14:13:41',null,null);
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
+INSERT INTO orders (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
 VALUES
   ('302.08',2,'true','ready',3,116,'2023-03-27 07:34:59',null,null),
   ('497.55',3,'false','ready',2,397,'2023-01-13 05:26:25',null,null),
@@ -914,10 +913,7 @@ VALUES
   ('474.07',4,'false','ready',2,418,'2023-02-17 13:55:46',null,null),
   ('112.61',4,'false','waiting',1,453,'2023-01-24 07:18:01',null,null),
   ('111.52',1,'false','ready',3,113,'2023-01-25 20:08:22',null,null),
-  ('391.81',3,'true','payed',3,371,'2023-02-27 06:14:11',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('391.81',3,'true','payed',3,371,'2023-02-27 06:14:11',null,null),
   ('315.31',1,'true','payed',2,373,'2023-01-25 23:31:13',null,null),
   ('163.11',5,'true','waiting',3,112,'2023-01-26 15:45:47',null,null),
   ('60.65',4,'true','ready',2,479,'2023-01-07 04:02:48',null,null),
@@ -927,10 +923,7 @@ VALUES
   ('495.82',4,'true','payed',2,247,'2023-02-09 15:22:14',null,null),
   ('103.50',2,'true','payed',2,414,'2023-02-12 10:57:47',null,null),
   ('61.02',4,'true','ready',3,415,'2023-03-21 04:34:58',null,null),
-  ('40.02',3,'true','ready',3,169,'2023-01-02 06:29:28',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('40.02',3,'true','ready',3,169,'2023-01-02 06:29:28',null,null),
   ('156.15',5,'true','payed',2,480,'2023-01-23 20:46:08',null,null),
   ('206.79',5,'true','ready',3,36,'2023-03-11 13:01:55',null,null),
   ('25.54',3,'true','waiting',3,331,'2023-03-07 17:32:32',null,null),
@@ -940,10 +933,7 @@ VALUES
   ('85.75',3,'true','payed',3,361,'2023-02-11 17:10:53',null,null),
   ('59.20',1,'true','ready',2,475,'2023-01-31 17:39:28',null,null),
   ('99.92',2,'false','payed',1,389,'2023-01-19 14:32:39',null,null),
-  ('347.07',4,'false','payed',1,300,'2023-02-03 21:00:17',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('347.07',4,'false','payed',1,300,'2023-02-03 21:00:17',null,null),
   ('213.25',3,'true','waiting',2,254,'2023-03-01 07:04:56',null,null),
   ('186.21',4,'true','waiting',3,100,'2023-01-29 17:03:55',null,null),
   ('483.73',3,'true','ready',1,254,'2023-01-27 10:37:34',null,null),
@@ -953,10 +943,7 @@ VALUES
   ('92.01',2,'false','ready',2,142,'2023-01-14 01:52:15',null,null),
   ('65.85',4,'false','ready',1,230,'2023-01-19 17:17:05',null,null),
   ('463.14',3,'true','ready',2,407,'2023-03-12 14:44:43',null,null),
-  ('326.63',2,'true','ready',2,355,'2023-01-20 00:06:54',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('326.63',2,'true','ready',2,355,'2023-01-20 00:06:54',null,null),
   ('262.47',4,'true','payed',3,456,'2023-01-28 17:30:25',null,null),
   ('70.86',2,'true','waiting',3,19,'2023-02-22 12:29:57',null,null),
   ('93.44',3,'true','waiting',3,12,'2023-02-18 09:06:27',null,null),
@@ -966,10 +953,7 @@ VALUES
   ('427.41',3,'false','ready',1,340,'2023-03-06 14:22:50',null,null),
   ('416.19',1,'false','ready',1,438,'2023-02-01 08:55:17',null,null),
   ('490.36',3,'false','payed',2,79,'2023-01-24 01:14:03',null,null),
-  ('438.51',2,'false','waiting',3,376,'2023-02-20 23:19:26',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('438.51',2,'false','waiting',3,376,'2023-02-20 23:19:26',null,null),
   ('239.03',2,'false','ready',2,457,'2023-02-08 07:41:45',null,null),
   ('403.50',1,'true','payed',3,357,'2023-03-22 06:48:13',null,null),
   ('444.24',2,'true','ready',3,303,'2023-03-21 22:41:17',null,null),
@@ -979,10 +963,7 @@ VALUES
   ('114.73',2,'true','ready',4,195,'2023-03-13 20:34:32',null,null),
   ('459.47',4,'true','ready',2,243,'2023-03-02 20:49:52',null,null),
   ('463.45',4,'false','payed',2,133,'2023-01-15 10:46:09',null,null),
-  ('420.26',3,'true','ready',2,97,'2023-02-12 13:14:43',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('420.26',3,'true','ready',2,97,'2023-02-12 13:14:43',null,null),
   ('97.00',3,'true','waiting',2,140,'2023-01-14 04:53:51',null,null),
   ('349.96',3,'false','ready',3,487,'2023-03-14 06:14:11',null,null),
   ('371.60',3,'true','ready',4,182,'2023-01-23 01:25:16',null,null),
@@ -992,10 +973,7 @@ VALUES
   ('83.84',4,'true','waiting',3,345,'2023-01-06 07:58:01',null,null),
   ('161.53',1,'false','payed',1,370,'2023-01-12 23:30:31',null,null),
   ('382.60',2,'false','payed',2,389,'2023-01-18 06:13:36',null,null),
-  ('457.82',4,'false','payed',3,112,'2023-02-14 12:38:17',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('457.82',4,'false','payed',3,112,'2023-02-14 12:38:17',null,null),
   ('32.79',5,'false','payed',3,27,'2023-03-11 10:26:01',null,null),
   ('94.03',4,'false','waiting',1,483,'2023-01-17 10:43:10',null,null),
   ('456.88',4,'false','payed',3,38,'2023-03-05 00:18:24',null,null),
@@ -1005,10 +983,7 @@ VALUES
   ('446.56',1,'true','ready',2,199,'2023-01-05 20:34:04',null,null),
   ('478.24',2,'false','payed',1,124,'2023-01-11 00:27:57',null,null),
   ('361.13',5,'true','ready',1,414,'2023-03-14 11:57:43',null,null),
-  ('451.35',2,'true','payed',3,109,'2023-01-20 21:25:06',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('451.35',2,'true','payed',3,109,'2023-01-20 21:25:06',null,null),
   ('386.63',3,'false','payed',1,361,'2023-02-14 23:04:46',null,null),
   ('345.89',2,'true','ready',2,474,'2023-03-28 09:41:49',null,null),
   ('138.84',2,'false','ready',2,472,'2023-01-06 23:42:46',null,null),
@@ -1018,10 +993,7 @@ VALUES
   ('312.84',4,'true','ready',3,45,'2023-03-27 04:02:29',null,null),
   ('279.64',2,'false','waiting',1,115,'2023-02-02 08:38:23',null,null),
   ('442.00',3,'false','ready',3,93,'2023-02-19 16:44:49',null,null),
-  ('193.79',2,'false','waiting',3,9,'2023-02-15 06:26:15',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('193.79',2,'false','waiting',3,9,'2023-02-15 06:26:15',null,null),
   ('495.21',4,'true','waiting',2,95,'2023-03-06 16:25:47',null,null),
   ('394.25',4,'true','ready',2,66,'2023-01-28 22:51:13',null,null),
   ('131.75',5,'true','ready',3,91,'2023-02-05 03:43:34',null,null),
@@ -1031,10 +1003,7 @@ VALUES
   ('365.68',3,'true','waiting',2,16,'2023-03-22 08:47:47',null,null),
   ('86.44',5,'false','waiting',2,176,'2023-01-27 18:42:41',null,null),
   ('350.62',3,'false','waiting',4,218,'2023-03-24 00:29:14',null,null),
-  ('341.29',3,'false','payed',4,216,'2023-01-25 22:23:35',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('341.29',3,'false','payed',4,216,'2023-01-25 22:23:35',null,null),
   ('83.39',3,'true','ready',3,51,'2023-01-06 17:40:00',null,null),
   ('174.94',2,'true','ready',4,423,'2023-03-21 05:49:44',null,null),
   ('280.37',2,'true','ready',2,245,'2023-03-01 04:24:12',null,null),
@@ -1044,10 +1013,7 @@ VALUES
   ('15.93',3,'true','ready',4,426,'2023-02-25 15:09:38',null,null),
   ('283.33',4,'true','waiting',2,367,'2023-03-07 16:53:49',null,null),
   ('313.90',4,'true','payed',3,193,'2023-01-11 02:14:26',null,null),
-  ('218.64',4,'true','ready',3,183,'2023-02-04 05:19:07',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('218.64',4,'true','ready',3,183,'2023-02-04 05:19:07',null,null),
   ('288.35',3,'false','payed',4,111,'2023-03-09 22:36:21',null,null),
   ('499.88',2,'false','waiting',3,147,'2023-03-04 06:59:09',null,null),
   ('442.60',3,'true','waiting',4,363,'2023-01-25 22:21:00',null,null),
@@ -1057,10 +1023,7 @@ VALUES
   ('375.83',3,'false','ready',1,395,'2023-02-20 16:19:52',null,null),
   ('489.60',2,'false','ready',1,423,'2023-02-03 18:51:47',null,null),
   ('370.59',5,'false','waiting',2,72,'2023-03-07 14:56:46',null,null),
-  ('289.12',4,'true','ready',2,454,'2023-01-30 06:33:57',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('289.12',4,'true','ready',2,454,'2023-01-30 06:33:57',null,null),
   ('103.56',3,'true','waiting',2,28,'2023-01-06 07:50:22',null,null),
   ('229.56',3,'false','ready',3,334,'2023-02-28 04:33:46',null,null),
   ('439.78',2,'true','ready',2,456,'2023-01-11 07:10:23',null,null),
@@ -1070,10 +1033,7 @@ VALUES
   ('473.57',4,'false','waiting',2,421,'2023-01-31 04:31:47',null,null),
   ('395.68',3,'true','waiting',2,478,'2023-02-03 20:01:03',null,null),
   ('392.69',5,'false','payed',3,70,'2023-01-13 05:01:42',null,null),
-  ('207.93',1,'false','ready',3,471,'2023-01-03 00:55:34',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('207.93',1,'false','ready',3,471,'2023-01-03 00:55:34',null,null),
   ('325.51',4,'true','ready',2,72,'2023-01-05 18:40:31',null,null),
   ('320.65',2,'false','ready',3,339,'2023-02-19 03:11:49',null,null),
   ('69.51',3,'false','waiting',4,278,'2023-01-07 15:44:27',null,null),
@@ -1083,10 +1043,7 @@ VALUES
   ('188.88',4,'true','ready',3,170,'2023-02-14 01:15:35',null,null),
   ('225.74',2,'false','payed',1,273,'2023-01-12 21:35:06',null,null),
   ('383.89',4,'false','waiting',1,105,'2023-03-02 16:35:00',null,null),
-  ('43.45',1,'false','ready',4,77,'2023-02-01 23:20:11',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('43.45',1,'false','ready',4,77,'2023-02-01 23:20:11',null,null),
   ('453.15',4,'true','ready',2,392,'2023-02-06 21:53:51',null,null),
   ('337.88',2,'true','waiting',3,357,'2023-03-17 11:03:42',null,null),
   ('153.11',4,'false','waiting',3,35,'2023-01-07 16:50:19',null,null),
@@ -1096,10 +1053,7 @@ VALUES
   ('390.33',2,'true','ready',4,202,'2023-02-15 08:16:53',null,null),
   ('498.08',2,'true','ready',2,415,'2023-02-21 10:31:36',null,null),
   ('435.92',2,'false','ready',2,489,'2023-02-18 16:43:46',null,null),
-  ('199.20',4,'false','ready',1,427,'2023-02-14 07:16:58',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('199.20',4,'false','ready',1,427,'2023-02-14 07:16:58',null,null),
   ('377.61',3,'true','ready',4,354,'2023-03-13 23:01:57',null,null),
   ('351.80',3,'true','waiting',2,266,'2023-02-07 02:59:10',null,null),
   ('173.61',3,'true','ready',2,114,'2023-02-20 01:52:48',null,null),
@@ -1109,10 +1063,7 @@ VALUES
   ('122.12',5,'false','ready',2,254,'2023-01-23 07:32:44',null,null),
   ('293.66',4,'true','payed',2,396,'2023-02-24 20:05:27',null,null),
   ('369.74',4,'false','ready',3,143,'2023-01-05 19:18:11',null,null),
-  ('242.54',2,'false','ready',2,361,'2023-03-09 16:58:53',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('242.54',2,'false','ready',2,361,'2023-03-09 16:58:53',null,null),
   ('469.36',2,'false','waiting',2,16,'2023-02-23 19:29:48',null,null),
   ('372.03',2,'false','waiting',4,296,'2023-02-20 19:01:33',null,null),
   ('403.52',4,'true','waiting',3,417,'2023-01-05 10:53:46',null,null),
@@ -1122,10 +1073,7 @@ VALUES
   ('115.09',4,'false','payed',3,254,'2023-01-22 15:14:10',null,null),
   ('288.19',4,'false','ready',2,398,'2023-03-03 08:05:14',null,null),
   ('83.29',5,'true','ready',1,70,'2023-02-23 16:16:00',null,null),
-  ('247.76',2,'false','waiting',3,178,'2023-01-31 19:03:51',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('247.76',2,'false','waiting',3,178,'2023-01-31 19:03:51',null,null),
   ('162.61',4,'true','waiting',3,475,'2023-03-24 11:06:43',null,null),
   ('465.39',3,'false','waiting',3,15,'2023-01-23 12:33:14',null,null),
   ('44.25',4,'true','waiting',3,189,'2023-03-08 11:16:07',null,null),
@@ -1135,10 +1083,7 @@ VALUES
   ('27.90',4,'false','waiting',2,18,'2023-01-11 23:24:46',null,null),
   ('246.82',4,'false','waiting',1,324,'2023-02-12 07:40:57',null,null),
   ('447.85',4,'false','ready',3,450,'2023-03-20 00:25:02',null,null),
-  ('278.67',2,'true','ready',2,344,'2023-02-16 21:09:57',null,null);
-
-INSERT INTO order (total_price,assigned_to ,order_payed,status,store_Id,customer_Id,created_at,deleted_at,updated_at)
-VALUES
+  ('278.67',2,'true','ready',2,344,'2023-02-16 21:09:57',null,null),
   ('111.49',4,'false','payed',2,466,'2023-01-14 01:34:36',null,null),
   ('448.01',4,'true','ready',3,304,'2023-03-17 21:15:28',null,null),
   ('155.60',2,'false','payed',2,117,'2023-02-02 00:21:41',null,null),
