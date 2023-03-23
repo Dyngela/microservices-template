@@ -175,9 +175,6 @@ services:
     container_name: payment
     environment:
       TZ: ${TZ}
-    depends_on:
-      - service-gateway
-      - postgres
 
   service-subscription:
     image: ${CONTAINER_REGISTRY}/cande-subscription:latest
