@@ -1,0 +1,24 @@
+---
+services:
+
+  backing-db:
+    container_name: postgres
+    build:
+      context: ./db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+      TZ: ${TZ:-Europe/Paris}
+      PGTZ: ${TZ:-Europe/Paris}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+
+  backing-mq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    environment:
+      TZ: ${TZ:-Europe/Paris}}
+    ports:
+      - 5672:5672
+      - 15672:15672
