@@ -33,7 +33,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ProductWithoutCategory'
+                  $ref: '#/components/schemas/Product'
         404:
           description: Invalid request
           content: { }

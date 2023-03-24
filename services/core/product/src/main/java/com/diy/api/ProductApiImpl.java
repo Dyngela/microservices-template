@@ -42,8 +42,8 @@ public class ProductApiImpl implements ProductApi {
     }
 
     @Override
-    public ResponseEntity<List<ProductWithoutCategoryDto>> getAllProductByStoreId(Long storeId) {
-        return ResponseEntity.ok(productModelMapper.toProductWOCategoryDto(productService.getAllProductByStoreId(storeId)));
+    public ResponseEntity<List<ProductDto>> getAllProductByStoreId(Long storeId) {
+        return ResponseEntity.ok(productModelMapper.modelsToProductDtos(productService.getAllProductByStoreId(storeId)));
     }
 
     @Override

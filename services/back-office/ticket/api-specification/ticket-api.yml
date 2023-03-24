@@ -88,6 +88,35 @@ paths:
         404:
           description: Invalid request
           content: { }
+
+  /ticket/personal/customer/all/{customerId}:
+    get:
+      tags:
+        - ticket
+      summary: Find all tickets made by a user
+      description: Get all tickets made by a user
+      operationId: findTicketsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: The customer id we want those tickets from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        404:
+          description: Invalid request
+          content: { }
+
   /ticket/save:
     post:
       tags:

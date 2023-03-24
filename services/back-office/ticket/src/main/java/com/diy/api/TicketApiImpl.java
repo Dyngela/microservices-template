@@ -33,6 +33,11 @@ public class TicketApiImpl implements TicketApi {
     }
 
     @Override
+    public ResponseEntity<List<TicketDto>> findTicketsByCustomerId(Long customerId) {
+        return ResponseEntity.ok(mapper.modelsToDtos(service.findTicketsByCustomerId(customerId)));
+    }
+
+    @Override
     public ResponseEntity<TicketDto> findTicketById(Long ticketId) {
         return ResponseEntity.ok(mapper.modelToDto(service.findTicketById(ticketId)));
     }
@@ -46,4 +51,6 @@ public class TicketApiImpl implements TicketApi {
     public ResponseEntity<TicketDto> createTicket(TicketDto ticketDto) {
         return ResponseEntity.ok(mapper.modelToDto(service.createTicket(mapper.dtoToModel(ticketDto))));
     }
+
+
 }

@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
     List<TicketEntity> findAllByStoreIdAndSenderTypeAndDeletedAt(Long storeId, SenderType sender, LocalDateTime date);
+    List<TicketEntity> findAllByCustomerIdAndDeletedAt(Long id, LocalDateTime date);
 }

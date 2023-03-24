@@ -84,4 +84,14 @@ public class TicketService {
         }
 
     }
+
+    public List<TicketModel> findTicketsByCustomerId(Long customerId) {
+        try {
+            List<TicketEntity> entities = repository.findAllByCustomerIdAndDeletedAt(customerId, null);
+            return mapper.entitiesToModels(entities);
+        } catch (Exception e) {
+            log.error("Error while finding customers ticket: " + e.getMessage());
+            throw new ExceptionHandler("We could not find your tickets");
+        }
+    }
 }
