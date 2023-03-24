@@ -6,6 +6,8 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.diy.generated.model.OrderDto;
+import com.diy.generated.model.OrderStatusDto;
 import com.diy.generated.model.OrderWithoutPurchaseDto;
 import com.diy.generated.model.PurchaseWithoutOrderDto;
 import com.diy.mapper.OrderModelMapper;
@@ -75,14 +77,13 @@ class OrderApiImplTest {
      */
     @Test
     void testFindOrderById() {
-        when(orderModelMapper.modelToOrderWithoutPurchaseDto((OrderModel) any()))
-                .thenReturn(new OrderWithoutPurchaseDto());
+        when(orderModelMapper.modelToDto((OrderModel) any())).thenReturn(new OrderDto());
         when(orderService.findOrderById((Long) any())).thenReturn(new OrderModel());
-        ResponseEntity<OrderWithoutPurchaseDto> actualFindOrderByIdResult = orderApiImpl.findOrderById(1L);
+        ResponseEntity<OrderDto> actualFindOrderByIdResult = orderApiImpl.findOrderById(1L);
         assertTrue(actualFindOrderByIdResult.hasBody());
         assertTrue(actualFindOrderByIdResult.getHeaders().isEmpty());
         assertEquals(HttpStatus.OK, actualFindOrderByIdResult.getStatusCode());
-        verify(orderModelMapper).modelToOrderWithoutPurchaseDto((OrderModel) any());
+        verify(orderModelMapper).modelToDto((OrderModel) any());
         verify(orderService).findOrderById((Long) any());
     }
 
@@ -118,6 +119,37 @@ class OrderApiImplTest {
         assertTrue(actualFindOrdersByStoreIdResult.getHeaders().isEmpty());
         verify(orderModelMapper).modelToOrderWithoutPurchaseDto((List<OrderModel>) any());
         verify(orderService).findOrdersByStoreId((Long) any());
+    }
+
+    /**
+     * Method under test: {@link OrderApiImpl#updateOrder(OrderDto)}
+     */
+    @Test
+    void testUpdateOrder() {
+        when(orderModelMapper.modelToDto((OrderModel) any())).thenReturn(new OrderDto());
+        when(orderModelMapper.dtoToModel((OrderDto) any())).thenReturn(new OrderModel());
+        when(orderService.updateOrder((OrderModel) any())).thenReturn(new OrderModel());
+        OrderDto orderDto = new OrderDto();
+        ResponseEntity<OrderDto> actualUpdateOrderResult = orderApiImpl.updateOrder(orderDto);
+        assertEquals(orderDto, actualUpdateOrderResult.getBody());
+        assertTrue(actualUpdateOrderResult.getHeaders().isEmpty());
+        assertEquals(HttpStatus.OK, actualUpdateOrderResult.getStatusCode());
+        verify(orderModelMapper).modelToDto((OrderModel) any());
+        verify(orderModelMapper).dtoToModel((OrderDto) any());
+        verify(orderService).updateOrder((OrderModel) any());
+    }
+
+    /**
+     * Method under test: {@link OrderApiImpl#updateOrderStatus(OrderStatusDto)}
+     */
+    @Test
+    void testUpdateOrderStatus() {
+        when(orderService.changeOrderStatus((OrderStatusDto) any())).thenReturn("Change Order Status");
+        ResponseEntity<String> actualUpdateOrderStatusResult = orderApiImpl.updateOrderStatus(new OrderStatusDto());
+        assertEquals("Change Order Status", actualUpdateOrderStatusResult.getBody());
+        assertEquals(HttpStatus.OK, actualUpdateOrderStatusResult.getStatusCode());
+        assertTrue(actualUpdateOrderStatusResult.getHeaders().isEmpty());
+        verify(orderService).changeOrderStatus((OrderStatusDto) any());
     }
 }
 

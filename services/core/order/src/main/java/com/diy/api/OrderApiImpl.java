@@ -41,8 +41,8 @@ public class OrderApiImpl implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<OrderWithoutPurchaseDto> findOrderById(Long orderId) {
-        return ResponseEntity.ok(modelMapper.modelToOrderWithoutPurchaseDto(orderService.findOrderById(orderId)));
+    public ResponseEntity<OrderDto> findOrderById(Long orderId) {
+        return ResponseEntity.ok(modelMapper.modelToDto(orderService.findOrderById(orderId)));
     }
 
     @Override

@@ -84,7 +84,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderWithoutPurchase'
+                $ref: '#/components/schemas/Order'
         404:
           description: Invalid request
           content: { }
