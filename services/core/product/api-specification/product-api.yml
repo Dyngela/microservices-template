@@ -334,10 +334,6 @@ components:
         storeId:
           type: integer
           format: int64
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
 
     CategoryWithoutProduct:
       type: object
