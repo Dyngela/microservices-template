@@ -42,11 +42,11 @@ alter table if exists address add constraint address_has_store foreign key (stor
 /* ALTER SEQUENCE public.address_address_id_seq RESTART WITH 1; */
 /* ALTER SEQUENCE public.store_store_id_seq RESTART WITH 1; */
 
-insert into store values (1, 'Google',          'google@gmail.com',    'Tai',      'Mui',        '+90 678 443 223',   'Hardware', '8883999332', '0x9343e240EED5Bc29b93d682d2003a3527F8B28fA', now(), null, null, 1);
-insert into store values (2, 'Flower and co',   'flower@gmail.com',    'Erwan',    'Nutz',       '+33 7 70 17 98 18', 'Flower',   '3443443434', '0x9343e240EED5Bc29b93d682d2003a3527F8B28fA', now(), null, null, 2);
-insert into store values (3, 'Your food',       'your.food@gmail.com', 'Aymeric',  'Guth',       '+33 7 70 17 98 18', 'Aliments', '4355758778', '0x9343e240EED5Bc29b93d682d2003a3527F8B28fA', now(), null, null, 1);
-insert into store values (4, 'Leclerc small',   'leclerc@gmail.com',   'Mandy',    'Spigarelli', '+33 7 70 17 98 18', 'Aliments', '0876896788', '0x9343e240EED5Bc29b93d682d2003a3527F8B28fA', now(), null, null, 3);
-insert into store values (5, 'Rose and Jasmin', 'rosejasm@gmail.com',  'Matthieu', 'François',   '+33 7 70 17 98 18', 'Flower',   '1235432563', '0x9343e240EED5Bc29b93d682d2003a3527F8B28fA', now(), now(), now(), 1);
+insert into store values (1, 'Google',          'google@gmail.com',    'Tai',      'Mui',        '+90 678 443 223',   'Hardware', '8883999332', '0x0000000000000000000000000000000000000000000000000000000000000000', now(), null, null, 1);
+insert into store values (2, 'Flower and co',   'flower@gmail.com',    'Erwan',    'Nutz',       '+33 7 70 17 98 18', 'Flower',   '3443443434', '0x0000000000000000000000000000000000000000000000000000000000000001', now(), null, null, 2);
+insert into store values (3, 'Your food',       'your.food@gmail.com', 'Aymeric',  'Guth',       '+33 7 70 17 98 18', 'Aliments', '4355758778', '0x0000000000000000000000000000000000000000000000000000000000000002', now(), null, null, 1);
+insert into store values (4, 'Leclerc small',   'leclerc@gmail.com',   'Mandy',    'Spigarelli', '+33 7 70 17 98 18', 'Aliments', '0876896788', '0x0000000000000000000000000000000000000000000000000000000000000003', now(), null, null, 3);
+insert into store values (5, 'Rose and Jasmin', 'rosejasm@gmail.com',  'Matthieu', 'François',   '+33 7 70 17 98 18', 'Flower',   '1235432563', '0x0000000000000000000000000000000000000000000000000000000000000004', now(), now(), now(), 1);
 
 insert into address values (1, 'San francisco', 'App 132', '94110', 'rue du grand Chêne', '32b', now(), null, null, 1);
 insert into address values (2, 'Paris',          null,     '93000', 'rue de Paris',       '47',  now(), null, null, 2);
@@ -55,3 +55,4 @@ insert into address values (4, 'Metz',           null,     '57000', 'rue de Metz
 insert into address values (5, 'Strasbourg',     null,     '67200', 'rue de Strasbourg',  '795', now(), null, null, 5);
 insert into address values (6, 'Schiltigheim',   null,     '67300', 'rue de Schilik',     '521', now(), null, null, 4);
 insert into address values (7, 'Bordeaux',       null,     '30072', 'rue de Bordeaux',    '634', now(), null, null, 5);
+
