@@ -236,19 +236,19 @@ job:package:ticket:
   only:
     -  main
 
-# job:package:payment:
-#   stage: package
-#   extends: .package-opts
-#   variables:
-#     SERVICE_NAME: payment
-#   script:
-#     - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./web3
-#   needs:
-#     - job:build
-#   dependencies:
-#     - job:build
-#   only:
-#     -  main
+job:package:payment:
+  stage: package
+  extends: .package-opts
+  variables:
+    SERVICE_NAME: payment
+  script:
+    - docker image build -t "${IMG_BASE}-${SERVICE_NAME}:${CI_COMMIT_SHA}" -t "${IMG_BASE}-${SERVICE_NAME}:latest" ./web3
+  needs:
+    - job:build
+  dependencies:
+    - job:build
+  only:
+    -  main
 
 ### INTEGRATION
 job:package:integration:
