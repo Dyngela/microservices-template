@@ -198,12 +198,12 @@ services:
       - service-gateway
       - backing-db
 
-  service-payment:
-    build:
-      context: ./web3
-    container_name: payment
-    environment:
-      TZ: ${TZ}
+  # service-payment:
+  #   build:
+  #     context: ./web3
+  #   container_name: payment
+  #   environment:
+  #     TZ: ${TZ}
 
   service-subscription:
     build:
