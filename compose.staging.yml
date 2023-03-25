@@ -156,11 +156,11 @@ services:
       - service-gateway
       - backing-db
 
-  # service-payment:
-  #   image: ${CONTAINER_REGISTRY}/cande-payment:latest
-  #   container_name: payment
-  #   environment:
-  #     TZ: ${TZ}
+  service-payment:
+    image: ${CONTAINER_REGISTRY}/cande-payment:latest
+    container_name: payment
+    environment:
+      TZ: ${TZ}
 
   service-subscription:
     image: ${CONTAINER_REGISTRY}/cande-subscription:latest
