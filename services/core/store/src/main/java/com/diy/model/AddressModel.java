@@ -1,6 +1,5 @@
 package com.diy.model;
 
-import com.diy.entity.StoreEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

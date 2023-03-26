@@ -3,8 +3,6 @@ package com.diy.api;
 import com.diy.generated.api.CustomisationApi;
 import com.diy.generated.model.CustomisationDto;
 import com.diy.mapper.CustomisationModelMapper;
-import com.diy.model.CustomisationModel;
-import com.diy.repository.CustomisationRepository;
 import com.diy.service.CustomisationService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

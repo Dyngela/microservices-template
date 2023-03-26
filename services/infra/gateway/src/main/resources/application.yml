@@ -30,66 +30,54 @@ spring:
           uri: lb://CUSTOMISATION
           predicates:
             - Path=/api/v1/customisation/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: payment
           uri: lb://PAYMENT
           predicates:
             - Path=/api/v1/payment/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: subscription
           uri: lb://SUBSCRIPTION
           predicates:
             - Path=/api/v1/subscription/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: ticket
           uri: lb://TICKET
           predicates:
             - Path=/api/v1/ticket/**
-#          filters:
-#            - AuthorizationFilter
 
           #Core
         - id: customer
           uri: lb://CUSTOMER
           predicates:
             - Path=/api/v1/customer/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: notification
           uri: lb://NOTIFICATION
           predicates:
             - Path=/api/v1/notification/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: order
           uri: lb://ORDER
           predicates:
             - Path=/api/v1/order/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: product
           uri: lb://PRODUCT
           predicates:
             - Path=/api/v1/product/**
-#          filters:
-#            - AuthorizationFilter
+
         - id: store
           uri: lb://STORE
           predicates:
             - Path=/api/v1/store/**
-#          filters:
-#            - AuthorizationFilter
 
           #Config
         - id: authentication
           uri: lb://AUTHENTICATION
           predicates:
             - Path=/api/v1/authentication/**
-#          filters:
-#            - AuthorizationFilter
+
 
 eureka:
   client:

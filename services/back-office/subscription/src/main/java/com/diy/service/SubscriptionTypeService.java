@@ -2,11 +2,9 @@ package com.diy.service;
 
 import com.diy.entity.SubscriptionTypeEntity;
 import com.diy.exception.ExceptionHandler;
-import com.diy.mapper.SubscriptionModelMapper;
 import com.diy.mapper.SubscriptionTypeModelMapper;
 import com.diy.model.SubscriptionTypeModel;
 import com.diy.repository.SubcriptionTypeRepository;
-import com.diy.repository.SubscriptionRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
