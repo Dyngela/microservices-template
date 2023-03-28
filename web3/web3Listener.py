@@ -4,7 +4,7 @@ import json
 import requests
 import time
 
-w3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/b60d6525d6be46cca8f81116525ec963'))
+w3 = Web3(Web3.HTTPProvider('https://sepolia.infura.io/v3/b60d6525d6be46cca8f81116525ec963', request_kwargs={'timeout': 120}))
 
 with open('CollectEverythingABI.json', 'r') as abi_definition:
     abi = json.load(abi_definition)
