@@ -155,20 +155,20 @@ services:
       - backing-db
 
   # BACK-OFFICE
-  service-customisation:
-    image: ${CONTAINER_REGISTRY}/cande-customisation:latest
-    container_name: customisation
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
+  # service-customisation:
+  #   image: ${CONTAINER_REGISTRY}/cande-customisation:latest
+  #   container_name: customisation
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
 
   service-payment:
     image: ${CONTAINER_REGISTRY}/cande-payment:latest
