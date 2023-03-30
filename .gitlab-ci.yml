@@ -199,18 +199,18 @@ job:package:store:
   only:
     -  main
 
-### BACK-OFFICE
-job:package:customisation:
-  stage: package
-  extends: .package-opts
-  variables:
-    SERVICE_NAME: customisation
-  needs:
-    - job:build
-  dependencies:
-    - job:build
-  only:
-    -  main
+# ### BACK-OFFICE
+# job:package:customisation:
+#   stage: package
+#   extends: .package-opts
+#   variables:
+#     SERVICE_NAME: customisation
+#   needs:
+#     - job:build
+#   dependencies:
+#     - job:build
+#   only:
+#     -  main
 
 job:package:subscription:
   stage: package
