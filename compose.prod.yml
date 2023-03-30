@@ -87,25 +87,25 @@ services:
       - service-gateway
       - backing-db
 
-  service-notification:
-    image: ${CONTAINER_REGISTRY}/cande-notification:latest
-    container_name: notification
-    environment:
-      EUREKA_URI: ${EUREKA_URI}
-      TZ: ${TZ}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      DB_URI: ${DB_URI}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      TWILIO_SID: ${TWILIO_SID}
-      TWILIO_TOKEN: ${TWILIO_TOKEN}
-      TWILIO_NUM: ${TWILIO_NUM}
-      RABBITMQ_URI: ${RABBITMQ_URI}
-      LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
-    depends_on:
-      - service-gateway
-      - backing-db
-      - backing-mq
+  # service-notification:
+  #   image: ${CONTAINER_REGISTRY}/cande-notification:latest
+  #   container_name: notification
+  #   environment:
+  #     EUREKA_URI: ${EUREKA_URI}
+  #     TZ: ${TZ}
+  #     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #     DB_URI: ${DB_URI}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASS: ${DB_PASS}
+  #     TWILIO_SID: ${TWILIO_SID}
+  #     TWILIO_TOKEN: ${TWILIO_TOKEN}
+  #     TWILIO_NUM: ${TWILIO_NUM}
+  #     RABBITMQ_URI: ${RABBITMQ_URI}
+  #     LEASE_RENEWAL_INTERVAL: ${LEASE_RENEWAL_INTERVAL}
+  #   depends_on:
+  #     - service-gateway
+  #     - backing-db
+  #     - backing-mq
 
   service-order:
     image: ${CONTAINER_REGISTRY}/cande-order:latest
