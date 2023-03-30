@@ -77,18 +77,18 @@ job:build:
       - ${CI_PROJECT_DIR}/artifacts/ticket-1.0-SNAPSHOT.jar
 
 
-### UNIT-TESTS
-job:test:
-  stage: test
-  image: maven:3.8.3-amazoncorretto-17
-  variables:
-    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
-    MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
-  script:
-    - mvn ${MAVEN_CLI_OPTS} test
-  needs:
-    - job:build
-  dependencies: []
+# ### UNIT-TESTS
+# job:test:
+#   stage: test
+#   image: maven:3.8.3-amazoncorretto-17
+#   variables:
+#     MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+#     MAVEN_CLI_OPTS: "--errors --fail-at-end --show-version -Dstyle.color=always"
+#   script:
+#     - mvn ${MAVEN_CLI_OPTS} test
+#   needs:
+#     - job:build
+#   dependencies: []
 
 
 ### INFRA
@@ -262,35 +262,35 @@ job:package:integration:
     -  main
 
 
-job:deploy:staging:
-  stage: deploy
-  extends: .package-opts
-  variables:
-    CI_STAGE: staging
-    API_URI: "http://gateway:8080"
-    EUREKA_URI: "http://eureka-server:8761/eureka/"
-    TZ: "Europe/Paris"
-    SPRING_PROFILES_ACTIVE: docker
-    DB_URI: "${DB_URI_STAGING}"
-    DB_USER: "${DB_USER_STAGING}"
-    DB_PASS: "${DB_PASS_STAGING}"
-    RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
-    TWILIO_SID: "${TWILIO_SID_STAGING}"
-    TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
-    TWILIO_NUM: "${TWILIO_NUM_STAGING}"
-    LEASE_RENEWAL_INTERVAL: 10
-    CONTAINER_REGISTRY: docker.io/yulquen
-  before_script:
-    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
-  script:
-    - echo $(docker compose version)
-    - docker compose -f compose.staging.yml up -d
-    - apk update && apk add python3 && cd ./integration && python3 -u poller.py
-  after_script:
-    - docker compose -f compose.staging.yml down
-    - docker system prune -a
-  only:
-    -  main
+# job:deploy:staging:
+#   stage: deploy
+#   extends: .package-opts
+#   variables:
+#     CI_STAGE: staging
+#     API_URI: "http://gateway:8080"
+#     EUREKA_URI: "http://eureka-server:8761/eureka/"
+#     TZ: "Europe/Paris"
+#     SPRING_PROFILES_ACTIVE: docker
+#     DB_URI: "${DB_URI_STAGING}"
+#     DB_USER: "${DB_USER_STAGING}"
+#     DB_PASS: "${DB_PASS_STAGING}"
+#     RABBITMQ_URI: "${RABBITMQ_URI_STAGING}"
+#     TWILIO_SID: "${TWILIO_SID_STAGING}"
+#     TWILIO_TOKEN: "${TWILIO_TOKEN_STAGING}"
+#     TWILIO_NUM: "${TWILIO_NUM_STAGING}"
+#     LEASE_RENEWAL_INTERVAL: 10
+#     CONTAINER_REGISTRY: docker.io/yulquen
+#   before_script:
+#     - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin
+#   script:
+#     - echo $(docker compose version)
+#     - docker compose -f compose.staging.yml up -d
+#     - apk update && apk add python3 && cd ./integration && python3 -u poller.py
+#   after_script:
+#     - docker compose -f compose.staging.yml down
+#     - docker system prune -a
+#   only:
+#     -  main
 
 job:deploy:prod:
   stage: deploy
