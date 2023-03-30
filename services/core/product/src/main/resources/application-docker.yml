@@ -23,4 +23,4 @@ eureka:
       register-with-eureka: true
       defaultZone: ${EUREKA_URI}
   instance:
-    lease-renewal-interval-in-seconds: 10
+    lease-renewal-interval-in-seconds: ${LEASE_RENEWAL_INTERVAL:10}
